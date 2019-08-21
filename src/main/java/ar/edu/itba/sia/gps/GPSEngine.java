@@ -21,9 +21,24 @@ public class GPSEngine {
 	protected SearchStrategy strategy;
 
 	public GPSEngine(Problem problem, SearchStrategy strategy, Heuristic heuristic) {
+		this.problem = problem;
+		this.heuristic = heuristic;
+		this.strategy = strategy;
 	}
 
 	public void findSolution() {
+		switch (strategy){
+			case BFS:
+				break;
+			case DFS:
+				break;
+			case IDDFS:
+				break;
+			case ASTAR:
+				break;
+			case GREEDY:
+				break;
+		}
 	}
 
 	// GETTERS FOR THE PEOPLE!
