@@ -8,11 +8,17 @@ public class GridLockPiece {
     private int size;
     private int id;
 
-    public GridLockPiece(int id, GridLockPieceType type, GridLockPieceDirection direction, int size) {
+    // Upper Left Side start of the piece
+    private int x;
+    private int y;
+
+    public GridLockPiece(int id, GridLockPieceType type, GridLockPieceDirection direction, int size, int x, int y) {
         this.id = id;
         this.type = type;
         this.direction = direction;
         this.size = size;
+        this.x = x;
+        this.y = y;
     }
 
     public GridLockPieceType getType() {
@@ -37,5 +43,13 @@ public class GridLockPiece {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

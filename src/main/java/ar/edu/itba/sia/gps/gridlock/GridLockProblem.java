@@ -7,7 +7,9 @@ import ar.edu.itba.sia.gps.api.State;
 import java.util.List;
 
 public class GridLockProblem implements Problem {
+    private State initState;
 
+    private static List<Rule> rules;
 
 
     @Override
