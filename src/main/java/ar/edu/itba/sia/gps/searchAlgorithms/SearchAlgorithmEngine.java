@@ -7,8 +7,10 @@ import ar.edu.itba.sia.gps.api.Problem;
 import ar.edu.itba.sia.gps.api.Rule;
 import ar.edu.itba.sia.gps.api.State;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SearchAlgorithmEngine {
 
@@ -45,14 +47,14 @@ public class SearchAlgorithmEngine {
         SearchAlgorithm s = SearchAlgorithmFactory.getAlgorithm(strategy);
 
 
-
+        return false;
     }
 
-    private explode(GPSNode node, List<Rule> rules, Heuristic h){
+    private List<GPSNode> explode(GPSNode node, List<Rule> rules, Heuristic h){
 
         
 
-
+        return Collections.emptyList();
     }
 
 
