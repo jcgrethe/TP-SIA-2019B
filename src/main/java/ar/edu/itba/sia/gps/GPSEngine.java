@@ -27,18 +27,7 @@ public class GPSEngine {
 	}
 
 	public void findSolution() {
-		switch (strategy){
-			case BFS:
-				break;
-			case DFS:
-				break;
-			case IDDFS:
-				break;
-			case ASTAR:
-				break;
-			case GREEDY:
-				break;
-		}
+
 	}
 
 	// GETTERS FOR THE PEOPLE!
