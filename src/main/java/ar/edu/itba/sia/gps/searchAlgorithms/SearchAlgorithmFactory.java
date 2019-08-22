@@ -4,7 +4,7 @@ import ar.edu.itba.sia.gps.SearchStrategy;
 
 public class SearchAlgorithmFactory {
 
-    public static SearchAlgorithm getAlgorithm(SearchStrategy strategy){
+    public static SearchAlgorithmLogic getAlgorithm(SearchStrategy strategy){
 
         switch (strategy){
             case BFS:
