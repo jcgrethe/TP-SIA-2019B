@@ -36,6 +36,6 @@ public class GLMoveDownRule extends GLMoveRule {
                 || board.getCell(piece.getX(), piece.getY() + 1) != 0){
             return Optional.empty();
         }
-        return super.apply(state, piece, new Pair(piece.getX(), piece.getY() + 1));
+        return super.apply(state, piece, GLMoveDirection.DOWN);
     }
 }

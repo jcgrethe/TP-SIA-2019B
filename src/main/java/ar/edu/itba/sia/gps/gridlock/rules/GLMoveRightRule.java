@@ -36,6 +36,6 @@ public class GLMoveRightRule extends GLMoveRule {
                 || board.getCell(piece.getX() + 1, piece.getY()) != 0){
             return Optional.empty();
         }
-        return super.apply(state, piece, new Pair(piece.getX() + 1, piece.getY()));
+        return super.apply(state, piece, GLMoveDirection.RIGHT);
     }
 }

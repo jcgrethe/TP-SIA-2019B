@@ -2,7 +2,7 @@ package ar.edu.itba.sia.gps.gridlock.models;
 
 import java.util.List;
 
-public class GridLockPiece {
+public class GridLockPiece implements Cloneable {
     private GridLockPieceType type;
     private GridLockPieceDirection direction;
     private int size;
@@ -37,6 +37,11 @@ public class GridLockPiece {
         this.direction = direction;
     }
 
+    public void setNewPosition(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+
     public int getSize() {
         return size;
     }
@@ -51,5 +56,14 @@ public class GridLockPiece {
 
     public int getY() {
         return y;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return new GridLockPiece(this.id, this.type, this.direction, this.size, this.x, this.y);
     }
 }
