@@ -44,7 +44,7 @@ public abstract class GLMoveRule implements Rule {
                     return Optional.empty();
                 }
                 if (potentialCell == board.getSize()){
-                    if (piece.getType() == GridLockPieceType.MAIN) {
+                    if (piece.getType() == GridLockPieceType.MAIN && piece.getY() == board.getSize() / 2) {
                         // Reach to solution
                         for (int x = piece.getX() ; x < piece.getX() + piece.getSize() - 1 ; x++){
                             board.setCell(x, piece.getY(), GridLockBoard.BLANK_MARK);

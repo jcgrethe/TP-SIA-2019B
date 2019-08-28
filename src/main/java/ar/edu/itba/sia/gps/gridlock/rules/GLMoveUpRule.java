@@ -16,8 +16,8 @@ public class GLMoveUpRule extends GLMoveRule {
 
     private GridLockPiece piece;
 
-    public GLMoveUpRule() {
-        this.piece = null;
+    public GLMoveUpRule(GridLockPiece piece) {
+        this.piece = piece;
     }
 
     @Override

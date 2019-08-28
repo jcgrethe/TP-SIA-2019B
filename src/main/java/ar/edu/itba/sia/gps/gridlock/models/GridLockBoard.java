@@ -2,6 +2,7 @@ package ar.edu.itba.sia.gps.gridlock.models;
 
 import java.awt.geom.Point2D;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class GridLockBoard implements Cloneable {
@@ -11,6 +12,7 @@ public class GridLockBoard implements Cloneable {
 
     public static Integer BLANK_MARK = 0;
     public static Integer MAIN_PIECE_ID = -1;
+    public static Integer MAIN_PIECE_SIZE = 2;
 
     /**
      * Constructor for the Initial Board
@@ -22,6 +24,11 @@ public class GridLockBoard implements Cloneable {
         this.board = new int[size][size];
         this.pieces = new HashMap<>();
         // TODO: Set distribution of pieces
+
+        // Main Piece
+        GridLockPiece mainPiece = new GridLockPiece(MAIN_PIECE_ID, GridLockPieceType.MAIN, GridLockPieceDirection.HORIZONTAL, MAIN_PIECE_SIZE, 0, size/2);
+        setPiece(mainPiece);
+
 
     }
 
@@ -61,6 +68,10 @@ public class GridLockBoard implements Cloneable {
         this.board[y][x] = value;
     }
 
+    public void setPiece(GridLockPiece piece){
+        this.board[piece.getY()][piece.getX()] = piece.getId();
+    }
+
     public GridLockPiece getPiece(int id){
         return pieces.get(id);
     }
@@ -69,4 +80,7 @@ public class GridLockBoard implements Cloneable {
         pieces.remove(id);
     }
 
+    public List<GridLockPiece> getPieces() {
+        return pieces.entrySet().stream().parallel().map(Map.Entry::getValue).collect(Collectors.toList());
+    }
 }

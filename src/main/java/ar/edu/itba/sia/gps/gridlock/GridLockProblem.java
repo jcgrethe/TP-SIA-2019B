@@ -16,14 +16,19 @@ import java.util.List;
 public class GridLockProblem implements Problem {
     private State initState;
 
-    private static List<Rule> rules = Arrays.asList(
-            new GLMoveDownRule(), new GLMoveUpRule(),
-            new GLMoveRightRule(), new GLMoveLeftRule());
+    private static List<Rule> rules = new LinkedList<>();
     private final static int boardSize = 5;
 
     @Override
     public State getInitState() {
-        return new GridLockState(boardSize);
+        GridLockState initialState = new GridLockState(boardSize);
+        initialState.getBoard().getPieces().forEach(piece -> {
+            rules.add(new GLMoveRightRule(piece));
+            rules.add(new GLMoveLeftRule(piece));
+            rules.add(new GLMoveUpRule(piece));
+            rules.add(new GLMoveDownRule(piece));
+        });
+        return initState;
     }
 
     @Override
