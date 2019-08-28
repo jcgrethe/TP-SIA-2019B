@@ -2,10 +2,10 @@ package ar.edu.itba.sia.gps.gridlock.rules;
 
 import ar.edu.itba.sia.gps.api.State;
 import ar.edu.itba.sia.gps.gridlock.GridLockState;
+import ar.edu.itba.sia.gps.gridlock.models.GLMoveDirection;
 import ar.edu.itba.sia.gps.gridlock.models.GridLockBoard;
 import ar.edu.itba.sia.gps.gridlock.models.GridLockPiece;
 import ar.edu.itba.sia.gps.gridlock.models.GridLockPieceDirection;
-import javafx.util.Pair;
 
 import java.util.Optional;
 
