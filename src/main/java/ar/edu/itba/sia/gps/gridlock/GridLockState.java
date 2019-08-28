@@ -7,9 +7,10 @@ import ar.edu.itba.sia.gps.gridlock.models.GridLockPiece;
 public class GridLockState implements State, Cloneable {
 
     private GridLockBoard board;
+    private GridLockPiece pieceToMove;
 
-    public GridLockState(GridLockState state) {
-
+    public GridLockState(int size) {
+        this.board = new GridLockBoard(size);
     }
 
     public GridLockState(GridLockBoard board) {
@@ -26,7 +27,13 @@ public class GridLockState implements State, Cloneable {
 
     @Override
     public String getRepresentation() {
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for (int x = 0 ; x < board.getSize() ; x++ ){
+            for (int y = 0 ; y < board.getSize() ; y++){
+                sb.append(board.getCell(x, y));
+            }
+        }
+        return sb.toString();
     }
 
     public GridLockBoard getBoard() {

@@ -4,10 +4,7 @@ package ar.edu.itba.sia.gps.gridlock.rules;
 import ar.edu.itba.sia.gps.api.Rule;
 import ar.edu.itba.sia.gps.api.State;
 import ar.edu.itba.sia.gps.gridlock.GridLockState;
-import ar.edu.itba.sia.gps.gridlock.models.GLMoveDirection;
-import ar.edu.itba.sia.gps.gridlock.models.GridLockBoard;
-import ar.edu.itba.sia.gps.gridlock.models.GridLockPiece;
-import ar.edu.itba.sia.gps.gridlock.models.GridLockPieceDirection;
+import ar.edu.itba.sia.gps.gridlock.models.*;
 
 import java.util.Optional;
 
@@ -43,6 +40,22 @@ public abstract class GLMoveRule implements Rule {
         if (piece.getDirection() == GridLockPieceDirection.HORIZONTAL){
             if (direction == GLMoveDirection.RIGHT){
                 potentialCell = piece.getX() + piece.getSize();
+                if (potentialCell < 0){
+                    return Optional.empty();
+                }
+                if (potentialCell == board.getSize()){
+                    if (piece.getType() == GridLockPieceType.MAIN) {
+                        // Reach to solution
+                        for (int x = piece.getX() ; x < piece.getX() + piece.getSize() - 1 ; x++){
+                            board.setCell(x, piece.getY(), GridLockBoard.BLANK_MARK);
+                        }
+                        board.removePiece(piece.getId());
+                        return Optional.of(state);
+                    } else {
+                        return Optional.empty();
+                    }
+                }
+                if (potentialCell < 0 || potentialCell == board.getSize()) return Optional.empty();
                 if (board.getCell(potentialCell, piece.getY()) != GridLockBoard.BLANK_MARK){
                     return Optional.empty();
                 }
@@ -53,6 +66,7 @@ public abstract class GLMoveRule implements Rule {
                 return Optional.of(state);
             } else if (direction == GLMoveDirection.LEFT){
                 potentialCell = piece.getX() - 1;
+                if (potentialCell < 0 || potentialCell == board.getSize()) return Optional.empty();
                 if (board.getCell(potentialCell, piece.getY()) != GridLockBoard.BLANK_MARK){
                     return Optional.empty();
                 }
@@ -65,6 +79,7 @@ public abstract class GLMoveRule implements Rule {
         }else if (piece.getDirection() == GridLockPieceDirection.VERTICAL){
             if (direction == GLMoveDirection.UP){
                 potentialCell = piece.getY() - 1;
+                if (potentialCell < 0 || potentialCell == board.getSize()) return Optional.empty();
                 if (board.getCell(piece.getX(), potentialCell) != GridLockBoard.BLANK_MARK){
                     return Optional.empty();
                 }
@@ -75,6 +90,7 @@ public abstract class GLMoveRule implements Rule {
                 return Optional.of(state);
             } else if (direction == GLMoveDirection.DOWN){
                 potentialCell = piece.getY() + piece.getSize();
+                if (potentialCell < 0 || potentialCell == board.getSize()) return Optional.empty();
                 if (board.getCell(piece.getX(), potentialCell) != GridLockBoard.BLANK_MARK){
                     return Optional.empty();
                 }

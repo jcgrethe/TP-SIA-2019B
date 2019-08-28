@@ -9,7 +9,8 @@ public class GridLockBoard implements Cloneable {
     private int[][] board;
     private HashMap<Integer, GridLockPiece> pieces;
 
-    public static int BLANK_MARK = 0;
+    public static Integer BLANK_MARK = 0;
+    public static Integer MAIN_PIECE_ID = -1;
 
     /**
      * Constructor for the Initial Board
@@ -62,6 +63,10 @@ public class GridLockBoard implements Cloneable {
 
     public GridLockPiece getPiece(int id){
         return pieces.get(id);
+    }
+
+    public void removePiece(int id){
+        pieces.remove(id);
     }
 
 }

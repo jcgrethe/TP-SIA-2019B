@@ -13,8 +13,8 @@ public class GLMoveLeftRule extends GLMoveRule {
 
     private GridLockPiece piece;
 
-    public GLMoveLeftRule(GridLockPiece piece) {
-        this.piece = piece;
+    public GLMoveLeftRule() {
+        this.piece = null;
     }
 
     @Override
