@@ -32,6 +32,7 @@ public class GridLockState implements State, Cloneable {
             for (int y = 0 ; y < board.getSize() ; y++){
                 sb.append(board.getCell(x, y));
             }
+            sb.append("\n");
         }
         return sb.toString();
     }

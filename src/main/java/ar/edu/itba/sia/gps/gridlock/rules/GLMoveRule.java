@@ -36,6 +36,7 @@ public abstract class GLMoveRule implements Rule {
 
     private Optional<State> validateAndMove(GridLockState state, GridLockPiece piece, GLMoveDirection direction){
         GridLockBoard board = state.getBoard();
+        piece = board.getPiece(piece.getId());
         int potentialCell, toFreeCell;
         if (piece.getDirection() == GridLockPieceDirection.HORIZONTAL){
             if (direction == GLMoveDirection.RIGHT){
@@ -44,9 +45,9 @@ public abstract class GLMoveRule implements Rule {
                     return Optional.empty();
                 }
                 if (potentialCell == board.getSize()){
-                    if (piece.getType() == GridLockPieceType.MAIN && piece.getY() == board.getSize() / 2) {
+                    if (piece.getType() == GridLockPieceType.MAIN) {
                         // Reach to solution
-                        for (int x = piece.getX() ; x < piece.getX() + piece.getSize() - 1 ; x++){
+                        for (int x = piece.getX() ; x < board.getSize() ; x++){
                             board.setCell(x, piece.getY(), GridLockBoard.BLANK_MARK);
                         }
                         board.removePiece(piece.getId());

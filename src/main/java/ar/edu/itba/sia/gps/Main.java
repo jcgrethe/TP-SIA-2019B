@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         Problem problem = new GridLockProblem();
         Heuristic heuristic = new GridLockMediumHeuristic();
-        GPSEngine engine = new GPSEngine(problem, SearchStrategy.GREEDY, heuristic);
+        GPSEngine engine = new GPSEngine(problem, SearchStrategy.DFS, heuristic);
         engine.findSolution();
     }
 }
