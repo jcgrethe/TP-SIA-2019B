@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import ar.edu.itba.sia.gps.GPSNode;
+import ar.edu.itba.sia.gps.SearchStrategy;
 import ar.edu.itba.sia.gps.api.Heuristic;
 
 public class DFS implements SearchAlgorithmLogic {
@@ -12,6 +13,12 @@ public class DFS implements SearchAlgorithmLogic {
 	public void pushNode(List<GPSNode> frontierNodes, Set<GPSNode> allNodes, GPSNode node, Heuristic h){
 		
 		frontierNodes.add(0, node);
+		allNodes.add(node);
+	}
+
+	@Override
+	public SearchStrategy getType() {
+		return SearchStrategy.DFS;
 	}
 
 }
