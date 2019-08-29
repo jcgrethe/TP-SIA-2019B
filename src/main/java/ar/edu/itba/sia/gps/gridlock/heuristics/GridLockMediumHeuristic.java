@@ -6,10 +6,13 @@ import ar.edu.itba.sia.gps.gridlock.GridLockState;
 import ar.edu.itba.sia.gps.gridlock.models.GridLockBoard;
 import ar.edu.itba.sia.gps.gridlock.models.GridLockPiece;
 
+import java.util.stream.IntStream;
+
 /**
- * The {@link GridLockBasicHeuristic} is calculated based on the quantity of cells away from the goal.
+ * The {@link GridLockMediumHeuristic} is calculated based on the quantity of empty cells in the path to the goal.
  */
-public class GridLockBasicHeuristic implements Heuristic {
+public class GridLockMediumHeuristic implements Heuristic {
+
     @Override
     public Integer getValue(State state) {
         if (!(state instanceof GridLockState)){
@@ -18,6 +21,9 @@ public class GridLockBasicHeuristic implements Heuristic {
         GridLockState GLState = (GridLockState) state;
         GridLockBoard board = GLState.getBoard();
         GridLockPiece mainPiece = board.getPiece(GridLockBoard.MAIN_PIECE_ID);
-        return board.getSize() - (mainPiece.getX() + mainPiece.getSize());
+        return IntStream.range(mainPiece.getX() + mainPiece.getSize(), board.getSize()).
+                filter(x -> board.getCell(x, board.getSize() / 2) != GridLockBoard.BLANK_MARK).
+                reduce(Integer::sum)
+                .orElse(0);
     }
 }
