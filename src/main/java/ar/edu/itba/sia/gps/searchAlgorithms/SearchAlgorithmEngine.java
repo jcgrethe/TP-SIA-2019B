@@ -8,20 +8,18 @@ import ar.edu.itba.sia.gps.api.Rule;
 import ar.edu.itba.sia.gps.api.State;
 import ar.edu.itba.sia.gps.searchAlgorithms.helpers.Benchmark;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class SearchAlgorithmEngine {
 
     private List<GPSNode> frontierNodes;
-    private List<GPSNode> allNodes;
+    private Set<GPSNode> allNodes;
     private Heuristic heuristic;
     private int explotions;
 
     public SearchAlgorithmEngine(){
         this.frontierNodes = new LinkedList<>();
-        this.allNodes = new LinkedList<>();
+        this.allNodes = new HashSet<>();
         this.explotions = 0;
     }
     
@@ -48,11 +46,9 @@ public class SearchAlgorithmEngine {
                 
         try {
         	 while (!p.isGoal(currentNode.getState())){
-        		 
                  currentNode = frontierNodes.remove(0);
                  List<Rule> rulesToApply = p.getRules();
                  explode(currentNode, rulesToApply, searchLogic, h);
-                                  
              }
         } catch (IndexOutOfBoundsException e) {
             System.out.println("No encontro.");
@@ -60,14 +56,14 @@ public class SearchAlgorithmEngine {
         }
 
         System.out.printf("Sol:\n%s\n", currentNode.getState().toString());
-
+        System.out.println(explotions);
         return currentNode;
     }
 
     private void explode(GPSNode node, List<Rule> rules, SearchAlgorithmLogic searchLogic, Heuristic h){
     	
     	explotions++;
-    	
+    	//System.out.println(explotions);
     	rules.forEach((rule)-> {
     		Optional<State> newState = rule.apply(node.getState());
     		
@@ -91,7 +87,7 @@ public class SearchAlgorithmEngine {
 		return frontierNodes;
 	}
 
-	public List<GPSNode> getAllNodes() {
+	public Set<GPSNode> getAllNodes() {
 		return allNodes;
 	}
 

@@ -67,6 +67,11 @@ public class GPSNode {
 		return true;
 	}
 
+	@Override
+	public int hashCode() {
+		return state.getRepresentation().hashCode();
+	}
+
 	public Rule getGenerationRule() {
 		return generationRule;
 	}
