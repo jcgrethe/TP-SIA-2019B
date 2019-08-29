@@ -51,13 +51,12 @@ public class SearchAlgorithmEngine {
         try {
         	 while (!p.isGoal(currentNode.getState())){
 
-                 currentNode = searchLogic.getNext(frontierNodes);
+                 currentNode = frontierNodes.remove(0);
                  List<Rule> rulesToApply = p.getRules();
                  explode(currentNode, rulesToApply, searchLogic, h);
         
              }
         } catch (IndexOutOfBoundsException e) {
-        	System.out.println("No solution found.");
         	benchmark.reset();
         	return false;
         }
@@ -73,11 +72,13 @@ public class SearchAlgorithmEngine {
     		Optional<State> newState = rule.apply(node.getState());
     		
     		newState.ifPresent( ns -> {
-    			int cost = searchLogic.calculateCost(node.getCost(), h.getValue(ns));
-    			GPSNode newNode = new GPSNode(ns, cost, rule);
-    			//newNode.setParent(node)?
+
+    			GPSNode newNode = new GPSNode(ns, node.getCost() + 1, rule);
+    			newNode.setParent(node);
+    			
     			if (!allNodes.contains(newNode)) {
-    				frontierNodes.add(newNode);
+
+    				searchLogic.pushNode(frontierNodes, allNodes, newNode, h);
     				allNodes.add(newNode);
     			}
     		});
