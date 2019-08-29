@@ -57,7 +57,7 @@ public abstract class GLMoveRule implements Rule {
                     }
                 }
                 if (potentialCell < 0 || potentialCell == board.getSize()) return Optional.empty();
-                if (board.getCell(potentialCell, piece.getY()) != GridLockBoard.BLANK_MARK){
+                if (board.getCell(piece.getY(), potentialCell ) != GridLockBoard.BLANK_MARK){
                     return Optional.empty();
                 }
                 toFreeCell = piece.getX();
@@ -68,7 +68,7 @@ public abstract class GLMoveRule implements Rule {
             } else if (direction == GLMoveDirection.LEFT){
                 potentialCell = piece.getX() - 1;
                 if (potentialCell < 0 || potentialCell == board.getSize()) return Optional.empty();
-                if (board.getCell(potentialCell, piece.getY()) != GridLockBoard.BLANK_MARK){
+                if (board.getCell(piece.getY(), potentialCell) != GridLockBoard.BLANK_MARK){
                     return Optional.empty();
                 }
                 toFreeCell = piece.getX() + piece.getSize() - 1;
@@ -81,7 +81,7 @@ public abstract class GLMoveRule implements Rule {
             if (direction == GLMoveDirection.UP){
                 potentialCell = piece.getY() - 1;
                 if (potentialCell < 0 || potentialCell == board.getSize()) return Optional.empty();
-                if (board.getCell(piece.getX(), potentialCell) != GridLockBoard.BLANK_MARK){
+                if (board.getCell(potentialCell, piece.getX()) != GridLockBoard.BLANK_MARK){
                     return Optional.empty();
                 }
                 toFreeCell = piece.getY() + piece.getSize() - 1;
@@ -92,7 +92,7 @@ public abstract class GLMoveRule implements Rule {
             } else if (direction == GLMoveDirection.DOWN){
                 potentialCell = piece.getY() + piece.getSize();
                 if (potentialCell < 0 || potentialCell == board.getSize()) return Optional.empty();
-                if (board.getCell(piece.getX(), potentialCell) != GridLockBoard.BLANK_MARK){
+                if (board.getCell(potentialCell,piece.getX()) != GridLockBoard.BLANK_MARK){
                     return Optional.empty();
                 }
                 toFreeCell = piece.getY();
