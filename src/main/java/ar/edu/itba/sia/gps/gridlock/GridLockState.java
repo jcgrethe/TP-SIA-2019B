@@ -4,6 +4,8 @@ import ar.edu.itba.sia.gps.api.State;
 import ar.edu.itba.sia.gps.gridlock.models.GridLockBoard;
 import ar.edu.itba.sia.gps.gridlock.models.GridLockPiece;
 
+import java.util.Objects;
+
 public class GridLockState implements State, Cloneable {
 
     private GridLockBoard board;
@@ -30,7 +32,7 @@ public class GridLockState implements State, Cloneable {
         StringBuilder sb = new StringBuilder();
         for (int x = 0 ; x < board.getSize() ; x++ ){
             for (int y = 0 ; y < board.getSize() ; y++){
-                sb.append(board.getCell(x, y));
+                sb.append(String.format(" %02d ", board.getCell(x, y)));
             }
             sb.append("\n");
         }
@@ -39,5 +41,19 @@ public class GridLockState implements State, Cloneable {
 
     public GridLockBoard getBoard() {
         return board;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GridLockState that = (GridLockState) o;
+        return board.equals(that.board);
+    }
+
+    @Override
+    public int hashCode() {
+        return board.hashCode();
     }
 }

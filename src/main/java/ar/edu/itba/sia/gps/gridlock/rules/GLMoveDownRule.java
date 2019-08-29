@@ -22,7 +22,7 @@ public class GLMoveDownRule extends GLMoveRule {
 
     @Override
     public String getName() {
-        return "Move Up";
+        return "Move Down for piece with id " + piece.getId() ;
     }
 
     @Override
