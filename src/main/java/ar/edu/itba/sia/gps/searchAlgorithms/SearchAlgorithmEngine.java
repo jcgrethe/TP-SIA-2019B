@@ -16,28 +16,28 @@ public class SearchAlgorithmEngine {
 
     private List<GPSNode> frontierNodes;
     private List<GPSNode> allNodes;
-    private Benchmark benchmark;
+    private Heuristic heuristic;
+    private int explotions;
 
     public SearchAlgorithmEngine(){
         this.frontierNodes = new LinkedList<>();
         this.allNodes = new LinkedList<>();
-        this.benchmark = new Benchmark();
+        this.explotions = 0;
     }
     
-    //Used for informed search algorithms
-    public boolean search(Problem p, SearchStrategy strategy, Heuristic h) {
-    	return _search(p, strategy, h);
+    public GPSNode search(Problem p, SearchStrategy strategy, Heuristic h) {
     	
+    	if (h != null) {
+    		System.out.println("Por empezar busqueda: heuristica piola");
+    		return _search(p, strategy, h);
+    	} else {
+    		System.out.println("Por empezar busqueda: sin heuristica");
+    		return _search(p, strategy, (v) -> 0);
+    	}
     }
     
-    //Used for uninformed search algorithms
-    public boolean search(Problem p, SearchStrategy strategy) {
-    	return _search(p, strategy, (v) -> 0);
-    	
-    }
-
     //Returns true if solution was found. False, otherwise.
-    private boolean _search(Problem p, SearchStrategy strategy, Heuristic h){
+    private GPSNode _search(Problem p, SearchStrategy strategy, Heuristic h){
 
         State startingState = p.getInitState();
         GPSNode currentNode = new GPSNode(startingState, 0, null);
@@ -45,29 +45,28 @@ public class SearchAlgorithmEngine {
         
         frontierNodes.add(currentNode);
         allNodes.add(currentNode);
-        
-        benchmark.start();
-        
+                
         try {
         	 while (!p.isGoal(currentNode.getState())){
-
+        		 
                  currentNode = frontierNodes.remove(0);
                  List<Rule> rulesToApply = p.getRules();
                  explode(currentNode, rulesToApply, searchLogic, h);
-        
+                                  
              }
         } catch (IndexOutOfBoundsException e) {
-        	benchmark.reset();
-        	return false;
+        	return null;
         }
 
-        benchmark.end();
-        
-        return true;
+        System.out.printf("Sol:\n%s\n", currentNode.getState().toString());
+
+        return currentNode;
     }
 
     private void explode(GPSNode node, List<Rule> rules, SearchAlgorithmLogic searchLogic, Heuristic h){
-    	    	
+    	
+    	explotions++;
+    	
     	rules.forEach((rule)-> {
     		Optional<State> newState = rule.apply(node.getState());
     		
@@ -86,5 +85,18 @@ public class SearchAlgorithmEngine {
     	});
                 
     }
+
+	public List<GPSNode> getFrontierNodes() {
+		return frontierNodes;
+	}
+
+	public List<GPSNode> getAllNodes() {
+		return allNodes;
+	}
+
+	public int getExplotions() {
+		return explotions;
+	}
+	
     
 }
