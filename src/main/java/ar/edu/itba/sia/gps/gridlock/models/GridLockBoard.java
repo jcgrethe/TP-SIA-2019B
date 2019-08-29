@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.gps.gridlock.models;
 
 import java.awt.geom.Point2D;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -29,6 +30,10 @@ public class GridLockBoard implements Cloneable {
         GridLockPiece mainPiece = new GridLockPiece(MAIN_PIECE_ID, GridLockPieceType.MAIN, GridLockPieceDirection.HORIZONTAL, MAIN_PIECE_SIZE, 0, size/2);
         setPiece(mainPiece);
         this.pieces.put(MAIN_PIECE_ID, mainPiece);
+
+        GridLockPiece secondary = new GridLockPiece(1, GridLockPieceType.SECONDARY, GridLockPieceDirection.VERTICAL, 2, 3, 2);
+        setPiece(secondary);
+        this.pieces.put(1, secondary);
 
 
     }
@@ -91,5 +96,27 @@ public class GridLockBoard implements Cloneable {
 
     public List<GridLockPiece> getPieces() {
         return pieces.entrySet().stream().parallel().map(Map.Entry::getValue).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GridLockBoard that = (GridLockBoard) o;
+        if (size != that.size) return false;
+        for (int i = 0 ; i < board.length ; i++){
+            if (!Arrays.equals(board[i], that.board[i]))
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 0;
+        for (int i = 0 ; i < board.length ; i++){
+            result += Arrays.hashCode(board[i]);
+        }
+        return result;
     }
 }

@@ -19,7 +19,7 @@ public class GLMoveLeftRule extends GLMoveRule {
 
     @Override
     public String getName() {
-        return "Move Right";
+        return "Move Left for piece with id " + piece.getId() ;
     }
 
     @Override
