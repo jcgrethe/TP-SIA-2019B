@@ -19,8 +19,7 @@ public class GridLockProblem implements Problem {
     private static List<Rule> rules = new LinkedList<>();
     private final static int boardSize = 5;
 
-    @Override
-    public State getInitState() {
+    public GridLockProblem() {
         GridLockState initialState = new GridLockState(boardSize);
         initialState.getBoard().getPieces().forEach(piece -> {
             rules.add(new GLMoveRightRule(piece));
@@ -28,7 +27,12 @@ public class GridLockProblem implements Problem {
             rules.add(new GLMoveUpRule(piece));
             rules.add(new GLMoveDownRule(piece));
         });
-        return initState;
+        this.initState = initialState;
+    }
+
+    @Override
+    public State getInitState() {
+        return this.initState;
     }
 
     @Override

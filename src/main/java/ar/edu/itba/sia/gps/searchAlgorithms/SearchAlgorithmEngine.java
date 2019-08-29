@@ -55,7 +55,8 @@ public class SearchAlgorithmEngine {
                                   
              }
         } catch (IndexOutOfBoundsException e) {
-        	return null;
+            System.out.println("No encontro.");
+            return null;
         }
 
         System.out.printf("Sol:\n%s\n", currentNode.getState().toString());
