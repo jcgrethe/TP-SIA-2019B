@@ -40,13 +40,14 @@ public class SearchAlgorithmEngine {
         State startingState = p.getInitState();
         GPSNode currentNode = new GPSNode(startingState, 0, null);
         SearchAlgorithmLogic searchLogic = SearchAlgorithmFactory.getAlgorithm(strategy);
-        
+
         frontierNodes.add(currentNode);
         allNodes.add(currentNode);
                 
         try {
         	 while (!p.isGoal(currentNode.getState())){
                  currentNode = frontierNodes.remove(0);
+                 System.out.printf("State:\n%s\n", currentNode.getState().getRepresentation());
                  List<Rule> rulesToApply = p.getRules();
                  explode(currentNode, rulesToApply, searchLogic, h);
              }
@@ -57,6 +58,7 @@ public class SearchAlgorithmEngine {
 
         System.out.printf("Sol:\n%s\n", currentNode.getState().toString());
         System.out.println(explotions);
+
         return currentNode;
     }
 

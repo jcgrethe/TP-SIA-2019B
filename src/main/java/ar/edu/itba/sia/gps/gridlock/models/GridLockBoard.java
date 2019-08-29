@@ -28,6 +28,7 @@ public class GridLockBoard implements Cloneable {
         // Main Piece
         GridLockPiece mainPiece = new GridLockPiece(MAIN_PIECE_ID, GridLockPieceType.MAIN, GridLockPieceDirection.HORIZONTAL, MAIN_PIECE_SIZE, 0, size/2);
         setPiece(mainPiece);
+        this.pieces.put(MAIN_PIECE_ID, mainPiece);
 
 
     }
@@ -65,11 +66,19 @@ public class GridLockBoard implements Cloneable {
     }
 
     public void setCell(int x, int y, int value){
-        this.board[y][x] = value;
+        this.board[x][y] = value;
     }
 
     public void setPiece(GridLockPiece piece){
-        this.board[piece.getY()][piece.getX()] = piece.getId();
+        if (piece.getDirection() == GridLockPieceDirection.HORIZONTAL){
+            for (int i = piece.getX() ; i < piece.getX() + piece.getSize() ; i++){
+                this.board[i][piece.getY()] = piece.getId();
+            }
+        } else if (piece.getDirection() == GridLockPieceDirection.VERTICAL){
+            for (int j = piece.getY() ; j < piece.getY() + piece.getSize() ; j++){
+                this.board[piece.getX()][j] = piece.getId();
+            }
+        }
     }
 
     public GridLockPiece getPiece(int id){
