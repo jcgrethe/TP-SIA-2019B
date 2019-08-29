@@ -6,6 +6,7 @@ import java.util.Queue;
 import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.Problem;
 import ar.edu.itba.sia.gps.api.State;
+import ar.edu.itba.sia.gps.searchAlgorithms.SearchAlgorithmEngine;
 
 public class GPSEngine {
 
@@ -27,7 +28,18 @@ public class GPSEngine {
 	}
 
 	public void findSolution() {
-
+		
+		SearchAlgorithmEngine searchEngine = new SearchAlgorithmEngine();
+		
+		this.finished = false;
+		System.out.println("Voy a iniciar la busqueda");
+		this.solutionNode = searchEngine.search(this.problem, this.strategy, this.heuristic);
+		System.out.println("Ya corrrio la busqueda");
+		this.finished = true;
+		
+		this.failed = (solutionNode == null);
+		this.explosionCounter = searchEngine.getExplotions();
+		
 	}
 
 	// GETTERS FOR THE PEOPLE!

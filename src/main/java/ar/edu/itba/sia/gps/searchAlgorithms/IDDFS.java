@@ -3,6 +3,7 @@ package ar.edu.itba.sia.gps.searchAlgorithms;
 import java.util.List;
 
 import ar.edu.itba.sia.gps.GPSNode;
+import ar.edu.itba.sia.gps.api.Heuristic;
 
 public class IDDFS implements SearchAlgorithmLogic {
 	
@@ -10,32 +11,28 @@ public class IDDFS implements SearchAlgorithmLogic {
 	private int finalDepth = 0;
 
 	@Override
-	public GPSNode getNext(List<GPSNode> frontierNodes) throws IndexOutOfBoundsException {
-		
-		//que pasa cuando saco todos? necesito check
-		
-		GPSNode nextNode = frontierNodes.get(frontierNodes.size() - 1);
-
-		if (nextNode.getDepth() == 0) {
-			startingNode = nextNode;
+	public void pushNode(List<GPSNode> frontierNodes, List<GPSNode> allNodes, GPSNode node, Heuristic h){
+				
+		if (node.getDepth() == 1) {
+			startingNode = node.getParent();
 		}
 				
-		if (nextNode.getDepth() <= finalDepth) {
-			return frontierNodes.remove(frontierNodes.size() - 1);
-		} else {
-			finalDepth++;
-			frontierNodes.clear();
-			//allNodes.clear();
-			return startingNode;
- 		}	
-			
+		if (node.getDepth() >= finalDepth) {
+			restart(frontierNodes, allNodes);
+ 		} else {
+ 			frontierNodes.add(0, node);
+ 		}
+	
+	}
+	
+	private void restart(List<GPSNode> frontierNodes, List<GPSNode> allNodes) {
+		finalDepth++;
+		frontierNodes.clear();
+		allNodes.clear();
+		frontierNodes.add(startingNode);
+		allNodes.add(startingNode);
 	}
 
-	@Override
-	public int calculateCost(int gCost, int hCost) {
-		
-		return gCost + 1;
-	}
 	
 	
 }
