@@ -18,12 +18,13 @@ public class SearchAlgorithmEngine {
     private static int explotions;
     private static GPSNode firstNode;
     private static boolean posibleNode = false;
+    Map<State, Integer> bestCosts;
 
-    public SearchAlgorithmEngine(){
-        this.frontierNodes = new LinkedList<>();
+    public SearchAlgorithmEngine(List<GPSNode> list, Map<State,Integer> bestCosts){
+        this.frontierNodes = list;
         this.allNodes = new HashSet<>();
         this.explotions = 0;
-
+        this.bestCosts = bestCosts;
     }
     
     public GPSNode search(Problem p, SearchStrategy strategy, Heuristic h) {
@@ -50,6 +51,7 @@ public class SearchAlgorithmEngine {
         try {
         	 while (!p.isGoal(currentNode.getState())) {
                  currentNode = frontierNodes.remove(0);
+                 bestCosts.put(currentNode.getState(),currentNode.getCost());
                  List<Rule> rulesToApply = p.getRules();
                  if (searchLogic.getType() != SearchStrategy.IDDFS){
                      explode(currentNode, rulesToApply, searchLogic, h);

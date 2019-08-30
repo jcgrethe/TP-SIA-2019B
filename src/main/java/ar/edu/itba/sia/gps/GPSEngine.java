@@ -1,7 +1,6 @@
 package ar.edu.itba.sia.gps;
 
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.Problem;
@@ -25,18 +24,21 @@ public class GPSEngine {
 		this.problem = problem;
 		this.heuristic = heuristic;
 		this.strategy = strategy;
+		this.open = new LinkedList<>();
+		bestCosts = new HashMap<>();
 	}
 
 	public void findSolution() {
 		
-		SearchAlgorithmEngine searchEngine = new SearchAlgorithmEngine();
+		SearchAlgorithmEngine searchEngine = new SearchAlgorithmEngine((List) open, bestCosts);
 		
 		this.finished = false;
-		System.out.println("Voy a iniciar la busqueda");
 		this.solutionNode = searchEngine.search(this.problem, this.strategy, this.heuristic);
-		System.out.println("Ya corrrio la busqueda");
 		this.finished = true;
-		
+		if(solutionNode!=null)
+			this.failed = false;
+		else
+			this.failed = true;
 		this.failed = (solutionNode == null);
 		this.explosionCounter = searchEngine.getExplotions();
 		
