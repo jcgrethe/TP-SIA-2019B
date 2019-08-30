@@ -9,7 +9,7 @@ import ar.edu.itba.sia.gps.api.Heuristic;
 
 public class IDDFS implements SearchAlgorithmLogic {
 
-	private int finalDepth = 10;
+	private int finalDepth = 1;
 
 
 	@Override
@@ -28,7 +28,7 @@ public class IDDFS implements SearchAlgorithmLogic {
 	}
 
 	public void restart(List<GPSNode> frontierNodes, Set<GPSNode> allNodes) {
-		finalDepth+=100;
+		finalDepth++;
 		frontierNodes.clear();
 		allNodes.clear();
 		frontierNodes.add(SearchAlgorithmEngine.getFirstNode());
