@@ -23,9 +23,9 @@ public class GridLockProblem implements Problem {
         GridLockState initialState = new GridLockState(boardSize);
         initialState.getBoard().getPieces().forEach(piece -> {
             rules.add(new GLMoveRightRule(piece));
-//            rules.add(new GLMoveLeftRule(piece));
+            rules.add(new GLMoveLeftRule(piece));
             rules.add(new GLMoveUpRule(piece));
-//            rules.add(new GLMoveDownRule(piece));
+            rules.add(new GLMoveDownRule(piece));
         });
         this.initState = initialState;
     }

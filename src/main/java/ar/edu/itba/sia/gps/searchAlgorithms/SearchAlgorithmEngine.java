@@ -30,10 +30,10 @@ public class SearchAlgorithmEngine {
     public GPSNode search(Problem p, SearchStrategy strategy, Heuristic h) {
     	
     	if (h != null) {
-    		System.out.println("Por empezar busqueda: heuristica piola");
+    		System.out.println("Beginning with heuristic.");
     		return _search(p, strategy, h);
     	} else {
-    		System.out.println("Por empezar busqueda: sin heuristica");
+    		System.out.println("Beginning without heuristic");
     		return _search(p, strategy, (v) -> 0);
     	}
     }
@@ -64,7 +64,8 @@ public class SearchAlgorithmEngine {
             return null;
         }
 
-        System.out.printf("Sol:\n%s\n", currentNode.getState().toString());
+        System.out.printf("Sol:\n%s\n", currentNode.getState().getRepresentation());
+        System.out.println("Explotions: " + explotions);
 
         return currentNode;
     }
