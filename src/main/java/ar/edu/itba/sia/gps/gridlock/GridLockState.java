@@ -9,14 +9,16 @@ import java.util.Objects;
 public class GridLockState implements State, Cloneable {
 
     private GridLockBoard board;
-    private GridLockPiece pieceToMove;
+    private Boolean solution;
 
     public GridLockState(int size) {
         this.board = new GridLockBoard(size);
+        this.solution = false;
     }
 
     public GridLockState(GridLockBoard board) {
         this.board = board;
+        this.solution = false;
     }
 
     @Override
@@ -55,5 +57,13 @@ public class GridLockState implements State, Cloneable {
     @Override
     public int hashCode() {
         return board.hashCode();
+    }
+
+    public Boolean getSolution() {
+        return solution;
+    }
+
+    public void setSolution(Boolean solution) {
+        this.solution = solution;
     }
 }

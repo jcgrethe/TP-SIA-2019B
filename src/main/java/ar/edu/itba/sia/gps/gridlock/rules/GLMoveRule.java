@@ -50,7 +50,7 @@ public abstract class GLMoveRule implements Rule {
                         for (int x = piece.getX() ; x < board.getSize() ; x++){
                             board.setCell(x, piece.getY(), GridLockBoard.BLANK_MARK);
                         }
-                        board.removePiece(piece.getId());
+                        state.setSolution(true);
                         return Optional.of(state);
                     } else {
                         return Optional.empty();

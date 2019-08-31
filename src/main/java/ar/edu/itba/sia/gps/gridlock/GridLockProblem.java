@@ -23,7 +23,7 @@ public class GridLockProblem implements Problem {
         GridLockState initialState = new GridLockState(boardSize);
         initialState.getBoard().getPieces().forEach(piece -> {
             rules.add(new GLMoveRightRule(piece));
-            rules.add(new GLMoveLeftRule(piece));
+//            rules.add(new GLMoveLeftRule(piece));
             rules.add(new GLMoveUpRule(piece));
 //            rules.add(new GLMoveDownRule(piece));
         });
@@ -37,7 +37,9 @@ public class GridLockProblem implements Problem {
 
     @Override
     public boolean isGoal(State state) {
-        return !state.getRepresentation().contains(GridLockBoard.MAIN_PIECE_ID.toString());
+        if (!(state instanceof GridLockState))
+            throw new IllegalStateException();
+        return ((GridLockState) state).getSolution();
     }
 
     @Override

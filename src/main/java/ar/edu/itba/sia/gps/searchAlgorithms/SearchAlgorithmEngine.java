@@ -47,6 +47,8 @@ public class SearchAlgorithmEngine {
         try {
         	 while (!p.isGoal(currentNode.getState())){
                  currentNode = frontierNodes.remove(0);
+                 if (currentNode.getGenerationRule() != null)
+                     System.out.println(currentNode.getGenerationRule().getName());
                  System.out.printf("State:\n%s\n", currentNode.getState().getRepresentation());
                  List<Rule> rulesToApply = p.getRules();
                  explode(currentNode, rulesToApply, searchLogic, h);
@@ -56,8 +58,8 @@ public class SearchAlgorithmEngine {
             return null;
         }
 
-        System.out.printf("Sol:\n%s\n", currentNode.getState().toString());
-        System.out.println(explotions);
+        System.out.printf("Sol:\n%s\n", currentNode.getState().getRepresentation());
+        System.out.println("Explotions: " + explotions);
 
         return currentNode;
     }

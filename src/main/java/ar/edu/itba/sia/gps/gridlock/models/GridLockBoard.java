@@ -59,7 +59,11 @@ public class GridLockBoard implements Cloneable {
             }
             clonedMap.put(entry.getKey(), (GridLockPiece) clonedPiece);
         });
-        return new GridLockBoard(this.board.clone(), clonedMap);
+        int[][] newBoard = new int[size][size];
+        for (int i = 0 ; i < size ; i++)
+            for (int j = 0 ; j < size ; j++)
+                newBoard[i][j] = new Integer(this.board[i][j]).intValue();
+        return new GridLockBoard(newBoard, clonedMap);
     }
 
     public int getSize() {
