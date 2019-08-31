@@ -31,11 +31,26 @@ public class GridLockBoard implements Cloneable {
         setPiece(mainPiece);
         this.pieces.put(MAIN_PIECE_ID, mainPiece);
 
-        GridLockPiece secondary = new GridLockPiece(1, GridLockPieceType.SECONDARY, GridLockPieceDirection.VERTICAL, 2, 3, 2);
-        setPiece(secondary);
-        this.pieces.put(1, secondary);
+        initBoard();
+    }
 
+    private void initBoard(){
+        int id = 1;
 
+        GridLockPiece one = new GridLockPiece(id, GridLockPieceType.SECONDARY, GridLockPieceDirection.VERTICAL, 2, 3, 2);
+        this.pieces.put(id, one);
+        setPiece(one);
+        id++;
+
+        GridLockPiece two = new GridLockPiece(id, GridLockPieceType.SECONDARY, GridLockPieceDirection.VERTICAL, 2, 4, 2);
+        this.pieces.put(id, two);
+        setPiece(two);
+        id++;
+
+        GridLockPiece three = new GridLockPiece(id, GridLockPieceType.SECONDARY, GridLockPieceDirection.HORIZONTAL, 3, 1, 0);
+        this.pieces.put(id, three);
+        setPiece(three);
+        id++;
     }
 
     public GridLockBoard(int[][] board, HashMap<Integer, GridLockPiece> pieces) {

@@ -42,6 +42,7 @@ public class SearchAlgorithmEngine {
     private GPSNode _search(Problem p, SearchStrategy strategy, Heuristic h){
 
         State startingState = p.getInitState();
+        System.out.printf("Starting Sstate:\n%s\n", startingState.getRepresentation());
         GPSNode currentNode = firstNode = new GPSNode(startingState, 0, null);
         SearchAlgorithmLogic searchLogic = SearchAlgorithmFactory.getAlgorithm(strategy);
 
@@ -64,7 +65,7 @@ public class SearchAlgorithmEngine {
             return null;
         }
 
-        System.out.printf("Sol:\n%s\n", currentNode.getState().getRepresentation());
+        System.out.printf("Solution State:\n%s\n", currentNode.getState().getRepresentation());
         System.out.println("Explotions: " + explotions);
 
         return currentNode;
