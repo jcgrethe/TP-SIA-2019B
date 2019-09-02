@@ -13,7 +13,6 @@ import java.util.*;
 public class SearchAlgorithmEngine {
 
     private List<GPSNode> frontierNodes;
-    private Set<GPSNode> allNodes;
     private Heuristic heuristic;
     private static int explotions;
     private static GPSNode firstNode;
@@ -22,7 +21,6 @@ public class SearchAlgorithmEngine {
 
     public SearchAlgorithmEngine(List<GPSNode> list, Map<State,Integer> bestCosts){
         this.frontierNodes = list;
-        this.allNodes = new HashSet<>();
         this.explotions = 0;
         this.bestCosts = bestCosts;
     }
@@ -47,12 +45,11 @@ public class SearchAlgorithmEngine {
         SearchAlgorithmLogic searchLogic = SearchAlgorithmFactory.getAlgorithm(strategy);
 
         frontierNodes.add(currentNode);
-        allNodes.add(currentNode);
+        bestCosts.put(currentNode.getState(),0);
                 
         try {
         	 while (!p.isGoal(currentNode.getState())) {
                  currentNode = frontierNodes.remove(0);
-                 bestCosts.put(currentNode.getState(),currentNode.getCost());
                  List<Rule> rulesToApply = p.getRules();
                  if (searchLogic.getType() != SearchStrategy.IDDFS){
                      explode(currentNode, rulesToApply, searchLogic, h);
@@ -67,6 +64,8 @@ public class SearchAlgorithmEngine {
 
         System.out.printf("Solution State:\n%s\n", currentNode.getState().getRepresentation());
         System.out.println("Explotions: " + explotions);
+        System.out.println("Depth: " + currentNode.getDepth());
+        System.out.println("Cost: " + currentNode.getCost());
 
         return currentNode;
     }
@@ -74,17 +73,15 @@ public class SearchAlgorithmEngine {
     private void explode(GPSNode node, List<Rule> rules, SearchAlgorithmLogic searchLogic, Heuristic h){
     	
     	explotions++;
+    	if(explotions % 1000 == 0)
+    	    System.out.println(explotions);
     	for(Rule rule: rules){
     		Optional<State> newState = rule.apply(node.getState());
     		newState.ifPresent( ns -> {
     			GPSNode newNode = new GPSNode(ns, node.getCost() + rule.getCost(), rule);
     			newNode.setParent(node);
-
-    			if (!allNodes.contains(newNode)) {
-    				frontierNodes = searchLogic.pushNode(frontierNodes, allNodes, newNode, h);
-    			}
-    		});
-
+    			searchLogic.pushNode(frontierNodes, bestCosts, newNode, h);
+    			});
     	}
                 
     }
@@ -101,17 +98,13 @@ public class SearchAlgorithmEngine {
 
                 GPSNode newNode = new GPSNode(ns, node.getCost() + rule.getCost(), rule);
                 newNode.setParent(node);
-
-                if (!allNodes.contains(newNode)) {
-                    nodesToAdd.add(newNode);
-                }
+                nodesToAdd.add(newNode);
             });
         });
-        Collections.reverse(nodesToAdd);
-        nodesToAdd.forEach( newNode -> {  searchLogic.pushNode(frontierNodes, allNodes, newNode, h); });
+        nodesToAdd.forEach( newNode -> {  searchLogic.pushNode(frontierNodes, bestCosts, newNode, h); });
 
         if(frontierNodes.size() == 0 && posibleNode == true){
-            searchLogic.restart(frontierNodes, allNodes);
+            searchLogic.restart(frontierNodes, bestCosts);
         }
 
     }
@@ -131,10 +124,6 @@ public class SearchAlgorithmEngine {
 
 	public List<GPSNode> getFrontierNodes() {
 		return frontierNodes;
-	}
-
-	public Set<GPSNode> getAllNodes() {
-		return allNodes;
 	}
 
 	public int getExplotions() {
