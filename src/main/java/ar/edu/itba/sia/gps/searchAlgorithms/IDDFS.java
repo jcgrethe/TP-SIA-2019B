@@ -1,8 +1,6 @@
 package ar.edu.itba.sia.gps.searchAlgorithms;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import ar.edu.itba.sia.gps.GPSNode;
 import ar.edu.itba.sia.gps.SearchStrategy;
@@ -15,14 +13,14 @@ public class IDDFS implements SearchAlgorithmLogic {
 
 
 	@Override
-	public List pushNode(List<GPSNode> frontierNodes, Map<State,Integer> bestCosts, GPSNode node, Heuristic h){
+	public Queue<GPSNode> pushNode(Queue<GPSNode> frontierNodes, Map<State,Integer> bestCosts, GPSNode node, Heuristic h){
 
 		if(bestCosts.containsKey(node.getState()))
 			if(bestCosts.get(node.getState()) <= node.getDepth())
 				return frontierNodes;
 
 		if (node.getDepth() <= finalDepth) {
- 			frontierNodes.add(0, node);
+ 			frontierNodes.add(node);
 			bestCosts.put(node.getState(),node.getDepth());
 		}else
 			SearchAlgorithmEngine.setPosibleNode(true);
@@ -34,7 +32,17 @@ public class IDDFS implements SearchAlgorithmLogic {
 		return SearchStrategy.IDDFS;
 	}
 
-	public void restart(List<GPSNode> frontierNodes, Map<State,Integer> allNodes) {
+	@Override
+	public List getList(Comparator comparator) {
+		return new LinkedList<GPSNode>();
+	}
+
+	@Override
+	public Comparator getComparator(Heuristic h) {
+		return null;
+	}
+
+	public void restart(Queue<GPSNode> frontierNodes, Map<State,Integer> allNodes) {
 		finalDepth++;
 		frontierNodes.clear();
 		allNodes.clear();

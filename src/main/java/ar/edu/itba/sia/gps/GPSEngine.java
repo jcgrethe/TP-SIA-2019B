@@ -6,6 +6,7 @@ import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.Problem;
 import ar.edu.itba.sia.gps.api.State;
 import ar.edu.itba.sia.gps.searchAlgorithms.SearchAlgorithmEngine;
+import ar.edu.itba.sia.gps.searchAlgorithms.SearchAlgorithmFactory;
 
 public class GPSEngine {
 
@@ -24,13 +25,13 @@ public class GPSEngine {
 		this.problem = problem;
 		this.heuristic = heuristic;
 		this.strategy = strategy;
-		this.open = new LinkedList<>();
+		this.open = (Queue) SearchAlgorithmFactory.getAlgorithm(strategy).getList(SearchAlgorithmFactory.getAlgorithm(strategy).getComparator(heuristic));
 		bestCosts = new HashMap<>();
 	}
 
 	public void findSolution() {
 		
-		SearchAlgorithmEngine searchEngine = new SearchAlgorithmEngine((List) open, bestCosts);
+		SearchAlgorithmEngine searchEngine = new SearchAlgorithmEngine(open, bestCosts);
 		
 		this.finished = false;
 		this.solutionNode = searchEngine.search(this.problem, this.strategy, this.heuristic);

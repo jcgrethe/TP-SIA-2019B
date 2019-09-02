@@ -12,14 +12,14 @@ import java.util.*;
 
 public class SearchAlgorithmEngine {
 
-    private List<GPSNode> frontierNodes;
+    private Queue<GPSNode> frontierNodes;
     private Heuristic heuristic;
     private static int explotions;
     private static GPSNode firstNode;
     private static boolean posibleNode = false;
     Map<State, Integer> bestCosts;
 
-    public SearchAlgorithmEngine(List<GPSNode> list, Map<State,Integer> bestCosts){
+    public SearchAlgorithmEngine(Queue<GPSNode> list, Map<State,Integer> bestCosts){
         this.frontierNodes = list;
         this.explotions = 0;
         this.bestCosts = bestCosts;
@@ -47,20 +47,20 @@ public class SearchAlgorithmEngine {
         frontierNodes.add(currentNode);
         bestCosts.put(currentNode.getState(),0);
                 
-        try {
-        	 while (!p.isGoal(currentNode.getState())) {
-                 currentNode = frontierNodes.remove(0);
-                 List<Rule> rulesToApply = p.getRules();
-                 if (searchLogic.getType() != SearchStrategy.IDDFS){
-                     explode(currentNode, rulesToApply, searchLogic, h);
-                 }else {
-                     explodeIDDFS(currentNode, rulesToApply, (IDDFS) searchLogic, h);
-                 }
+         while (!p.isGoal(currentNode.getState()) && frontierNodes.peek() != null) {
+             currentNode = frontierNodes.poll();
+             List<Rule> rulesToApply = p.getRules();
+             if (searchLogic.getType() != SearchStrategy.IDDFS){
+                 explode(currentNode, rulesToApply, searchLogic, h);
+             }else {
+                 explodeIDDFS(currentNode, rulesToApply, (IDDFS) searchLogic, h);
              }
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("No encontro.");
-            return null;
-        }
+         }
+         if(!p.isGoal(currentNode.getState())){
+             System.out.println("No encontro");
+             return null;
+         }
+
 
         System.out.printf("Solution State:\n%s\n", currentNode.getState().getRepresentation());
         System.out.println("Explotions: " + explotions);
@@ -73,8 +73,6 @@ public class SearchAlgorithmEngine {
     private void explode(GPSNode node, List<Rule> rules, SearchAlgorithmLogic searchLogic, Heuristic h){
     	
     	explotions++;
-    	if(explotions % 1000 == 0)
-    	    System.out.println(explotions);
     	for(Rule rule: rules){
     		Optional<State> newState = rule.apply(node.getState());
     		newState.ifPresent( ns -> {
@@ -88,25 +86,25 @@ public class SearchAlgorithmEngine {
 
 
     private void explodeIDDFS(GPSNode node, List<Rule> rules, IDDFS searchLogic, Heuristic h){
-
         explotions++;
         List<GPSNode> nodesToAdd = new LinkedList<>();
-        rules.forEach((rule)-> {
+        rules.forEach((rule) -> {
             Optional<State> newState = rule.apply(node.getState());
 
-            newState.ifPresent( ns -> {
+            newState.ifPresent(ns -> {
 
                 GPSNode newNode = new GPSNode(ns, node.getCost() + rule.getCost(), rule);
                 newNode.setParent(node);
                 nodesToAdd.add(newNode);
             });
         });
-        nodesToAdd.forEach( newNode -> {  searchLogic.pushNode(frontierNodes, bestCosts, newNode, h); });
+        nodesToAdd.forEach(newNode -> {
+            searchLogic.pushNode(frontierNodes, bestCosts, newNode, h);
+        });
 
-        if(frontierNodes.size() == 0 && posibleNode == true){
+        if (frontierNodes.size() == 0 && posibleNode == true) {
             searchLogic.restart(frontierNodes, bestCosts);
         }
-
     }
 
     public static void setPosibleNode(boolean bool){
@@ -122,13 +120,17 @@ public class SearchAlgorithmEngine {
     }
 
 
-	public List<GPSNode> getFrontierNodes() {
+	public Queue<GPSNode> getFrontierNodes() {
 		return frontierNodes;
 	}
 
 	public int getExplotions() {
 		return explotions;
 	}
+
+	public static void restExplotions(){
+        explotions--;
+    }
 	
     
 }
