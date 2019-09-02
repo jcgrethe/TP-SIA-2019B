@@ -13,13 +13,14 @@ public class IDDFS implements SearchAlgorithmLogic {
 
 
 	@Override
-	public void pushNode(List<GPSNode> frontierNodes, Set<GPSNode> allNodes, GPSNode node, Heuristic h){
+	public List pushNode(List<GPSNode> frontierNodes, Set<GPSNode> allNodes, GPSNode node, Heuristic h){
 
 		if (node.getDepth() <= finalDepth) {
  			frontierNodes.add(0, node);
 			allNodes.add(node);
 		}else
 			SearchAlgorithmEngine.setPosibleNode(true);
+		return frontierNodes;
 	}
 
 	@Override

@@ -10,10 +10,11 @@ import ar.edu.itba.sia.gps.api.Heuristic;
 public class BFS implements SearchAlgorithmLogic{
 
 	@Override
-	public void pushNode(List<GPSNode> frontierNodes, Set<GPSNode> allNodes, GPSNode node, Heuristic h){
+	public List pushNode(List<GPSNode> frontierNodes, Set<GPSNode> allNodes, GPSNode node, Heuristic h){
 		
 		frontierNodes.add(node);
 		allNodes.add(node);
+		return frontierNodes;
 	}
 
 	@Override

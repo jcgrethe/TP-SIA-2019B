@@ -77,11 +77,11 @@ public class SearchAlgorithmEngine {
     	for(Rule rule: rules){
     		Optional<State> newState = rule.apply(node.getState());
     		newState.ifPresent( ns -> {
-    			GPSNode newNode = new GPSNode(ns, node.getCost() + 1, rule);
+    			GPSNode newNode = new GPSNode(ns, node.getCost() + rule.getCost(), rule);
     			newNode.setParent(node);
 
     			if (!allNodes.contains(newNode)) {
-    				searchLogic.pushNode(frontierNodes, allNodes, newNode, h);
+    				frontierNodes = searchLogic.pushNode(frontierNodes, allNodes, newNode, h);
     			}
     		});
 
@@ -99,7 +99,7 @@ public class SearchAlgorithmEngine {
 
             newState.ifPresent( ns -> {
 
-                GPSNode newNode = new GPSNode(ns, node.getCost() + 1, rule);
+                GPSNode newNode = new GPSNode(ns, node.getCost() + rule.getCost(), rule);
                 newNode.setParent(node);
 
                 if (!allNodes.contains(newNode)) {
