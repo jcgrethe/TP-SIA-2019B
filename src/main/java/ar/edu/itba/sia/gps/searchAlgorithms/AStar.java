@@ -15,11 +15,7 @@ public class AStar implements SearchAlgorithmLogic {
 	public Queue pushNode(Queue<GPSNode> frontierNodes, Map<State,Integer> bestCosts, GPSNode node, Heuristic h){
 
 		if(bestCosts.containsKey(node.getState())) {
-			if (bestCosts.get(node.getState()) <= node.getCost()) {
-				return frontierNodes;
-			} else {
-				SearchAlgorithmEngine.restExplotions();
-			}
+			return frontierNodes;
 		}
 		frontierNodes.add(node);
 		bestCosts.put(node.getState(), node.getCost());
