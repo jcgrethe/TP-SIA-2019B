@@ -28,9 +28,7 @@ public class GLMoveLeftRule extends GLMoveRule {
             throw new IllegalStateException("Invalid state class");
         GridLockState GLState = (GridLockState) state;
         GridLockBoard board = GLState.getBoard();
-        if (piece.getDirection() == GridLockPieceDirection.VERTICAL
-                || piece.getX() == 0
-                || board.getCell(piece.getX() - 1, piece.getY()) != 0){
+        if (piece.getDirection() == GridLockPieceDirection.VERTICAL){
             return Optional.empty();
         }
         return super.apply(state, piece, GLMoveDirection.LEFT);

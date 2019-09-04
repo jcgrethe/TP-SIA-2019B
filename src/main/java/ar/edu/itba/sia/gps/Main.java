@@ -12,16 +12,25 @@ public class Main {
 
         CommandLine cmd = getOptions(args);
         SearchStrategy searchStrategy = null;
+        String inputFile = null;
 
         try {
             if(cmd.getOptionValue("a") != null){
                 searchStrategy = SearchStrategy.valueOf(cmd.getOptionValue("a"));
             }
+            if(cmd.getOptionValue("p") != null){
+                inputFile = cmd.getOptionValue("p");
+            }
         }catch (Exception e) {
             System.out.println("Bad algorithm name. Possibles: DFS, BFS, ASTAR, GREEDY ");
             return;
         }
-        Problem problem = new GridLockProblem();
+        Problem problem;
+        if (inputFile != null){
+            problem = new GridLockProblem(inputFile);
+        } else {
+            problem = new GridLockProblem();
+        }
         Heuristic heuristic = new GridLockMediumHeuristic();
         GPSEngine engine = new GPSEngine(problem, searchStrategy, heuristic);
         engine.findSolution();

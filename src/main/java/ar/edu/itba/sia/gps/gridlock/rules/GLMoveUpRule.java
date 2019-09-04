@@ -31,9 +31,7 @@ public class GLMoveUpRule extends GLMoveRule {
             throw new IllegalStateException("Invalid state class");
         GridLockState GLState = (GridLockState) state;
         GridLockBoard board = GLState.getBoard();
-        if (piece.getDirection() == GridLockPieceDirection.HORIZONTAL
-                || piece.getY() == 0
-                || board.getCell(piece.getX(), piece.getY() - 1) != 0){
+        if (piece.getDirection() == GridLockPieceDirection.HORIZONTAL){
             return Optional.empty();
         }
         return super.apply(state, piece, GLMoveDirection.UP);

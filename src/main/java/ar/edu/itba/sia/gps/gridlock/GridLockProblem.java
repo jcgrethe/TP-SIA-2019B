@@ -4,6 +4,7 @@ import ar.edu.itba.sia.gps.api.Problem;
 import ar.edu.itba.sia.gps.api.Rule;
 import ar.edu.itba.sia.gps.api.State;
 import ar.edu.itba.sia.gps.gridlock.models.GridLockBoard;
+import ar.edu.itba.sia.gps.gridlock.models.GridLockPieceDirection;
 import ar.edu.itba.sia.gps.gridlock.rules.GLMoveDownRule;
 import ar.edu.itba.sia.gps.gridlock.rules.GLMoveLeftRule;
 import ar.edu.itba.sia.gps.gridlock.rules.GLMoveRightRule;
@@ -26,6 +27,20 @@ public class GridLockProblem implements Problem {
             rules.add(new GLMoveLeftRule(piece));
             rules.add(new GLMoveUpRule(piece));
             rules.add(new GLMoveDownRule(piece));
+        });
+        this.initState = initialState;
+    }
+
+    public GridLockProblem(String inputFile) {
+        GridLockState initialState = new GridLockState(inputFile);
+        initialState.getBoard().getPieces().forEach(piece -> {
+            if (piece.getDirection() == GridLockPieceDirection.HORIZONTAL){
+                rules.add(new GLMoveRightRule(piece));
+                rules.add(new GLMoveLeftRule(piece));
+            } else {
+                rules.add(new GLMoveUpRule(piece));
+                rules.add(new GLMoveDownRule(piece));
+            }
         });
         this.initState = initialState;
     }

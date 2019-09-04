@@ -2,6 +2,7 @@ package ar.edu.itba.sia.gps.gridlock;
 
 import ar.edu.itba.sia.gps.api.State;
 import ar.edu.itba.sia.gps.gridlock.models.GridLockBoard;
+import ar.edu.itba.sia.gps.gridlock.models.GridLockBoardFactory;
 import ar.edu.itba.sia.gps.gridlock.models.GridLockPiece;
 
 import java.util.Objects;
@@ -9,16 +10,18 @@ import java.util.Objects;
 public class GridLockState implements State, Cloneable {
 
     private GridLockBoard board;
-    private Boolean solution;
+    private Boolean solution = false;
 
     public GridLockState(int size) {
         this.board = new GridLockBoard(size);
-        this.solution = false;
     }
 
     public GridLockState(GridLockBoard board) {
         this.board = board;
-        this.solution = false;
+    }
+
+    public GridLockState(String inputFile) {
+        this.board = GridLockBoardFactory.generateBoardFromFile(inputFile);
     }
 
     @Override

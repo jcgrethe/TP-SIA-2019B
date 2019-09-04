@@ -46,6 +46,8 @@ public class GridLockPiece implements Cloneable {
         return size;
     }
 
+    public void incrementSize(){ this.size++; }
+
     public void setSize(int size) {
         this.size = size;
     }

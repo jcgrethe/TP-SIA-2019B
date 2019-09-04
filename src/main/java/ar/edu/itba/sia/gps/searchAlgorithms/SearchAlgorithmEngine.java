@@ -51,6 +51,9 @@ public class SearchAlgorithmEngine {
              currentNode = frontierNodes.poll();
              List<Rule> rulesToApply = p.getRules();
              if (searchLogic.getType() != SearchStrategy.IDDFS){
+                 System.out.printf("Current Sstate:\n%s\n", currentNode.getState().getRepresentation());
+                 if (currentNode.getGenerationRule() != null)
+                     System.out.println("Doing: " + currentNode.getGenerationRule().getName());
                  explode(currentNode, rulesToApply, searchLogic, h);
              }else {
                  explodeIDDFS(currentNode, rulesToApply, (IDDFS) searchLogic, h);
