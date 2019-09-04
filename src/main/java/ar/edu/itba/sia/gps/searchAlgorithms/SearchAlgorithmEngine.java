@@ -79,7 +79,7 @@ public class SearchAlgorithmEngine {
     			GPSNode newNode = new GPSNode(ns, node.getCost() + rule.getCost(), rule);
     			newNode.setParent(node);
     			searchLogic.pushNode(frontierNodes, bestCosts, newNode, h);
-    			});
+    		});
     	}
                 
     }

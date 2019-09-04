@@ -13,18 +13,17 @@ public class IDDFS implements SearchAlgorithmLogic {
 
 
 	@Override
-	public Queue<GPSNode> pushNode(Queue<GPSNode> frontierNodes, Map<State,Integer> bestCosts, GPSNode node, Heuristic h){
+	public void pushNode(Queue<GPSNode> frontierNodes, Map<State,Integer> bestCosts, GPSNode node, Heuristic h){
 
 		if(bestCosts.containsKey(node.getState()))
 			if(bestCosts.get(node.getState()) <= node.getDepth())
-				return frontierNodes;
+				return;
 
 		if (node.getDepth() <= finalDepth) {
  			frontierNodes.add(node);
 			bestCosts.put(node.getState(),node.getDepth());
 		}else
 			SearchAlgorithmEngine.setPosibleNode(true);
-		return frontierNodes;
 	}
 
 	@Override
@@ -33,13 +32,8 @@ public class IDDFS implements SearchAlgorithmLogic {
 	}
 
 	@Override
-	public List getList(Comparator comparator) {
+	public List getList(Heuristic h) {
 		return new LinkedList<GPSNode>();
-	}
-
-	@Override
-	public Comparator getComparator(Heuristic h) {
-		return null;
 	}
 
 	public void restart(Queue<GPSNode> frontierNodes, Map<State,Integer> allNodes) {

@@ -9,8 +9,7 @@ import ar.edu.itba.sia.gps.api.State;
 
 public interface SearchAlgorithmLogic {
 	
-	Queue pushNode(Queue<GPSNode> frontierNodes, Map<State,Integer> bestCosts, GPSNode node, Heuristic h);
+	void pushNode(Queue<GPSNode> frontierNodes, Map<State,Integer> bestCosts, GPSNode node, Heuristic h);
 	SearchStrategy getType();
-	Object getList(Comparator comparator);
-	Comparator<GPSNode> getComparator(Heuristic h);
+	Object getList(Heuristic h);
 }

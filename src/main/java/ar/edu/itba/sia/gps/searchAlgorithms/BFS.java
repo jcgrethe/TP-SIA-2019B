@@ -10,14 +10,12 @@ import ar.edu.itba.sia.gps.api.State;
 public class BFS implements SearchAlgorithmLogic{
 
 	@Override
-	public Queue pushNode(Queue<GPSNode> frontierNodes, Map<State,Integer> bestCosts, GPSNode node, Heuristic h){
+	public void pushNode(Queue<GPSNode> frontierNodes, Map<State,Integer> bestCosts, GPSNode node, Heuristic h){
 
-		if(bestCosts.containsKey(node.getState()))
-			return frontierNodes;
+		if(bestCosts.containsKey(node.getState())) return;
 
 		((LinkedList)frontierNodes).add(node);
 		bestCosts.put(node.getState(),node.getDepth());
-		return frontierNodes;
 	}
 
 	@Override
@@ -26,13 +24,9 @@ public class BFS implements SearchAlgorithmLogic{
 	}
 
 	@Override
-	public List getList(Comparator comparator) {
+	public List getList(Heuristic h) {
 		return new LinkedList<GPSNode>();
 	}
 
-	@Override
-	public Comparator getComparator(Heuristic h) {
-		return null;
-	}
 
 }

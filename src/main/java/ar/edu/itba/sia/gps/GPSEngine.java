@@ -25,7 +25,7 @@ public class GPSEngine {
 		this.problem = problem;
 		this.heuristic = heuristic;
 		this.strategy = strategy;
-		this.open = (Queue) SearchAlgorithmFactory.getAlgorithm(strategy).getList(SearchAlgorithmFactory.getAlgorithm(strategy).getComparator(heuristic));
+		this.open = (Queue) SearchAlgorithmFactory.getAlgorithm(strategy).getList(heuristic);
 		bestCosts = new HashMap<>();
 	}
 
