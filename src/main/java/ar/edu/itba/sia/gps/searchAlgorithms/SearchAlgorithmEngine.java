@@ -18,6 +18,7 @@ public class SearchAlgorithmEngine {
     private static GPSNode firstNode;
     private static boolean posibleNode = false;
     Map<State, Integer> bestCosts;
+    private long initTime;
 
     public SearchAlgorithmEngine(Queue<GPSNode> list, Map<State,Integer> bestCosts){
         this.frontierNodes = list;
@@ -45,7 +46,7 @@ public class SearchAlgorithmEngine {
 
         frontierNodes.add(currentNode);
         bestCosts.put(currentNode.getState(),0);
-                
+        initTime = System.currentTimeMillis();
          while (!p.isGoal(currentNode.getState()) && frontierNodes.peek() != null) {
              currentNode = frontierNodes.poll();
              List<Rule> rulesToApply = p.getRules();
@@ -55,16 +56,27 @@ public class SearchAlgorithmEngine {
                  explodeIDDFS(currentNode, rulesToApply, (IDDFS) searchLogic, h);
              }
          }
+         final long finalTime = System.currentTimeMillis() - initTime ;
          if(!p.isGoal(currentNode.getState())){
-             System.out.println("No encontro");
+             System.out.println("Not found");
+             System.out.println("Total time: " + finalTime);
              return null;
          }
 
-
-        System.out.printf("Solution State:\n%s\n", currentNode.getState().getRepresentation());
-        System.out.println("Explotions: " + explotions);
-        System.out.println("Depth: " + currentNode.getDepth());
-        System.out.println("Cost: " + currentNode.getCost());
+         List<GPSNode> solution = new LinkedList<>();
+         GPSNode aux = currentNode;
+         while (aux != null){
+             solution.add(0, aux);
+             aux = aux.getParent();
+         }
+         System.out.println(solution.get(0).getState().getRepresentation());
+         solution.remove(0);
+         solution.forEach( n -> System.out.println(n.getGenerationRule().getName() + "\n" + n.getState().getRepresentation()));
+         System.out.printf("Solution State:\n%s\n", currentNode.getState().getRepresentation());
+         System.out.println("Explotions: " + explotions);
+         System.out.println("Depth: " + currentNode.getDepth());
+         System.out.println("Cost: " + currentNode.getCost());
+        System.out.println("Total time: " + finalTime + "ms");
 
         return currentNode;
     }
