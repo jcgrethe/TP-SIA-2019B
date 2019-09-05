@@ -40,7 +40,6 @@ public class SearchAlgorithmEngine {
     private GPSNode _search(Problem p, SearchStrategy strategy, Heuristic h){
 
         State startingState = p.getInitState();
-        System.out.printf("Starting Sstate:\n%s\n", startingState.getRepresentation());
         GPSNode currentNode = firstNode = new GPSNode(startingState, 0, null);
         SearchAlgorithmLogic searchLogic = SearchAlgorithmFactory.getAlgorithm(strategy);
 
@@ -51,9 +50,6 @@ public class SearchAlgorithmEngine {
              currentNode = frontierNodes.poll();
              List<Rule> rulesToApply = p.getRules();
              if (searchLogic.getType() != SearchStrategy.IDDFS){
-                 System.out.printf("Current Sstate:\n%s\n", currentNode.getState().getRepresentation());
-                 if (currentNode.getGenerationRule() != null)
-                     System.out.println("Doing: " + currentNode.getGenerationRule().getName());
                  explode(currentNode, rulesToApply, searchLogic, h);
              }else {
                  explodeIDDFS(currentNode, rulesToApply, (IDDFS) searchLogic, h);
