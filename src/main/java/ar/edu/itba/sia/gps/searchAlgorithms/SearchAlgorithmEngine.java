@@ -76,7 +76,9 @@ public class SearchAlgorithmEngine {
          System.out.println("Explotions: " + explotions);
          System.out.println("Depth: " + currentNode.getDepth());
          System.out.println("Cost: " + currentNode.getCost());
-        System.out.println("Total time: " + finalTime + "ms");
+         System.out.println("Node expanded: " + bestCosts.size());
+         System.out.println("Frontier nodes : " + frontierNodes.size());
+         System.out.println("Total time: " + finalTime + "ms");
 
         return currentNode;
     }

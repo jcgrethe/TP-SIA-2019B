@@ -3,6 +3,8 @@ package ar.edu.itba.sia.gps;
 import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.Problem;
 import ar.edu.itba.sia.gps.gridlock.GridLockProblem;
+import ar.edu.itba.sia.gps.gridlock.heuristics.GridLockAdvancedHeuristic;
+import ar.edu.itba.sia.gps.gridlock.heuristics.GridLockAdvancedHeuristicInadmissible;
 import ar.edu.itba.sia.gps.gridlock.heuristics.GridLockBasicHeuristic;
 import ar.edu.itba.sia.gps.gridlock.heuristics.GridLockMediumHeuristic;
 import org.apache.commons.cli.*;
@@ -19,6 +21,7 @@ public class Main {
         try {
             if(cmd.getOptionValue("a") != null){
                 searchStrategy = SearchStrategy.valueOf(cmd.getOptionValue("a").toUpperCase());
+                System.out.println("Running with: " + searchStrategy);
             }
             if(cmd.getOptionValue("p") != null){
                 inputFile = cmd.getOptionValue("p");
@@ -31,9 +34,15 @@ public class Main {
             if(cmd.getOptionValue("h").equalsIgnoreCase("basic")){
                 System.out.println("Using basic heuristic");
                 heuristic = new GridLockBasicHeuristic();
-            }else if(cmd.getOptionValue("h").equalsIgnoreCase("medium")){
+            }else if(cmd.getOptionValue("h").equalsIgnoreCase("medium")) {
                 System.out.println("Using medium heuristic");
                 heuristic = new GridLockMediumHeuristic();
+            }else if(cmd.getOptionValue("h").equalsIgnoreCase("advance")){
+                System.out.println("Using advance heuristic");
+                heuristic = new GridLockAdvancedHeuristic();
+            }else if(cmd.getOptionValue("h").equalsIgnoreCase("inadmissible")){
+                System.out.println("Using inadmissible heuristic");
+                heuristic = new GridLockAdvancedHeuristicInadmissible();
             }else {
                 System.out.println("Bad heuristics. Possibles: basic, medium");
                 return;
@@ -67,7 +76,7 @@ public class Main {
         p.setRequired(false);
         options.addOption(p);
 
-        Option h = new Option("h", "heuristic", true, "Heuristics: basic, medium");
+        Option h = new Option("h", "heuristic", true, "Heuristics: basic, medium, advance, inadmissible");
         p.setRequired(false);
         options.addOption(h);
 

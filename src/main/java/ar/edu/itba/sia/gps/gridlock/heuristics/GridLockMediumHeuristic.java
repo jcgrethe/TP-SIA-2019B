@@ -25,7 +25,7 @@ public class GridLockMediumHeuristic implements Heuristic {
         int blockDistance = 0;
         int cont = mainPiece.getX() + mainPiece.getSize();
         while(cont < board.getSize()) {
-            if (board.getCell(cont, mainPiece.getY()) != GridLockBoard.BLANK_MARK)
+            if (board.getCell(mainPiece.getY(), cont) != GridLockBoard.BLANK_MARK)
                 blockDistance++;
             cont++;
         }
