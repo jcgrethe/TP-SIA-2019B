@@ -21,9 +21,14 @@ public class GridLockMediumHeuristic implements Heuristic {
         GridLockState GLState = (GridLockState) state;
         GridLockBoard board = GLState.getBoard();
         GridLockPiece mainPiece = board.getPiece(GridLockBoard.MAIN_PIECE_ID);
-        return IntStream.range(mainPiece.getX() + mainPiece.getSize(), board.getSize()).
-                filter(x -> board.getCell(x, board.getSize() / 2) != GridLockBoard.BLANK_MARK).
-                reduce(Integer::sum)
-                .orElse(0);
+        int distance = board.getSize() - (mainPiece.getX() + mainPiece.getSize());
+        int blockDistance = 0;
+        int cont = mainPiece.getX() + mainPiece.getSize();
+        while(cont < board.getSize()) {
+            if (board.getCell(cont, mainPiece.getY()) != GridLockBoard.BLANK_MARK)
+                blockDistance++;
+            cont++;
+        }
+        return distance + blockDistance;
     }
 }

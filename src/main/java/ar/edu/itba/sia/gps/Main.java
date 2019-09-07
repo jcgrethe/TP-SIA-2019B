@@ -3,6 +3,7 @@ package ar.edu.itba.sia.gps;
 import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.Problem;
 import ar.edu.itba.sia.gps.gridlock.GridLockProblem;
+import ar.edu.itba.sia.gps.gridlock.heuristics.GridLockBasicHeuristic;
 import ar.edu.itba.sia.gps.gridlock.heuristics.GridLockMediumHeuristic;
 import org.apache.commons.cli.*;
 
@@ -13,10 +14,11 @@ public class Main {
         CommandLine cmd = getOptions(args);
         SearchStrategy searchStrategy = null;
         String inputFile = null;
+        Heuristic heuristic = null;
 
         try {
             if(cmd.getOptionValue("a") != null){
-                searchStrategy = SearchStrategy.valueOf(cmd.getOptionValue("a"));
+                searchStrategy = SearchStrategy.valueOf(cmd.getOptionValue("a").toUpperCase());
             }
             if(cmd.getOptionValue("p") != null){
                 inputFile = cmd.getOptionValue("p");
@@ -25,13 +27,27 @@ public class Main {
             System.out.println("Bad algorithm name. Possibles: DFS, BFS, ASTAR, GREEDY ");
             return;
         }
+        if(cmd.getOptionValue("h") != null){
+            if(cmd.getOptionValue("h").equalsIgnoreCase("basic")){
+                System.out.println("Using basic heuristic");
+                heuristic = new GridLockBasicHeuristic();
+            }else if(cmd.getOptionValue("h").equalsIgnoreCase("medium")){
+                System.out.println("Using medium heuristic");
+                heuristic = new GridLockMediumHeuristic();
+            }else {
+                System.out.println("Bad heuristics. Possibles: basic, medium");
+                return;
+            }
+        }else {
+            System.out.println("Using medium heuristic");
+            heuristic = new GridLockMediumHeuristic();
+        }
         Problem problem;
         if (inputFile != null){
             problem = new GridLockProblem(inputFile);
         } else {
             problem = new GridLockProblem();
         }
-        Heuristic heuristic = new GridLockMediumHeuristic();
         GPSEngine engine = new GPSEngine(problem, searchStrategy, heuristic);
         engine.findSolution();
     }
@@ -51,6 +67,9 @@ public class Main {
         p.setRequired(false);
         options.addOption(p);
 
+        Option h = new Option("h", "heuristic", true, "Heuristics: basic, medium");
+        p.setRequired(false);
+        options.addOption(h);
 
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
