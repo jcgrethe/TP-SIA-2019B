@@ -1,4 +1,4 @@
-function [input_patterns] = get_random_patters(dataset_path, patterns_percentage, normalize_function)
+function [input_patterns] = get_random_patters(dataset_path, patterns_percentage)
   dataset = dlmread(dataset_path)(2:end, :);
   pattern_qty = round(patterns_percentage * rows(dataset));
   training_set = randperm(rows(dataset))(1:pattern_qty);  
