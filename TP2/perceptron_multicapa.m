@@ -39,14 +39,13 @@ while global_q_error > MAX_ERROR
 		final_dif = (in(end:end) - v{levels});
 		d{levels} = sigmoid_exp_d(h{levels}) .* final_dif;
 		for i = 1 : levels - 1
-			aux = (w{end - i + 1}(:,2:end))' * d{end - i + 1};
-			d{levels - i} = sigmoid_exp_d(h{i}) .* aux;
+			aux = (w{levels - i}(:,2:end))' * d{levels - i + 1};
+			d{levels - i} = sigmoid_exp_d(h{levels - i}) .* aux;
 		endfor
 
 		#Update w
 		for i = 1 : levels
-			delta_w = L * (d{i} * v{i}');
-			delta_w
+			delta_w = L * (d{i} * v{i});
 			w{i} = w{i} + delta_w;
 		endfor
 		#ECM

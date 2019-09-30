@@ -8,7 +8,7 @@ addpath("./activation_functions");
 L = 0.05;
 MAX_ERROR = 0.01;
 w = rand(1,3) - 0.5;
-TRAINING_SET = [0, 0, 0; 1, 0, 1; 0, 1, 1; 1, 1, 1];
+TRAINING_SET = [0, 0, 0; 1, 0, 1; 0, 1, 1; 1, 1, 0];
 LEARN_ITERATIONS = 10000;
 global_q_error = 1;
 m = 0;
