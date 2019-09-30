@@ -4,18 +4,16 @@ addpath("./activation_functions");
 # Neural net with incremental learn #
 #####################################
 
-##NO ESTA HECHO AUN, SOLO COPIA DEL SIMPLE##
-
 #Starting parameters
-L = 0.05;
+L = 0.01;
 MAX_ERROR = 0.01;
-w = rand(1,3) - 0.5;
-TRAINING_SET = [0, 0, 0; 1, 0, 1; 0, 1, 1; 1, 1, 1];
+TRAINING_SET = [0, 0, 0; 1, 0, 0; 0, 1, 0; 1, 1, 1];
 LEARN_ITERATIONS = 10000;
 global_q_error = 1;
 m = 0;
-
-
+levels = 2;
+w{1} = rand(2,3) - 0.5;
+w{2} = rand(1,3) - 0.5;
 #Training loop
 while global_q_error > MAX_ERROR
 
@@ -28,20 +26,31 @@ while global_q_error > MAX_ERROR
 		in = [-1, r_training_set(i,:)];
 		e = in(1:end - 1);
 
-		#Sum + nonlinear fn
-		h = [w * e'];
-		o = sigmoid_exp(h);
-
+		h{1} = w{1} * e';
+		v{1} = [-1 ,sigmoid_exp(h{1})']';
+		for i = 2 : levels
+			#Sum + nonlinear fn
+			h{i} = w{i} * v{i-1};
+			v{i} = sigmoid_exp(h{i});
+		endfor
+		
+		#v{levels}
 		#Backprop
-		dif = (in(end:end) - o);
-		d = sigmoid_exp_d(o) * dif;
+		final_dif = (in(end:end) - v{levels});
+		d{levels} = sigmoid_exp_d(h{levels}) .* final_dif;
+		for i = 1 : levels - 1
+			aux = (w{end - i + 1}(:,2:end))' * d{end - i + 1};
+			d{levels - i} = sigmoid_exp_d(h{i}) .* aux;
+		endfor
 
 		#Update w
-		delta_w = L * d * e;
-		w = w + delta_w;
-		
+		for i = 1 : levels
+			delta_w = L * (d{i} * v{i}');
+			delta_w
+			w{i} = w{i} + delta_w;
+		endfor
 		#ECM
-		q_error = (1 / (2 * rows(r_training_set))) * (dif)**2;
+		q_error = (1 / (2 * rows(r_training_set))) * (final_dif)**2;
 		global_q_error += q_error;
 	end
 
@@ -51,5 +60,5 @@ while global_q_error > MAX_ERROR
 	hold on;
 	m++;
 
-	printf("Epoch: %d\n", m);
+	#printf("Epoch: %d\n", m);
 end
