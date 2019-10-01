@@ -27,8 +27,11 @@ while global_q_error > MAX_ERROR
 		e = in(1:end - 1);
 
 		h{1} = w{1} * e';
-		v{1} = [-1 ,sigmoid_exp(h{1})']';
+    v{1} = [-1 ,sigmoid_exp(h{1})']';
 		for i = 2 : levels
+      if i != levels
+        	v{i} = [-1 ,sigmoid_exp(h{i})']';
+      endif
 			#Sum + nonlinear fn
 			h{i} = w{i} * v{i-1};
 			v{i} = sigmoid_exp(h{i});
@@ -37,15 +40,29 @@ while global_q_error > MAX_ERROR
 		#v{levels}
 		#Backprop
 		final_dif = (in(end:end) - v{levels});
-		d{levels} = sigmoid_exp_d(h{levels}) .* final_dif;
-		for i = 1 : levels - 1
-			aux = (w{levels - i}(:,2:end))' * d{levels - i + 1};
-			d{levels - i} = sigmoid_exp_d(h{levels - i}) .* aux;
-		endfor
-
+		d{levels} = sigmoid_exp_d(h{levels}) * final_dif;
+    
+    #d{levels}
+    
+    for i=levels-1:-1:1
+     
+      #sigmoid_exp_d(h{i})
+      #(w{i}(1:end, 2:end))'
+      #d{i+1}
+      
+      d{i} = sigmoid_exp_d(h{i})' * ((w{i}(1:end, 2:end))' * d{i+1});
+      #d{i}  
+    endfor
+    
 		#Update w
 		for i = 1 : levels
-			delta_w = L * (d{i} * v{i});
+      if i == levels
+        aux_v = v{i};
+      else
+        aux_v = v{i}(2:end);
+      endif
+      
+      delta_w = L * (d{i} * aux_v);
 			w{i} = w{i} + delta_w;
 		endfor
 		#ECM
