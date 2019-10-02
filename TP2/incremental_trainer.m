@@ -37,16 +37,18 @@ function [w] = incremental_trainer(dataset, percentage, hidden_layers)
   while(global_q_error > MAX_ERROR)
 
     global_q_error = 0;
+    printf("Epoch %d\n",epoch);
 
     #TODO: Shuffle patterns taking random p;
     for p = 1:rows(input_patterns)
-      
+
       for i = 1:length(hidden_layers) + 1
          v{i + 1}(p,2:end) = sigmoid_exp((w{i} * v{i}(p,:)')');
       endfor
       v{end}(p,:) = sigmoid_exp((w{end} * v{end-1}(p,:)')');
 
       final_dif = o(p) - v{end}(p,:);
+      printf("%d/%d\n",v{end}(p,:),o(p));
 
       d{end}(p,:) = sigmoid_exp_d(v{end}(p,:)) * final_dif;
       for i = 1:length(d) - 2
@@ -58,7 +60,7 @@ function [w] = incremental_trainer(dataset, percentage, hidden_layers)
         w{i} = w{i} + dw{i};
       endfor
 
-      q_error = (1 / (2 * rows(input_patterns))) * (final_dif)**2
+      q_error = (1 / (2 * rows(input_patterns))) * (final_dif)**2;
       global_q_error += q_error;
 
     endfor
