@@ -10,7 +10,7 @@ function [w] = incremental_trainer(dataset, percentage, hidden_layers)
 
   #Data init	
 	v = {[-1 * ones(1, rows(input_patterns)); input_patterns(1:end,1:end - 1)']'};
-  o = [input_patterns(1:end,end - 1)];
+  o = [input_patterns(1:end,end)];
 	for i = 1:length(hidden_layers)
 		v{i + 1} = [-1 * ones(1, rows(input_patterns)); zeros(rows(input_patterns), hidden_layers(i))']';
     d{i + 1} = zeros(rows(input_patterns), hidden_layers(i));
@@ -28,6 +28,12 @@ function [w] = incremental_trainer(dataset, percentage, hidden_layers)
   w{end + 1} = rand(1, hidden_layers(end) + 1) .* 1/sqrt(hidden_layers(end)) - 0.5;
   dw{end + 1} = zeros(1, hidden_layers(end) + 1);
 
+
+  v
+  d
+  w
+  dw
+
   epoch = 0;
   eta = 0.05;
   MAX_ERROR = 0.01;
@@ -37,10 +43,14 @@ function [w] = incremental_trainer(dataset, percentage, hidden_layers)
   while(global_q_error > MAX_ERROR)
 
     global_q_error = 0;
-    printf("Epoch %d\n",epoch);
+    #printf("Epoch %d\n",epoch);
 
     #TODO: Shuffle patterns taking random p;
-    for p = 1:rows(input_patterns)
+    indexes = randperm(rows(input_patterns));
+
+    for k = 1:length(indexes)
+
+      p = indexes(k);
 
       for i = 1:length(hidden_layers) + 1
          v{i + 1}(p,2:end) = sigmoid_exp((w{i} * v{i}(p,:)')');
@@ -48,14 +58,15 @@ function [w] = incremental_trainer(dataset, percentage, hidden_layers)
       v{end}(p,:) = sigmoid_exp((w{end} * v{end-1}(p,:)')');
 
       final_dif = o(p) - v{end}(p,:);
+      
       printf("%d/%d\n",v{end}(p,:),o(p));
 
-      d{end}(p,:) = sigmoid_exp_d(v{end}(p,:)) * final_dif;
+      d{end}(p,:) = sigmoid_exp_d(v{end}(p,:)) .* final_dif;
       for i = 1:length(d) - 2
-        d{end - i}(p,:) = sigmoid_exp_d(v{end - i + 1}(p,:)) * (w{end - i + 1}(2:end)' * d{end - i + 1}(p,:));
+        d{end - i}(p,:) = sigmoid_exp_d(v{end - i + 1}(p,:)) .* (w{end - i + 1}(2:end)' * d{end - i + 1}(p,:));
       endfor
       
-      for i = 1:length(w)
+      for i = 1:length(w) 
         dw{i} = eta * d{i + 1}(p,:)' * v{i}(p,:);
         w{i} = w{i} + dw{i};
       endfor
@@ -65,10 +76,10 @@ function [w] = incremental_trainer(dataset, percentage, hidden_layers)
 
     endfor
 
-    xlabel ("Epoch");
-    ylabel ("ECM");
-    plot(epoch, global_q_error);
-    hold on;
+    #xlabel ("Epoch");
+    #ylabel ("ECM");
+    #plot(epoch, global_q_error);
+    #hold on;
 
     epoch++;
   end
