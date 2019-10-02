@@ -9,12 +9,13 @@ function [w] = incremental_trainer(dataset, percentage, hidden_layers)
 
   #Data init	
 	v = {[-1 * ones(1, rows(input_patterns)); input_patterns(1:end,1:end - 1)']'};
+  o = [input_patterns(1:end,end - 1)];
 	for i = 1:length(hidden_layers)
-		v{i + 1} = [-1,zeros(1, hidden_layers(i))];
-    d{i + 1} = zeros(hidden_layers(i), 1)';
+		v{i + 1} = [-1 * ones(1, rows(input_patterns)); zeros(rows(input_patterns), hidden_layers(i))']';
+    d{i + 1} = zeros(rows(input_patterns), hidden_layers(i));
 	endfor
-  v{end + 1} = zeros(1, 1);
-  d{end + 1} = zeros(1, 1);
+  v{end + 1} = zeros(rows(input_patterns), 1);
+  d{end + 1} = zeros(rows(input_patterns), 1);
  
   #Weights
   w = {rand(hidden_layers(1), columns(input_patterns)) .* 1/sqrt(columns(input_patterns) - 1) - 0.5};
@@ -28,21 +29,30 @@ function [w] = incremental_trainer(dataset, percentage, hidden_layers)
   MAX_ERROR = 0.01;
   global_error = 1;
 
-  while(epochs < 1000)
 
-    for i = 1:length(hidden_layers)
-      for j = 1:rows(v{i})
-        h = 
-        #v{i + 1}(2:end, :) = arrayfun(functions{fn_index}, w{i} * v{i}, beta);
+  while(epochs < 1)
+
+    #TODO: Shuffle patterns taking random p;
+    
+    for p = 1:rows(input_patterns)
+      
+      
+      for i = 1:length(hidden_layers) + 1
+         v{i + 1}(p,2:end) = sigmoid_exp((w{i} * v{i}(p,:)')');
       endfor
+      v{end}(p,:) = sigmoid_exp((w{end} * v{end-1}(p,:)')');
+
+
+      
+
+      #TODO: operar ultima capa V
+      #TODO:operar ultima capa w
+
+
     endfor
-   # v{end} = arrayfun(functions{fn_index}, w{end} * v{end - 1}, beta);
 
     epochs++;
-
   end
-
-
 
 
 endfunction
