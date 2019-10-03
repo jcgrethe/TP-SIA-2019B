@@ -4,9 +4,9 @@ addpath("./activation_functions");
 
   hidden_layers = [2];
 	#Get X% of random normalized patterns from dataset
-	#input_patterns = get_random_patterns(dataset, percentage);
-  input_patterns = [0,0,0;1,0,1;0,1,1;1,1,0];
-
+	input_patterns = get_random_patterns("terrain02.data", 40);
+  #input_patterns = [0,0,0;1,0,1;0,1,1;1,1,0];
+  input_patterns
   #Data init	
 	v = {[-1 * ones(1, rows(input_patterns)); input_patterns(1:end,1:end - 1)']'};
   v{1} = v{1}';
@@ -28,7 +28,7 @@ addpath("./activation_functions");
   w{end + 1} = rand(1, hidden_layers(end) + 1) - 0.5;
   dw{end + 1} = zeros(1, hidden_layers(end) + 1);
   epoch = 0;
-  eta = 0.05;
+  eta = 0.01;
   MAX_ERROR = 0.01;
   global_q_error = 1;
   while(epoch < 10000)
