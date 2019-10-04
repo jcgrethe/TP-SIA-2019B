@@ -3,6 +3,7 @@ addpath("./activation_functions");
 #Just one output
 
 	#Get X% of random normalized patterns from dataset
+<<<<<<< HEAD
 	#input_patterns = get_random_patterns(dataset, percentage);
   input_patterns = [0,0,0;1,0,1;0,1,1;1,1,0];
 function w = train(input_patterns)
