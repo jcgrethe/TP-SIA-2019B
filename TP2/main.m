@@ -1,1 +1,1 @@
-input_patterns = get_random_patterns("terrain02.data", 40)data_set = dlmread("terrain02.data")(2:end, :);surfc(data_set)w = train(input_patterns);generated = predict(w, input_patterns);surfc(generated)
+input_patterns = get_random_patterns("terrain02.data", 40)data_set = dlmread("terrain02.data")(2:end, :)surfc(data_set)w = train(input_patterns);generated = predict(w, input_patterns);surfc(generated)
