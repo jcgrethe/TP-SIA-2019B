@@ -2,11 +2,11 @@ addpath("./activation_functions");
 
 #Just one output
 
-  hidden_layers = [2];
 	#Get X% of random normalized patterns from dataset
 	#input_patterns = get_random_patterns(dataset, percentage);
   input_patterns = [0,0,0;1,0,1;0,1,1;1,1,0];
-
+function w = train(input_patterns)
+  hidden_layers = [2];
   #Data init	
 	v = {[-1 * ones(1, rows(input_patterns)); input_patterns(1:end,1:end - 1)']'};
   v{1} = v{1}';
@@ -29,11 +29,14 @@ addpath("./activation_functions");
   dw{end + 1} = zeros(1, hidden_layers(end) + 1);
   epoch = 0;
   eta = 0.05;
-  MAX_ERROR = 0.01;
+  MAX_ERROR = 0.001;
   global_q_error = 1;
-  while(epoch < 10000)
+  total_error = 1;
+  while(total_error > MAX_ERROR)
     global_q_error = 0;
-    printf("Epoch %d\n",epoch);
+
+    #printf("Epoch %d\n",epoch);
+
     indexes = randperm(rows(input_patterns));
     for k = 1:length(indexes)
       p = indexes(k);
@@ -41,7 +44,11 @@ addpath("./activation_functions");
          v{i + 1}(2:end, p) = hyp_tan((w{i} * v{i}(:,p)));
       endfor
       v{end}(:, p) = hyp_tan((w{end} * v{end-1}(:,p)));
-      printf("[%d %d] = %d | %d\n",input_patterns(p,1), input_patterns(p,2),v{end}(:,p),S(p));
+
+      
+      #printf("[%d %d] = %d | %d\n",input_patterns(p,1), input_patterns(p,2),v{end}(:,p),S(p));
+      
+      
       d{end} = hyp_tan_d(w{end} * v{end-1}(:,p)) .* (S'(:,p) - v{end}(:,p));
       for i = 1:length(d) - 2
         aux = w{end-i} * v{end - i - 1}(:,p);
@@ -71,3 +78,4 @@ addpath("./activation_functions");
     ylabel ("ECM");
     plot(epoch, total_error);
     hold on;
+endfunction

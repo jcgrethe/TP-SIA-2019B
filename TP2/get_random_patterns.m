@@ -11,3 +11,7 @@ function [input_patterns] = get_random_patterns(dataset_path, patterns_percentag
      input_patterns(:, i) = (input_patterns(:,i) - minX) / (maxX-minX);
    endfor
 endfunction
+
+function [data_set] = get_plain_data(dataset_path, patterns_percentage)
+  dataset = dlmread(dataset_path)(2:end, :);
+endfunction
