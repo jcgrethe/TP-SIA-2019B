@@ -26,7 +26,7 @@ function w = incremental_trainer(input_patterns)
   MAX_ERROR = 0.01;
   global_q_error = 1;
   total_error = 1;
-  while(epoch < 2000)
+  while(epoch < 1500)
     global_q_error = 0;
 
     #printf("Epoch %d\n",epoch);
@@ -60,6 +60,7 @@ function w = incremental_trainer(input_patterns)
         partial_error = (1 / (2 * rows(input_patterns))) * (partial_dif)**2;
         total_error += partial_error;
      endfor
+    figure(2);
     xlabel ("Epoch");
     ylabel ("ECM");
     plot(epoch, total_error, '.-');
