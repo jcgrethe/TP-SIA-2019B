@@ -1,6 +1,6 @@
 function w = incremental_trainer(input_patterns)
 
-  hidden_layers = [12 12];
+  hidden_layers = [20 20 20 3];
   #Data init	
 	v = {[-1 * ones(1, rows(input_patterns)); input_patterns(1:end,1:end - 1)']'};
   v{1} = v{1}';
@@ -22,10 +22,19 @@ function w = incremental_trainer(input_patterns)
   w{end + 1} = rand(1, hidden_layers(end) + 1) - 0.5;
   dw{end + 1} = zeros(1, hidden_layers(end) + 1);
   epoch = 0;
+
+  # ETAs config values
   eta = 0.01;
+  eta_a = 0.0001;
+  eta_b = 0.05;
+  eta_min = 0.0005;
+  eta_max = 0.1;
+
   MAX_ERROR = 0.01;
   global_q_error = 1;
   total_error = 1;
+  last_error = 99999999;
+
   while(epoch < 1500)
     global_q_error = 0;
 
@@ -60,10 +69,28 @@ function w = incremental_trainer(input_patterns)
         partial_error = (1 / (2 * rows(input_patterns))) * (partial_dif)**2;
         total_error += partial_error;
      endfor
+
+    # Update ETA
+    delta_error = total_error - last_error
+    last_error = total_error;
+    delta_eta = 0; 
+    if delta_error < 0
+      delta_eta = eta_a;
+    elseif delta_error > 0
+      delta_eta = -1 * eta_b * eta;
+    end
+    eta += delta_eta  
+
     figure(2);
     xlabel ("Epoch");
     ylabel ("ECM");
     plot(epoch, total_error, '.-');
+    hold on;
+
+    figure(5);
+    xlabel ("Epoch");
+    ylabel ("ETA");
+    plot(epoch, eta, '.-');
     hold on;
 
     epoch++;

@@ -1,6 +1,6 @@
 addpath("./activation_functions");
 
-input_patterns = get_random_patterns("terrain02.data", 30);
+input_patterns = get_random_patterns("terrain02.data", 60);
 data_set = load_terrain("terrain02.data");
 figure(1);
 plot_terrain(data_set);
