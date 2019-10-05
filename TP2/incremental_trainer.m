@@ -1,6 +1,8 @@
 function w = incremental_trainer(input_patterns)
 
   hidden_layers = [20 20 20 3];
+  func = @sigmoid_exp;
+  func_d = @sigmoid_exp_d;
   #Data init	
 	v = {[-1 * ones(1, rows(input_patterns)); input_patterns(1:end,1:end - 1)']'};
   v{1} = v{1}';
@@ -44,18 +46,18 @@ function w = incremental_trainer(input_patterns)
     for k = 1:length(indexes)
       p = indexes(k);
       for i = 1:length(hidden_layers)
-         v{i + 1}(2:end, p) = hyp_tan((w{i} * v{i}(:,p)));
+         v{i + 1}(2:end, p) = func((w{i} * v{i}(:,p)));
       endfor
-      v{end}(:, p) = hyp_tan((w{end} * v{end-1}(:,p)));
+      v{end}(:, p) = func((w{end} * v{end-1}(:,p)));
 
       
       #printf("[%d %d] = %d | %d\n",input_patterns(p,1), input_patterns(p,2),v{end}(:,p),S(p));
       
       
-      d{end} = hyp_tan_d(w{end} * v{end-1}(:,p)) .* (S'(:,p) - v{end}(:,p));
+      d{end} = func_d(w{end} * v{end-1}(:,p)) .* (S'(:,p) - v{end}(:,p));
       for i = 1:length(d) - 2
         aux = w{end-i} * v{end - i - 1}(:,p);
-        d{end - i} = hyp_tan_d(aux) .* (w{end - i + 1}(:,2:end)' * d{end - i + 1});
+        d{end - i} = func_d(aux) .* (w{end - i + 1}(:,2:end)' * d{end - i + 1});
       endfor
       
       for i = 1:length(w) 
