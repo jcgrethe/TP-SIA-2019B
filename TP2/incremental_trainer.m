@@ -1,11 +1,5 @@
-addpath("./activation_functions");
+function w = incremental_trainer(input_patterns)
 
-#Just one output
-
-	#Get X% of random normalized patterns from dataset
-	#input_patterns = get_random_patterns(dataset, percentage);
-  input_patterns = [0,0,0;1,0,1;0,1,1;1,1,0];
-function w = train(input_patterns)
   hidden_layers = [2];
   #Data init	
 	v = {[-1 * ones(1, rows(input_patterns)); input_patterns(1:end,1:end - 1)']'};
@@ -28,8 +22,8 @@ function w = train(input_patterns)
   w{end + 1} = rand(1, hidden_layers(end) + 1) - 0.5;
   dw{end + 1} = zeros(1, hidden_layers(end) + 1);
   epoch = 0;
-  eta = 0.05;
-  MAX_ERROR = 0.001;
+  eta = 0.0001;
+  MAX_ERROR = 0.01;
   global_q_error = 1;
   total_error = 1;
   while(total_error > MAX_ERROR)
@@ -68,14 +62,14 @@ function w = train(input_patterns)
      endfor
     xlabel ("Epoch");
     ylabel ("ECM");
-    plot(epoch, total_error);
+    plot(epoch, total_error, '.-');
     hold on;
 
     epoch++;
   end
   
-    xlabel ("Epoch");
-    ylabel ("ECM");
-    plot(epoch, total_error);
-    hold on;
+    #xlabel ("Epoch");
+    #ylabel ("ECM");
+    #plot(epoch, total_error);
+    #hold on;
 endfunction

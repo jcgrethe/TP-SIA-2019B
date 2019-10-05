@@ -1,1 +1,1 @@
-input_patterns = get_random_patterns("terrain02.data", 40)data_set = dlmread("terrain02.data")(2:end, :)surfc(data_set)w = train(input_patterns);generated = predict(w, input_patterns);surfc(generated)
+addpath("./activation_functions");input_patterns = get_random_patterns("terrain02.data", 40);dataset = load_terrain("terrain02.data");#w = incremental_trainer(input_patterns);#generated = predict(w, input_patterns);for i = 1:rows(dataset)	scatter3(dataset(i,1), dataset(i,2), dataset(i,3));	hold onendfor#surfc(generated)
