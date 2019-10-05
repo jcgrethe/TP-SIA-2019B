@@ -1,3 +1,3 @@
-function x = hyp_tan_inverse(y, beta)
-  x = atanh(y) / beta;
+function x = hyp_tan_inv(y)
+  x = atanh(y);
 endfunction;

@@ -1,1 +1,14 @@
-addpath("./activation_functions");input_patterns = get_random_patterns("terrain02.data", 40);data_set = load_terrain("terrain02.data");waitfor(plot_terrain(data_set));#disp('Terrain');w = incremental_trainer(data_set);generated = predict(w, input_patterns)#for i = 1:rows(data_set)#	scatter3(dataset(i,1), dataset(i,2), dataset(i,3));#	hold on#endfor#surfc(generated)
+addpath("./activation_functions");
+
+input_patterns = get_random_patterns("terrain02.data", 30);
+data_set = load_terrain("terrain02.data");
+plot_terrain(data_set);
+disp('Terrain');
+total_patterns = get_random_patterns("terrain02.data", 100);
+
+w = incremental_trainer(input_patterns);
+generated = predict(w, total_patterns);
+
+plot_terrain(generated);
+while(true)
+endwhile

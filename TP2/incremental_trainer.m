@@ -1,6 +1,6 @@
 function w = incremental_trainer(input_patterns)
 
-  hidden_layers = [2];
+  hidden_layers = [12 12];
   #Data init	
 	v = {[-1 * ones(1, rows(input_patterns)); input_patterns(1:end,1:end - 1)']'};
   v{1} = v{1}';
@@ -22,11 +22,11 @@ function w = incremental_trainer(input_patterns)
   w{end + 1} = rand(1, hidden_layers(end) + 1) - 0.5;
   dw{end + 1} = zeros(1, hidden_layers(end) + 1);
   epoch = 0;
-  eta = 0.0001;
+  eta = 0.01;
   MAX_ERROR = 0.01;
   global_q_error = 1;
   total_error = 1;
-  while(total_error > MAX_ERROR)
+  while(epoch < 2000)
     global_q_error = 0;
 
     #printf("Epoch %d\n",epoch);
