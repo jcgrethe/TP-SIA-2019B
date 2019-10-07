@@ -24,6 +24,7 @@ f_min = functions_min{index};
 f_max = functions_max{index};
 mins = min(total_patterns);
 maxs = max(total_patterns);
+beta = 1.5;
 
 
 # Normalization
@@ -50,8 +51,12 @@ eta_b = 0.05;
 eta_min = 0.001;
 eta_max = 0.015;
 
+# Momentum
+momentum = false;
+momentum_value = 0.4;
+
 # Error config
 MAX_ERROR = 0.0001;
 total_error = 1;
 last_error = 99999999;
-MAX_EPOCH = 1500;
+MAX_EPOCH = 3000;
