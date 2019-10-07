@@ -1,3 +1,3 @@
-function y = hyp_tan(x)
-  y = tanh(x);
+function y = hyp_tan(x, beta)
+  y = tanh(beta .* x);
 endfunction
