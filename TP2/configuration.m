@@ -53,10 +53,14 @@ eta_max = 0.015;
 
 # Momentum
 momentum = false;
-momentum_value = 0.4;
+momentum_value = 0.9;
 
 # Error config
 MAX_ERROR = 0.0001;
 total_error = 1;
 last_error = 99999999;
 MAX_EPOCH = 3000;
+
+# Random seed set
+rand('state',1);
+

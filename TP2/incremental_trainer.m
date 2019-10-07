@@ -64,8 +64,10 @@ function [w, total_patterns] = incremental_trainer(input_patterns)
 
       if(eta < eta_min)
         eta = eta_min;
-      endif      
+      endif
+
       figure(5);
+      title('ETA en funcion de la época');
       xlabel ("Epoch");
       ylabel ("ETA");
       plot(epoch, eta, '.-');
@@ -73,6 +75,7 @@ function [w, total_patterns] = incremental_trainer(input_patterns)
     endif
 
     figure(2);
+    title('Error en función de la época');
     xlabel ("Epoch");
     ylabel ("ECM");
     plot(epoch, total_error, '.-');
@@ -81,8 +84,4 @@ function [w, total_patterns] = incremental_trainer(input_patterns)
     epoch++;
   end
   
-    #xlabel ("Epoch");
-    #ylabel ("ECM");
-    #plot(epoch, total_error);
-    #hold on;
 endfunction
