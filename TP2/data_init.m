@@ -27,3 +27,5 @@ for i = 1:length(hidden_layers) - 1
 endfor
 w{end + 1} = rand(1, hidden_layers(end) + 1) - 0.5;
 dw{end + 1} = zeros(1, hidden_layers(end) + 1);
+
+last_dw = dw;

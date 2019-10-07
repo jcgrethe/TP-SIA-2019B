@@ -24,9 +24,19 @@ function [w, total_patterns] = incremental_trainer(input_patterns)
       endfor
       
       for i = 1:length(w) 
-        dw{i} = eta * d{i + 1} * v{i}(:,p)';
+
+        # Momentum
+        if (momentum)
+          momentum_update = momentum_value * last_dw{i};
+        else
+          momentum_update = 0;
+        endif
+
+        dw{i} = eta * d{i + 1} * v{i}(:,p)' + momentum_update;
         w{i} = w{i} + dw{i};
       endfor
+
+      last_dw = dw;
     endfor
     
     total_error = 0;

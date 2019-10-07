@@ -51,6 +51,10 @@ eta_b = 0.05;
 eta_min = 0.005;
 eta_max = 0.015;
 
+# Momentum
+momentum = false;
+momentum_value = 0.4;
+
 # Error config
 MAX_ERROR = 0.0001;
 total_error = 1;
