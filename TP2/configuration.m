@@ -4,7 +4,7 @@ global hidden_layers = [20 20 20 3];
 global total_patterns = load_terrain("terrain02.data");
 
 w0 = [1.1378,-0.8842,1.0553];
-LEARNING_PERCENTAGE = 99;
+LEARNING_PERCENTAGE = 60;
 if(size(w0) != 0)
     total_patterns = [total_patterns; w0];
 endif
