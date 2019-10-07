@@ -3,6 +3,7 @@ input_patterns = get_random_patterns(total_patterns, LEARNING_PERCENTAGE);
 if(size(w0) != 0)
     input_patterns = unique([input_patterns; w0],"rows");
 endif
+
 figure(1);
 plot_terrain(total_patterns);
 
