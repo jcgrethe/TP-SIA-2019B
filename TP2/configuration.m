@@ -3,7 +3,13 @@ global hidden_layers = [20 20 20 3];
 # Data
 global total_patterns = load_terrain("terrain02.data");
 
+w0 = [1.1378,-0.8842,1.0553];
 LEARNING_PERCENTAGE = 60;
+if(size(w0) != 0)
+    total_patterns = [total_patterns; w0];
+endif
+
+
 # Function
 index = 1;
 functions = {@hyp_tan, @sigmoid_exp};
@@ -26,6 +32,14 @@ for i = 1:columns(total_patterns) - 1
     total_patterns(:, i) = normalize(total_patterns(:, i), [func_inv(f_min), func_inv(f_max)], mins(i), maxs(i));
 endfor    
 total_patterns(:, 3) = normalize(total_patterns(:, 3), [f_min, f_max], mins(3), maxs(3));
+
+if(size(w0) != 0)
+    # Normalization
+    for i = 1:columns(w0) - 1
+        w0(:, i) = normalize(w0(:, i), [func_inv(f_min), func_inv(f_max)], mins(i), maxs(i));
+    endfor    
+    w0(:, 3) = normalize(w0(:, 3), [f_min, f_max], mins(3), maxs(3));
+endif
 
 epoch = 0;
 
