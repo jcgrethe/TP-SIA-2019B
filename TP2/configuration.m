@@ -3,7 +3,7 @@ global hidden_layers = [20 20 20 3];
 # Data
 global total_patterns = load_terrain("terrain02.data");
 
-w0 = [1.1378,-0.8842,1.0553];
+w0 = [];
 LEARNING_PERCENTAGE = 60;
 if(size(w0) != 0)
     total_patterns = [total_patterns; w0];
@@ -43,11 +43,11 @@ endif
 epoch = 0;
 
 # ETAs config values
-adaptative_eta = false;
+adaptative_eta = true;
 eta = 0.01;
 eta_a = 0.0001;
 eta_b = 0.05;
-eta_min = 0.005;
+eta_min = 0.001;
 eta_max = 0.015;
 
 # Error config
