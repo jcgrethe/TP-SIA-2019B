@@ -1,28 +1,31 @@
-hidden_layers = [20 20 20 3];
-func = @hyp_tan;
-func_d = @hyp_tan_d;
 
-#Data init	
-v = {[-1 * ones(1, rows(input_patterns)); input_patterns(1:end,1:end - 1)']'};
-v{1} = v{1}';
-S = [input_patterns(:,end)];
-for i = 1:length(hidden_layers)
-    v{i + 1} = [-1 * ones(1, rows(input_patterns)); zeros(rows(input_patterns), hidden_layers(i))']';
-    v{i + 1} = v{i + 1}';
-    d{i + 1} = zeros(hidden_layers(i), 1);
-endfor
-v{end + 1} = zeros(1, rows(input_patterns));
-d{end + 1} = zeros(1, 1);
+global hidden_layers = [20 20 20 3];
+# Data
+global total_patterns = load_terrain("terrain02.data");
 
-#Weights and deltas
-w = {rand(hidden_layers(1), columns(input_patterns)) - 0.5};
-dw = {zeros(hidden_layers(1), columns(input_patterns))};
-for i = 1:length(hidden_layers) - 1
-    w{i + 1} = rand(hidden_layers(i + 1), hidden_layers(i) + 1) - 0.5;
-    dw{i + 1} = zeros(hidden_layers(i + 1), hidden_layers(i) + 1);
-endfor
-w{end + 1} = rand(1, hidden_layers(end) + 1) - 0.5;
-dw{end + 1} = zeros(1, hidden_layers(end) + 1);
+LEARNING_PERCENTAGE = 60;
+# Function
+index = 1;
+functions = {@hyp_tan, @sigmoid_exp};
+derived_functions = {@hyp_tan_d, @sigmoid_exp_d};
+inverses_functions = {@hyp_tan_inv, @sigmoid_exp_inv};
+functions_min = {-0.93, 0.05};
+functions_max = {0.93, 0.95};
+func = functions{index};
+func_d = derived_functions{index};
+func_inv = inverses_functions{index};
+f_min = functions_min{index};
+f_max = functions_max{index};
+mins = min(total_patterns);
+maxs = max(total_patterns);
+
+
+# Normalization
+for i = 1:columns(total_patterns) - 1
+    total_patterns(:, i) = normalize(total_patterns(:, i), [func_inv(f_min), func_inv(f_max)], mins(i), maxs(i));
+endfor    
+total_patterns(:, 3) = normalize(total_patterns(:, 3), [f_min, f_max], mins(3), maxs(3));
+
 epoch = 0;
 
 # ETAs config values

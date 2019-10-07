@@ -1,6 +1,7 @@
-function w = incremental_trainer(input_patterns)
+function [w, total_patterns] = incremental_trainer(input_patterns)
 
   configuration;
+  data_init;
 
   while(epoch < MAX_EPOCH && total_error > MAX_ERROR)
 
