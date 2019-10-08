@@ -35,7 +35,7 @@ function [w, total_patterns] = batch_trainer(input_patterns)
     for i = 1:rows(input_patterns)
       partial_dif = S(i) - v{end}(i);
       partial_error = (1 / (2 * rows(input_patterns))) * (partial_dif)**2;
-      total_error += partial_error
+      total_error += partial_error;
     endfor
 
     # Update ETA
