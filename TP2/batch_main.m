@@ -14,3 +14,6 @@ plot_terrain_2(generated, total_patterns(:,3));
 
 figure(4);
 plot_terrain(errorgraph);
+
+while(true)
+endwhile

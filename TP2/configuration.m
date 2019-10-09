@@ -1,5 +1,5 @@
 
-global hidden_layers = [20 20 20 3];
+global hidden_layers = [50 50 50 50];
 # Data
 global total_patterns = load_terrain("terrain02.data");
 
@@ -18,10 +18,10 @@ w0 = [];
 % 1.13780,-1.39620,0.88750;
 % -0.94120,1.24640,0.88240;
 % -0.94120,0.55110,0.88120];
-LEARNING_PERCENTAGE = 60;
+LEARNING_PERCENTAGE = 5;
 
 # Function
-index = 1;
+index = 2;
 functions = {@hyp_tan, @sigmoid_exp};
 derived_functions = {@hyp_tan_d, @sigmoid_exp_d};
 inverses_functions = {@hyp_tan_inv, @sigmoid_exp_inv};
@@ -34,7 +34,7 @@ f_min = functions_min{index};
 f_max = functions_max{index};
 mins = min(total_patterns);
 maxs = max(total_patterns);
-beta = 1.0;
+beta = 1.5;
 
 
 # Normalization
@@ -54,7 +54,7 @@ endif
 epoch = 0;
 
 # ETAs config values
-adaptative_eta = true;
+adaptative_eta = false;
 eta = 0.001;
 eta_a = 0.0001;
 eta_b = 0.05;
@@ -66,10 +66,10 @@ momentum = false;
 momentum_value = 0.9;
 
 # Error config
-MAX_ERROR = 0.001;
+MAX_ERROR = 0.00025;
 total_error = 1;
 last_error = 99999999;
-MAX_EPOCH = 3000;
+MAX_EPOCH = 10000;
 
 # Random seed set
 rand('state',1);
