@@ -18,7 +18,7 @@ w0 = [];
 % 1.13780,-1.39620,0.88750;
 % -0.94120,1.24640,0.88240;
 % -0.94120,0.55110,0.88120];
-LEARNING_PERCENTAGE = 5;
+LEARNING_PERCENTAGE = 40;
 
 # Function
 index = 2;
@@ -69,7 +69,7 @@ momentum_value = 0.9;
 MAX_ERROR = 0.00025;
 total_error = 1;
 last_error = 99999999;
-MAX_EPOCH = 10000;
+MAX_EPOCH = 30000;
 
 # Random seed set
 rand('state',1);
