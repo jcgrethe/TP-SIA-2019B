@@ -11,25 +11,25 @@ function [w, total_patterns] = batch_trainer(input_patterns)
     endfor
     v{end} = func(w{end} * v{end-1},beta);
 
-    
     d{end} = func_d(w{end} * v{end - 1}, beta) .* (S' - v{end});
     for i = 1:length(d) - 2
         aux = w{end-i} * v{end - i - 1};
         d{end - i} = func_d(aux,beta) .* (w{end - i + 1}(:,2:end)' * d{end - i + 1});
-     endfor
+    endfor
         
-      for i = 1:length(w) 
+    for i = 1:length(w) 
+      # Momentum
+      if (momentum)
+        momentum_update = momentum_value * last_dw{i};
+      else
+        momentum_update = 0;
+      endif
 
-        # Momentum
-        if (momentum)
-          momentum_update = momentum_value * last_dw{i};
-        else
-          momentum_update = 0;
-        endif
-
-        dw{i} = eta * d{i + 1} * v{i}' + momentum_update;
-        w{i} = w{i} + dw{i};
-      endfor    
+      dw{i} = eta * d{i + 1} * v{i}' + momentum_update;
+      w{i} = w{i} + dw{i};  
+    endfor    
+    
+    last_dw = dw;
 
     total_error = 0;
     for i = 1:rows(input_patterns)
