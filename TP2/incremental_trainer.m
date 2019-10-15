@@ -53,7 +53,7 @@ function [w, total_patterns] = incremental_trainer(input_patterns)
       delta_eta = 0; 
       if delta_error < 0
         delta_eta = eta_a;
-      elseif delta_error > 0
+      elseif delta_error >= 0
         delta_eta = -1 * eta_b * eta;
       end
       eta = eta + delta_eta;
@@ -80,7 +80,6 @@ function [w, total_patterns] = incremental_trainer(input_patterns)
     ylabel ("ECM");
     plot(epoch, total_error, '.-');
     hold on;
-
     epoch++;
   end
   
