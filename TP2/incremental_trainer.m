@@ -2,7 +2,10 @@ function [w, total_patterns] = incremental_trainer(input_patterns)
 
   configuration;
   data_init;
-
+  last_error = initial_error(w, input_patterns);
+  if(adaptative_eta)
+    eta = get_initial_eta(eta,w);
+  endif
   while(epoch < MAX_EPOCH && total_error > MAX_ERROR)
 
     #printf("Epoch %d\n",epoch);
@@ -80,7 +83,7 @@ function [w, total_patterns] = incremental_trainer(input_patterns)
     ylabel ("ECM");
     plot(epoch, total_error, '.-');
     hold on;
-
+  
     epoch++;
   end
   

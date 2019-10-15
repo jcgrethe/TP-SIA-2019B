@@ -1,7 +1,7 @@
 
-global hidden_layers = [50 50 50 50];
+hidden_layers = [50 50 50 50];
 # Data
-global total_patterns = load_terrain("terrain02.data");
+total_patterns = load_terrain("terrain02.data");
 
 debug_on_interrupt(false);
 
@@ -54,12 +54,12 @@ endif
 epoch = 0;
 
 # ETAs config values
-adaptative_eta = false;
-eta = 0.001;
+adaptative_eta = true;
+eta = 3;
 eta_a = 0.0001;
 eta_b = 0.05;
 eta_min = 0.0001;
-eta_max = 0.005;
+eta_max = 15;
 
 # Momentum
 momentum = false;
@@ -68,7 +68,7 @@ momentum_value = 0.9;
 # Error config
 MAX_ERROR = 0.00025;
 total_error = 1;
-last_error = 99999999;
+last_error = 0;
 MAX_EPOCH = 30000;
 
 # Random seed set
