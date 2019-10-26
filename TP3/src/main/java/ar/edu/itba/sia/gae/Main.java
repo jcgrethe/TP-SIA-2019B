@@ -20,7 +20,6 @@ public class Main {
         prop.load(fileProperties);
         Map items = TSVHelper.initData(prop);
 
-
     }
 
 
