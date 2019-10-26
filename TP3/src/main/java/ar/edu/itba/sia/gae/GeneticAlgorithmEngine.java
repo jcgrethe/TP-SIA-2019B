@@ -30,7 +30,8 @@ public class GeneticAlgorithmEngine {
         List<Character> population = initPopulation();
         while(true){   // TODO Conditions
 
-            // SelectionMethod
+            // Selection
+            List<Character> selection = selectionMethod.select(population, population.size(), generation);
 
             // CrossOver
 
