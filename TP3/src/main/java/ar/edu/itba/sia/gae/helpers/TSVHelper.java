@@ -29,7 +29,7 @@ public class TSVHelper {
     }
 
     private static List loadData(String file, ItemType type) throws IOException {
-        List<Item> list = new LinkedList<>();
+        List<Item> list = new ArrayList<>();
         Reader in = new FileReader(file);
         CSVParser csvParser = CSVFormat.TDF.withFirstRecordAsHeader().parse(in);
         for (CSVRecord record : csvParser) {

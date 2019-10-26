@@ -89,6 +89,7 @@ public abstract class Character implements Comparable {
     ////////////                        Helper Functions                             /////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
     private double calculateATM(){
         return 0.5 - Math.pow(3d*this.height - 5d, 4d) + Math.pow(3d * this.height - 5, 2d) + this.height/2d;
     }

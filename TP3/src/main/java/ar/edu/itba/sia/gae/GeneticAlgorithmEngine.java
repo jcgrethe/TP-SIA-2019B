@@ -34,8 +34,7 @@ public class GeneticAlgorithmEngine {
             List<Character> selection = selectionMethod.select(population, population.size(), generation);
 
             // CrossOver
-            List<Character> children = crossOverMethod.cross();
-
+            List<Character> children = crossOverMethod.crossSelection(selection);
 
             // Mutation
 
