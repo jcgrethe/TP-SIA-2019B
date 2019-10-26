@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.gae;
 
 import ar.edu.itba.sia.gae.crossOverMethods.crossOver;
+import ar.edu.itba.sia.gae.models.GameCharacter;
 import ar.edu.itba.sia.gae.models.Item;
 import ar.edu.itba.sia.gae.models.ItemType;
 import ar.edu.itba.sia.gae.mutationMethods.MutationMethod;
@@ -27,14 +28,14 @@ public class GeneticAlgorithmEngine {
 
     public void calculate(){
         Long generation = 0L;
-        List<Character> population = initPopulation();
+        List<GameCharacter> population = initPopulation();
         while(true){   // TODO Conditions
 
             // Selection
-            List<Character> selection = selectionMethod.select(population, population.size(), generation);
+            List<GameCharacter> selection = selectionMethod.select(population, population.size(), generation);
 
             // CrossOver
-            List<Character> children = crossOverMethod.crossSelection(selection);
+            List<GameCharacter> children = crossOverMethod.crossSelection(selection);
 
             // Mutation
 
@@ -45,8 +46,8 @@ public class GeneticAlgorithmEngine {
 
     }
 
-    private List<Character> initPopulation() {
-        List<Character> population = new LinkedList<>();
+    private List<GameCharacter> initPopulation() {
+        List<GameCharacter> population = new LinkedList<>();
         return population;
     }
 }
