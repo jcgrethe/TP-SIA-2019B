@@ -1,5 +1,6 @@
 package ar.edu.itba.sia.gae.mutationMethods;
 
+import ar.edu.itba.sia.gae.models.GameCharacter;
 import ar.edu.itba.sia.gae.models.Item;
 import ar.edu.itba.sia.gae.models.ItemType;
 
@@ -13,5 +14,5 @@ public abstract class MutationMethod {
         this.items = items;
     }
 
-    abstract void mutate(Character character);
+    abstract void mutate(GameCharacter gameCharacter);
 }

@@ -1,17 +1,16 @@
 package ar.edu.itba.sia.gae.models;
 
 import java.util.Objects;
-import java.util.function.Supplier;
 
-public abstract class Character implements Comparable {
+public class GameCharacter implements Comparable {
     private final CharacterType type;
-    private final double height;
+    private double height;
 
-    private final Item VEST;
-    private final Item GLOVES;
-    private final Item HELMET;
-    private final Item BOOTS;
-    private final Item WEAPON;
+    private Item VEST;
+    private Item GLOVES;
+    private Item HELMET;
+    private Item BOOTS;
+    private Item WEAPON;
 
     private final double forceMultiplier;
     private final double agilityMultiplier;
@@ -22,9 +21,9 @@ public abstract class Character implements Comparable {
     private final double attackMultiplier;
     private final double defenseMultiplier;
 
-    public Character(CharacterType type, double height, Item VEST, Item GLOVES, Item HELMET, Item BOOTS, Item WEAPON,
-                     double forceMultiplier, double agilityMultiplier, double expertiseMultiplier,
-                     double resistanceMultiplier, double vitalityMultiplier) {
+    public GameCharacter(CharacterType type, double height, Item VEST, Item GLOVES, Item HELMET, Item BOOTS, Item WEAPON,
+                         double forceMultiplier, double agilityMultiplier, double expertiseMultiplier,
+                         double resistanceMultiplier, double vitalityMultiplier) {
 
         if (height < 1.3 || height > 2) throw new IllegalArgumentException("Invalid Height");
         this.type = type;
@@ -47,20 +46,20 @@ public abstract class Character implements Comparable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Character character = (Character) o;
-        return Double.compare(character.height, height) == 0 &&
-                Double.compare(character.forceMultiplier, forceMultiplier) == 0 &&
-                Double.compare(character.agilityMultiplier, agilityMultiplier) == 0 &&
-                Double.compare(character.expertiseMultiplier, expertiseMultiplier) == 0 &&
-                Double.compare(character.resistanceMultiplier, resistanceMultiplier) == 0 &&
-                Double.compare(character.vitalityMultiplier, vitalityMultiplier) == 0 &&
-                Double.compare(character.attackMultiplier, attackMultiplier) == 0 &&
-                Double.compare(character.defenseMultiplier, defenseMultiplier) == 0 &&
-                Objects.equals(VEST, character.VEST) &&
-                Objects.equals(GLOVES, character.GLOVES) &&
-                Objects.equals(HELMET, character.HELMET) &&
-                Objects.equals(BOOTS, character.BOOTS) &&
-                Objects.equals(WEAPON, character.WEAPON);
+        GameCharacter gameCharacter = (GameCharacter) o;
+        return Double.compare(gameCharacter.height, height) == 0 &&
+                Double.compare(gameCharacter.forceMultiplier, forceMultiplier) == 0 &&
+                Double.compare(gameCharacter.agilityMultiplier, agilityMultiplier) == 0 &&
+                Double.compare(gameCharacter.expertiseMultiplier, expertiseMultiplier) == 0 &&
+                Double.compare(gameCharacter.resistanceMultiplier, resistanceMultiplier) == 0 &&
+                Double.compare(gameCharacter.vitalityMultiplier, vitalityMultiplier) == 0 &&
+                Double.compare(gameCharacter.attackMultiplier, attackMultiplier) == 0 &&
+                Double.compare(gameCharacter.defenseMultiplier, defenseMultiplier) == 0 &&
+                Objects.equals(VEST, gameCharacter.VEST) &&
+                Objects.equals(GLOVES, gameCharacter.GLOVES) &&
+                Objects.equals(HELMET, gameCharacter.HELMET) &&
+                Objects.equals(BOOTS, gameCharacter.BOOTS) &&
+                Objects.equals(WEAPON, gameCharacter.WEAPON);
     }
 
     @Override
@@ -80,9 +79,57 @@ public abstract class Character implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        if (!(o instanceof Character)) return 0;
-        Character other = (Character) o;
+        if (!(o instanceof GameCharacter)) return 0;
+        GameCharacter other = (GameCharacter) o;
         return (int) (other.getFitness() - this.getFitness());
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public Item getVEST() {
+        return VEST;
+    }
+
+    public void setVEST(Item VEST) {
+        this.VEST = VEST;
+    }
+
+    public Item getGLOVES() {
+        return GLOVES;
+    }
+
+    public void setGLOVES(Item GLOVES) {
+        this.GLOVES = GLOVES;
+    }
+
+    public Item getHELMET() {
+        return HELMET;
+    }
+
+    public void setHELMET(Item HELMET) {
+        this.HELMET = HELMET;
+    }
+
+    public Item getBOOTS() {
+        return BOOTS;
+    }
+
+    public void setBOOTS(Item BOOTS) {
+        this.BOOTS = BOOTS;
+    }
+
+    public Item getWEAPON() {
+        return WEAPON;
+    }
+
+    public void setWEAPON(Item WEAPON) {
+        this.WEAPON = WEAPON;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
