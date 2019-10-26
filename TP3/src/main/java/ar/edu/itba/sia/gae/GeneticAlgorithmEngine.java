@@ -22,7 +22,7 @@ public class GeneticAlgorithmEngine {
         this.crossOverMethod = crossOverMethod;
         this.mutationMethod = mutationMethod;
         this.replacementMethod = replacementMethod;
-        this.items = items
+        this.items = items;
     }
 
     public void calculate(){
@@ -31,7 +31,6 @@ public class GeneticAlgorithmEngine {
         while(true){   // TODO Conditions
 
             // Selection
-
 
             // CrossOver
 
@@ -46,6 +45,6 @@ public class GeneticAlgorithmEngine {
 
     private List<Character> initPopulation() {
         List<Character> population = new LinkedList<>();
-
+        return population;
     }
 }

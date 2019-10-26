@@ -3,7 +3,7 @@ package ar.edu.itba.sia.gae.models;
 import java.util.Objects;
 
 public class Item {
-    private final int id;
+    private final long id;
     private final double force;
     private final double agility;
     private final double expertise;
@@ -11,7 +11,7 @@ public class Item {
     private final double vitality;
     private final ItemType type;
 
-    public Item(int id, double force, double agility, double expertise, double resistance, double vitality, ItemType type) {
+    public Item(long id, double force, double agility, double expertise, double resistance, double vitality, ItemType type) {
         this.id = id;
         this.force = force;
         this.agility = agility;
@@ -21,7 +21,7 @@ public class Item {
         this.type = type;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
