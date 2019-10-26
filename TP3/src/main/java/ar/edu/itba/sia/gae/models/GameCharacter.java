@@ -21,9 +21,7 @@ public class GameCharacter implements Comparable {
     private final double attackMultiplier;
     private final double defenseMultiplier;
 
-    public GameCharacter(CharacterType type, double height, Item VEST, Item GLOVES, Item HELMET, Item BOOTS, Item WEAPON,
-                         double forceMultiplier, double agilityMultiplier, double expertiseMultiplier,
-                         double resistanceMultiplier, double vitalityMultiplier) {
+    public GameCharacter(CharacterType type, double height, Item VEST, Item GLOVES, Item HELMET, Item BOOTS, Item WEAPON) {
 
         if (height < 1.3 || height > 2) throw new IllegalArgumentException("Invalid Height");
         this.type = type;
@@ -33,11 +31,11 @@ public class GameCharacter implements Comparable {
         this.HELMET = HELMET;
         this.BOOTS = BOOTS;
         this.WEAPON = WEAPON;
-        this.forceMultiplier = forceMultiplier;
-        this.agilityMultiplier = agilityMultiplier;
-        this.expertiseMultiplier = expertiseMultiplier;
-        this.resistanceMultiplier = resistanceMultiplier;
-        this.vitalityMultiplier = vitalityMultiplier;
+        this.forceMultiplier = 1.1;
+        this.agilityMultiplier = 0.9;
+        this.expertiseMultiplier = 0.8;
+        this.resistanceMultiplier = 1;
+        this.vitalityMultiplier = 0.9;
         this.attackMultiplier = calculateATM();
         this.defenseMultiplier = calculateDEM();
     }
@@ -83,6 +81,28 @@ public class GameCharacter implements Comparable {
         GameCharacter other = (GameCharacter) o;
         return (int) (other.getFitness() - this.getFitness());
     }
+
+    public Item getItem(ItemType item){
+        switch (item){
+            case BOOTS: return BOOTS;
+            case VEST: return VEST;
+            case GLOVES: return GLOVES;
+            case HELMET: return HELMET;
+            case WEAPON: return WEAPON;
+        }
+        return null;
+    }
+
+    public void setItem(Item item){
+        switch (item.getType()){
+            case BOOTS: setBOOTS(item);
+            case VEST: setVEST(item);
+            case GLOVES: setGLOVES(item);
+            case HELMET: setHELMET(item);
+            case WEAPON: setWEAPON(item);
+        }
+    }
+
 
     public double getHeight() {
         return height;
@@ -130,6 +150,10 @@ public class GameCharacter implements Comparable {
 
     public void setWEAPON(Item WEAPON) {
         this.WEAPON = WEAPON;
+    }
+
+    public GameCharacter clone(){
+        return new GameCharacter(type,height,VEST,GLOVES,HELMET,BOOTS,WEAPON);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
