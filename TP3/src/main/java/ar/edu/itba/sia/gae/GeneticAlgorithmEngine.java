@@ -51,7 +51,11 @@ public class GeneticAlgorithmEngine {
             final long currentGeneration = generation;
             children.forEach(character -> mutationMethod.mutate(character, currentGeneration));
 
+            // Fitness Evaluation
+            population.forEach(character -> character.getFitness());    //TODO Something...
+
             // Replacement
+            //TODO
 
             // Next Generation
             generation++;
