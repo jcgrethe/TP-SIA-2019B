@@ -6,56 +6,42 @@ import ar.edu.itba.sia.gae.models.Item;
 import ar.edu.itba.sia.gae.models.ItemType;
 import ar.edu.itba.sia.gae.mutationMethods.MutationHelper;
 import ar.edu.itba.sia.gae.mutationMethods.MutationMethod;
+import ar.edu.itba.sia.gae.replacementMethods.ReplacementHelper;
 import ar.edu.itba.sia.gae.replacementMethods.ReplacementMethod;
+import ar.edu.itba.sia.gae.selectionMethods.SelectionHelper;
 import ar.edu.itba.sia.gae.selectionMethods.SelectionMethod;
 
 import java.util.*;
 
 public class GeneticAlgorithmEngine {
-    //Data
-    public final Map<ItemType, List<Item>> items;
+    private final Configuration c;
 
-    // Methods
-    public final SelectionMethod selectionMethod;
-    public final crossOver crossOverMethod;
-    public final MutationMethod mutationMethod;
-    public final ReplacementMethod replacementMethod;
-
-    //Conditions
-    private final long maxGenerations;
-
-
-    public GeneticAlgorithmEngine(SelectionMethod selectionMethod, crossOver crossOverMethod, MutationMethod mutationMethod,
-                                  ReplacementMethod replacementMethod, Map<ItemType, List<Item>> items, long maxGenerations,
-                                  double mutationUniformProbability) {
-        this.selectionMethod = selectionMethod;
-        this.crossOverMethod = crossOverMethod;
-        this.mutationMethod = mutationMethod;
-        this.replacementMethod = replacementMethod;
-        this.items = items;
-        this.maxGenerations = maxGenerations;
-        MutationHelper.init(items, mutationUniformProbability, maxGenerations);
+    public GeneticAlgorithmEngine(Configuration configuration) {
+        this.c = configuration;
+        MutationHelper.init(configuration.getItems(), configuration.getMutationUniformProbability(), configuration.getMaxGenerations());
     }
 
     public void calculate(){
         Long generation = 0L;
         List<GameCharacter> population = initPopulation();
-        while(generation < maxGenerations){   // TODO Add Conditions
+        while(generation < c.getMaxGenerations()){   // TODO Add Conditions
             // Selection
-            List<GameCharacter> selection = selectionMethod.select(population, population.size(), generation);
+            List<GameCharacter> selection = SelectionHelper.selectionWrapperWithTwoMethods(population,
+                    c.getSelectionMethodAPercentage(), c.getSelectionMethodA(), c.getSelectionMethodB(), generation);
 
             // CrossOver
-            List<GameCharacter> children = crossOverMethod.crossSelection(selection);
+            List<GameCharacter> children = c.getCrossOverMethod().crossSelection(selection);
 
             // Mutation
             final long currentGeneration = generation;
-            children.forEach(character -> mutationMethod.mutate(character, currentGeneration));
+            children.forEach(character -> c.getMutationMethod().mutate(character, currentGeneration));
 
             // Fitness Evaluation
             population.forEach(character -> character.getFitness());    //TODO Something...
 
             // Replacement
-            //TODO
+            List<GameCharacter> replaced = ReplacementHelper.replacementWrapperWithTwoMethods(population,
+                    c.getReplacementMethodAPercentage(), c.getReplacementMethodA(), c.getReplacementMethodB());
 
             // Next Generation
             generation++;
