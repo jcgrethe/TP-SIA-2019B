@@ -7,12 +7,6 @@ import ar.edu.itba.sia.gae.models.ItemType;
 import java.util.List;
 import java.util.Map;
 
-public abstract class MutationMethod {
-    Map<ItemType, List<Item>> items;
-
-    public MutationMethod(final Map<ItemType, List<Item>> items){
-        this.items = items;
-    }
-
-    abstract void mutate(GameCharacter gameCharacter);
+public interface MutationMethod {
+    void mutate(GameCharacter gameCharacter, long generations);
 }
