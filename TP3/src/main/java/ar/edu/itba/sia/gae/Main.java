@@ -19,6 +19,7 @@ public class Main {
         Properties prop = new Properties();
         prop.load(fileProperties);
         Map items = TSVHelper.initData(prop);
+        //Configuration configuration = new Configuration();
 
     }
 

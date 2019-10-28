@@ -1,56 +1,58 @@
 package ar.edu.itba.sia.gae;
 
-import ar.edu.itba.sia.gae.crossOverMethods.crossOver;
 import ar.edu.itba.sia.gae.models.GameCharacter;
-import ar.edu.itba.sia.gae.models.Item;
 import ar.edu.itba.sia.gae.models.ItemType;
 import ar.edu.itba.sia.gae.mutationMethods.MutationHelper;
-import ar.edu.itba.sia.gae.mutationMethods.MutationMethod;
-import ar.edu.itba.sia.gae.replacementMethods.ReplacementHelper;
-import ar.edu.itba.sia.gae.replacementMethods.ReplacementMethod;
-import ar.edu.itba.sia.gae.selectionMethods.SelectionHelper;
-import ar.edu.itba.sia.gae.selectionMethods.SelectionMethod;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GeneticAlgorithmEngine {
-    private final Configuration c;
+
+    private final Configuration config;
 
     public GeneticAlgorithmEngine(Configuration configuration) {
-        this.c = configuration;
+        this.config = configuration;
         MutationHelper.init(configuration.getItems(), configuration.getMutationUniformProbability(), configuration.getMaxGenerations());
     }
 
     public void calculate(){
         Long generation = 0L;
         List<GameCharacter> population = initPopulation();
-        while(generation < c.getMaxGenerations()){   // TODO Add Conditions
-            // Selection
-            List<GameCharacter> selection = SelectionHelper.selectionWrapperWithTwoMethods(population,
-                    c.getSelectionMethodAPercentage(), c.getSelectionMethodA(), c.getSelectionMethodB(), generation);
-
-            // CrossOver
-            List<GameCharacter> children = c.getCrossOverMethod().crossSelection(selection);
-
-            // Mutation
-            final long currentGeneration = generation;
-            children.forEach(character -> c.getMutationMethod().mutate(character, currentGeneration));
-
-            // Fitness Evaluation
-            population.forEach(character -> character.getFitness());    //TODO Something...
-
+        while(generation < config.getMaxGenerations()){   // TODO Add Conditions
             // Replacement
-            List<GameCharacter> replaced = ReplacementHelper.replacementWrapperWithTwoMethods(population,
-                    c.getReplacementMethodAPercentage(), c.getReplacementMethodA(), c.getReplacementMethodB());
-
+            population = config.getReplacementMethod().replace(config,population,generation);
             // Next Generation
             generation++;
+            System.out.println(generation);
+            System.out.println(Collections.max(population));
         }
 
     }
 
     private List<GameCharacter> initPopulation() {
         List<GameCharacter> population = new LinkedList<>();
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        int vestSize = config.getItems().get(ItemType.VEST).size();
+        int weaponSize = config.getItems().get(ItemType.WEAPON).size();
+        int helmetSize = config.getItems().get(ItemType.HELMET).size();
+        int bootSize = config.getItems().get(ItemType.BOOTS).size();
+        int gloveSize = config.getItems().get(ItemType.GLOVES).size();
+
+
+        for (int x = 0; x < config.getInitialSize(); x++){
+            population.add(
+                    new GameCharacter(
+                            config.getType(),
+                            random.nextDouble(config.getMinHeight(), config.getMaxHeight()),
+                            config.getItems().get(ItemType.VEST).get(random.nextInt(0,vestSize)),
+                            config.getItems().get(ItemType.GLOVES).get(random.nextInt(0,gloveSize)),
+                            config.getItems().get(ItemType.HELMET).get(random.nextInt(0,helmetSize)),
+                            config.getItems().get(ItemType.BOOTS).get(random.nextInt(0,bootSize)),
+                            config.getItems().get(ItemType.WEAPON).get(random.nextInt(0,weaponSize))
+                            )
+            );
+        }
         return population;
     }
 }
