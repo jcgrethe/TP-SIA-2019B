@@ -1,5 +1,6 @@
 package ar.edu.itba.sia.gae;
 
+import ar.edu.itba.sia.gae.helpers.Configuration;
 import ar.edu.itba.sia.gae.models.GameCharacter;
 import ar.edu.itba.sia.gae.models.ItemType;
 import ar.edu.itba.sia.gae.mutationMethods.MutationHelper;

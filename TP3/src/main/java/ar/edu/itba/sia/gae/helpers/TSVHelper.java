@@ -22,14 +22,13 @@ public class TSVHelper {
             }
         };
 
-
-
         return items;
     }
 
     private static List loadData(String file, ItemType type) throws IOException {
         List<Item> list = new ArrayList<>();
-        Reader in = new FileReader(file);
+        Reader in = new InputStreamReader(Objects.requireNonNull(
+                TSVHelper.class.getClassLoader().getResourceAsStream(file)));
         CSVParser csvParser = CSVFormat.TDF.withFirstRecordAsHeader().parse(in);
         for (CSVRecord record : csvParser) {
             Item item = new Item(

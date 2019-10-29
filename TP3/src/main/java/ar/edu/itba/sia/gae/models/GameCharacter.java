@@ -12,11 +12,11 @@ public class GameCharacter implements Comparable {
     private Item BOOTS;
     private Item WEAPON;
 
-    private final double forceMultiplier;
-    private final double agilityMultiplier;
-    private final double expertiseMultiplier;
-    private final double resistanceMultiplier;
-    private final double vitalityMultiplier;
+    private double forceMultiplier;
+    private double agilityMultiplier;
+    private double expertiseMultiplier;
+    private double resistanceMultiplier;
+    private double vitalityMultiplier;
 
     private final double attackMultiplier;
     private final double defenseMultiplier;
@@ -31,11 +31,7 @@ public class GameCharacter implements Comparable {
         this.HELMET = HELMET;
         this.BOOTS = BOOTS;
         this.WEAPON = WEAPON;
-        this.forceMultiplier = 1.1;
-        this.agilityMultiplier = 0.9;
-        this.expertiseMultiplier = 0.8;
-        this.resistanceMultiplier = 1;
-        this.vitalityMultiplier = 0.9;
+        setMultipliers(type);
         this.attackMultiplier = calculateATM();
         this.defenseMultiplier = calculateDEM();
     }
@@ -70,7 +66,7 @@ public class GameCharacter implements Comparable {
             case WARRIOR:   return 0.6 * calculateAttack() + 0.4 * calculateDefense();
             case ARCHER:    return 0.9 * calculateAttack() + 0.1 * calculateDefense();
             case DEFENDER:  return 0.1 * calculateAttack() + 0.9 * calculateDefense();
-            case ASSASIN:   return 0.7 * calculateAttack() + 0.3 * calculateDefense();
+            case ASSASSIN:   return 0.7 * calculateAttack() + 0.3 * calculateDefense();
             default: return -1;
         }
     }
@@ -215,6 +211,41 @@ public class GameCharacter implements Comparable {
                                 BOOTS.getVitality() + WEAPON.getVitality()
                 )
         );
+    }
+
+    // Always character number 1
+    private void setMultipliers(CharacterType type){
+        switch (type){
+            default:
+            case WARRIOR:
+                this.forceMultiplier = 1.1;
+                this.agilityMultiplier = 0.9;
+                this.expertiseMultiplier = 0.8;
+                this.resistanceMultiplier = 1;
+                this.vitalityMultiplier = 0.9;
+                break;
+            case ARCHER:
+                this.forceMultiplier = 0.8;
+                this.agilityMultiplier = 1.1;
+                this.expertiseMultiplier = 1.1;
+                this.resistanceMultiplier = 0.9;
+                this.vitalityMultiplier = 0.7;
+                break;
+            case ASSASSIN:
+                this.forceMultiplier = 0.8;
+                this.agilityMultiplier = 1.2;
+                this.expertiseMultiplier = 1.1;
+                this.resistanceMultiplier = 1.0;
+                this.vitalityMultiplier = 0.8;
+                break;
+            case DEFENDER:
+                this.forceMultiplier = 1.0;
+                this.agilityMultiplier = 0.9;
+                this.expertiseMultiplier = 0.7;
+                this.resistanceMultiplier = 1.2;
+                this.vitalityMultiplier = 1.1;
+                break;
+        }
     }
 
 }

@@ -1,6 +1,6 @@
 package ar.edu.itba.sia.gae.replacementMethods;
 
-import ar.edu.itba.sia.gae.Configuration;
+import ar.edu.itba.sia.gae.helpers.Configuration;
 import ar.edu.itba.sia.gae.models.GameCharacter;
 import ar.edu.itba.sia.gae.selectionMethods.SelectionHelper;
 import java.util.ArrayList;

@@ -1,13 +1,10 @@
 package ar.edu.itba.sia.gae.selectionMethods;
 
-import ar.edu.itba.sia.gae.Configuration;
+import ar.edu.itba.sia.gae.helpers.Configuration;
 import ar.edu.itba.sia.gae.models.GameCharacter;
-import ar.edu.itba.sia.gae.replacementMethods.ReplacementMethod;
-import ar.edu.itba.sia.gae.selectionMethods.SelectionMethod;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 public class SelectionHelper {
 
