@@ -67,5 +67,18 @@ public class Item {
     public int hashCode() {
         return Objects.hash(id, force, agility, expertise, resistance, vitality, type);
     }
+
+    @Override
+    public String toString() {
+        return "Item {\n" +
+                "  id=" + id +
+                ", \n  >force=" + force +
+                ", \n  >agility=" + agility +
+                ", \n  >expertise=" + expertise +
+                ", \n  >resistance=" + resistance +
+                ", \n  >vitality=" + vitality +
+                ", \n  >type=" + type +
+                "\n  }";
+    }
 }
 

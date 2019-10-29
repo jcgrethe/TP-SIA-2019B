@@ -247,4 +247,17 @@ public class GameCharacter implements Comparable{
             return Double.compare(this.getFitness(), ((GameCharacter)o).getFitness());
         return -1;
     }
+
+    @Override
+    public String toString() {
+        return "GameCharacter {\n" +
+                "type=" + type +
+                ", \n -height=" + height +
+                ", \n\n -VEST=" + VEST +
+                ", \n\n -GLOVES=" + GLOVES +
+                ", \n\n -HELMET=" + HELMET +
+                ", \n\n -BOOTS=" + BOOTS +
+                ", \n\n -WEAPON=" + WEAPON +
+                "\n}";
+    }
 }

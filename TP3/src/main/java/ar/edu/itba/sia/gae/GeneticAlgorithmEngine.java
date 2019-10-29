@@ -7,27 +7,29 @@ import ar.edu.itba.sia.gae.methods.mutation.MutationHelper;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
-public class GeneticAlgorithmEngine {
+class GeneticAlgorithmEngine {
 
     private final Configuration config;
 
-    public GeneticAlgorithmEngine(Configuration configuration) {
+    GeneticAlgorithmEngine(Configuration configuration) {
         this.config = configuration;
         MutationHelper.init(configuration.getItems(), configuration.getMutationUniformProbability(), configuration.getMaxGenerations());
     }
 
-    public void calculate(){
+    GameCharacter calculate(){
         Long generation = 0L;
         List<GameCharacter> population = initPopulation();
+        System.out.println("Running " + config.getMaxGenerations() + " generations, " +
+                "starting with fitness " + Collections.max(population).getFitness());
         while(generation < config.getMaxGenerations()){   // TODO Add Conditions
-            // Replacement
-            population = config.getReplacementMethod().replace(config,population,generation);
-            // Next Generation
+            population = config.getReplacementMethod().replace(config, population, generation);
             generation++;
             System.out.println("Generation " + generation + " | Max Fitness: " + Collections.max(population).getFitness());
         }
-
+        return Collections.max(population);
     }
 
     private List<GameCharacter> initPopulation() {
@@ -38,21 +40,18 @@ public class GeneticAlgorithmEngine {
         int helmetSize = config.getItems().get(ItemType.HELMET).size();
         int bootSize = config.getItems().get(ItemType.BOOTS).size();
         int gloveSize = config.getItems().get(ItemType.GLOVES).size();
-
-
-        for (int x = 0; x < config.getInitialSize(); x++){
+        LongStream.range(0, config.getInitialSize()).forEach(l ->
             population.add(
-                    new GameCharacter(
-                            config.getType(),
-                            random.nextDouble(config.getMinHeight(), config.getMaxHeight()),
-                            config.getItems().get(ItemType.VEST).get(random.nextInt(0,vestSize)),
-                            config.getItems().get(ItemType.GLOVES).get(random.nextInt(0,gloveSize)),
-                            config.getItems().get(ItemType.HELMET).get(random.nextInt(0,helmetSize)),
-                            config.getItems().get(ItemType.BOOTS).get(random.nextInt(0,bootSize)),
-                            config.getItems().get(ItemType.WEAPON).get(random.nextInt(0,weaponSize))
-                            )
-            );
-        }
+                new GameCharacter(
+                        config.getType(),
+                        random.nextDouble(config.getMinHeight(), config.getMaxHeight()),
+                        config.getItems().get(ItemType.VEST).get(random.nextInt(0, vestSize)),
+                        config.getItems().get(ItemType.GLOVES).get(random.nextInt(0, gloveSize)),
+                        config.getItems().get(ItemType.HELMET).get(random.nextInt(0, helmetSize)),
+                        config.getItems().get(ItemType.BOOTS).get(random.nextInt(0, bootSize)),
+                        config.getItems().get(ItemType.WEAPON).get(random.nextInt(0, weaponSize))
+                )
+        ));
         return population;
     }
 }

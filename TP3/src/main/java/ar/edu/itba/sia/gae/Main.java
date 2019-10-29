@@ -1,6 +1,8 @@
 package ar.edu.itba.sia.gae;
 
 import ar.edu.itba.sia.gae.helpers.PropertiesHelper;
+import ar.edu.itba.sia.gae.models.GameCharacter;
+
 import java.util.*;
 
 public class Main {
@@ -8,6 +10,8 @@ public class Main {
         GeneticAlgorithmEngine gae = new GeneticAlgorithmEngine(
                 Objects.requireNonNull(PropertiesHelper.initConfiguration("config.properties")));
 
-        gae.calculate();
+        GameCharacter best = gae.calculate();
+        System.out.println("Best Character is: ");
+        System.out.println(best);
     }
 }
