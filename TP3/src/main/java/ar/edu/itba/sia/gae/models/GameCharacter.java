@@ -1,5 +1,7 @@
 package ar.edu.itba.sia.gae.models;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class GameCharacter implements Comparable{
@@ -85,10 +87,16 @@ public class GameCharacter implements Comparable{
     public void setItem(Item item){
         switch (item.getType()){
             case BOOTS: setBOOTS(item);
+                break;
             case VEST: setVEST(item);
+                break;
             case GLOVES: setGLOVES(item);
+                break;
             case HELMET: setHELMET(item);
+                break;
             case WEAPON: setWEAPON(item);
+                break;
+            default: throw new IllegalStateException("Invalid item type.");
         }
     }
 
@@ -106,6 +114,8 @@ public class GameCharacter implements Comparable{
     }
 
     public void setVEST(Item VEST) {
+        if (VEST.getType() != ItemType.VEST)
+            throw new IllegalStateException("Cannot put " + VEST.getType().name()  + " as VEST");
         this.VEST = VEST;
     }
 
@@ -114,6 +124,8 @@ public class GameCharacter implements Comparable{
     }
 
     public void setGLOVES(Item GLOVES) {
+        if (GLOVES.getType() != ItemType.GLOVES)
+            throw new IllegalStateException("Cannot put " + GLOVES.getType().name()  + " as GLOVES");
         this.GLOVES = GLOVES;
     }
 
@@ -122,6 +134,8 @@ public class GameCharacter implements Comparable{
     }
 
     public void setHELMET(Item HELMET) {
+        if (HELMET.getType() != ItemType.HELMET)
+            throw new IllegalStateException("Cannot put " + HELMET.getType().name()  + " as HELMET");
         this.HELMET = HELMET;
     }
 
@@ -130,6 +144,8 @@ public class GameCharacter implements Comparable{
     }
 
     public void setBOOTS(Item BOOTS) {
+        if (BOOTS.getType() != ItemType.BOOTS) 
+            throw new IllegalStateException("Cannot put " + BOOTS.getType().name()  + " as BOOTS");
         this.BOOTS = BOOTS;
     }
 
@@ -138,6 +154,8 @@ public class GameCharacter implements Comparable{
     }
 
     public void setWEAPON(Item WEAPON) {
+        if (WEAPON.getType() != ItemType.WEAPON)
+            throw new IllegalStateException("Cannot put " + WEAPON.getType().name()  + " as WEAPON");
         this.WEAPON = WEAPON;
     }
 
@@ -259,5 +277,15 @@ public class GameCharacter implements Comparable{
                 ", \n\n -BOOTS=" + BOOTS +
                 ", \n\n -WEAPON=" + WEAPON +
                 "\n}";
+    }
+
+    public Map<String, Long> equipment(){
+        Map<String, Long> equipment = new HashMap<>();
+        equipment.put("VEST", VEST.getId());
+        equipment.put("GLOVES", GLOVES.getId());
+        equipment.put("HELMET", HELMET.getId());
+        equipment.put("BOOTS", BOOTS.getId());
+        equipment.put("WEAPON", WEAPON.getId());
+        return equipment;
     }
 }

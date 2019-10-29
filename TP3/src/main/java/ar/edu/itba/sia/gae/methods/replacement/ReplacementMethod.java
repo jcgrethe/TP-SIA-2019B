@@ -12,6 +12,7 @@ public abstract class ReplacementMethod {
 
     protected List<GameCharacter> getChildren(Configuration config, List<GameCharacter> population, long generation, double size){
 
+
         // Selection
         List<GameCharacter> selection = SelectionHelper.selectionWrapperWithTwoMethodsA(population, config, generation, size);
 
@@ -20,12 +21,9 @@ public abstract class ReplacementMethod {
 
         // Mutation
         final long currentGeneration = generation;
-        children.forEach(character -> config.getMutationMethod().mutate(character, currentGeneration));
+        children.parallelStream().forEach(character -> config.getMutationMethod().mutate(character, currentGeneration));
 
-        // Fitness Evaluation
-        population.forEach(character -> character.getFitness());
-
-        return population;
+        return children;
     }
 
 

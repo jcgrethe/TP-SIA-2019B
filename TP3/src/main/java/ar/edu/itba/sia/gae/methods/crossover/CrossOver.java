@@ -23,7 +23,7 @@ public abstract class CrossOver {
         return children;
     }
 
-    protected void swapItem(GameCharacter c1, GameCharacter c2, ItemType type){
+    void swapItem(GameCharacter c1, GameCharacter c2, ItemType type){
         Item aux = c1.getItem(type);
         c1.setItem(c2.getItem(type));
         c2.setItem(aux);

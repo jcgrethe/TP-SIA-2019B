@@ -2,7 +2,7 @@ package ar.edu.itba.sia.gae.models;
 
 import java.util.Objects;
 
-public class Item {
+public class Item implements Cloneable{
     private final long id;
     private final double force;
     private final double agility;
@@ -19,6 +19,16 @@ public class Item {
         this.resistance = resistance;
         this.vitality = vitality;
         this.type = type;
+    }
+
+    private Item(Item item){
+        this.id = item.id;
+        this.force = item.force;
+        this.agility = item.agility;
+        this.expertise = item.expertise;
+        this.resistance = item.resistance;
+        this.vitality = item.vitality;
+        this.type = item.type;
     }
 
     public long getId() {
@@ -79,6 +89,11 @@ public class Item {
                 ", \n  >vitality=" + vitality +
                 ", \n  >type=" + type +
                 "\n  }";
+    }
+
+    @Override
+    public Object clone() {
+        return new Item(this);
     }
 }
 
