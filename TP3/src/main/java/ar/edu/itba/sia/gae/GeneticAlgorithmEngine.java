@@ -25,8 +25,7 @@ public class GeneticAlgorithmEngine {
             population = config.getReplacementMethod().replace(config,population,generation);
             // Next Generation
             generation++;
-            System.out.println(generation);
-            System.out.println(Collections.max(population, (o1, o2) -> (int) (o1.getFitness() - o2.getFitness())));
+            System.out.println("Generation " + generation + " | Max Fitness: " + Collections.max(population).getFitness());
         }
 
     }

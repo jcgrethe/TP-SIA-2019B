@@ -2,7 +2,7 @@ package ar.edu.itba.sia.gae.models;
 
 import java.util.Objects;
 
-public class GameCharacter {
+public class GameCharacter implements Comparable{
     private final CharacterType type;
     private double height;
 
@@ -241,4 +241,10 @@ public class GameCharacter {
         }
     }
 
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof GameCharacter)
+            return Double.compare(this.getFitness(), ((GameCharacter)o).getFitness());
+        return -1;
+    }
 }

@@ -16,7 +16,7 @@ public class Elite extends SelectionMethod {
     @Override
     public List<GameCharacter> select(List<GameCharacter> population, int size, long generations) {
         List<GameCharacter> copy = new LinkedList<>(population);
-        copy.sort((o1, o2) -> (int) (o1.getFitness() - o2.getFitness()));
+        Collections.sort(copy, Collections.reverseOrder());
         return copy.subList(0, size);
     }
 }
