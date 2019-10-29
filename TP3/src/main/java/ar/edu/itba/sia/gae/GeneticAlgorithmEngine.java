@@ -26,7 +26,7 @@ public class GeneticAlgorithmEngine {
             // Next Generation
             generation++;
             System.out.println(generation);
-            System.out.println(Collections.max(population));
+            System.out.println(Collections.max(population, (o1, o2) -> (int) (o1.getFitness() - o2.getFitness())));
         }
 
     }
