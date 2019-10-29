@@ -1,10 +1,6 @@
-package ar.edu.itba.sia.gae.mutationMethods;
+package ar.edu.itba.sia.gae.methods.mutation;
 
-import ar.edu.itba.sia.gae.models.Item;
 import ar.edu.itba.sia.gae.models.GameCharacter;
-import ar.edu.itba.sia.gae.models.ItemType;
-import java.util.List;
-import java.util.Map;
 
 /*
     One of the gens mutates. Always same probability.

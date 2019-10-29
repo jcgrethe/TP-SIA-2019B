@@ -1,21 +1,19 @@
 package ar.edu.itba.sia.gae.helpers;
 
-import ar.edu.itba.sia.gae.crossOverMethods.crossOver;
-import ar.edu.itba.sia.gae.crossOverMethods.onePointCross;
+import ar.edu.itba.sia.gae.methods.crossover.CrossOver;
+import ar.edu.itba.sia.gae.methods.crossover.OnePointCross;
 import ar.edu.itba.sia.gae.models.CharacterType;
 import ar.edu.itba.sia.gae.models.Item;
 import ar.edu.itba.sia.gae.models.ItemType;
-import ar.edu.itba.sia.gae.mutationMethods.*;
-import ar.edu.itba.sia.gae.replacementMethods.ReplacementMethod;
-import ar.edu.itba.sia.gae.replacementMethods.ReplacementMethod1;
-import ar.edu.itba.sia.gae.replacementMethods.ReplacementMethod2;
-import ar.edu.itba.sia.gae.selectionMethods.Elite;
-import ar.edu.itba.sia.gae.selectionMethods.SelectionMethod;
+import ar.edu.itba.sia.gae.methods.mutation.*;
+import ar.edu.itba.sia.gae.methods.replacement.ReplacementMethod;
+import ar.edu.itba.sia.gae.methods.replacement.ReplacementMethod1;
+import ar.edu.itba.sia.gae.methods.replacement.ReplacementMethod2;
+import ar.edu.itba.sia.gae.methods.selection.Elite;
+import ar.edu.itba.sia.gae.methods.selection.SelectionMethod;
 
 import java.io.IOException;
 import java.util.*;
-
-import static java.lang.System.exit;
 
 public class Configuration {
 
@@ -26,7 +24,7 @@ public class Configuration {
     private final SelectionMethod replacementMethodB;
     private double selectionMethodAPercentage;
     private double replacementMethodAPercentage;
-    private final crossOver crossOverMethod;
+    private final CrossOver crossOverMethod;
     private final MutationMethod mutationMethod;
     private final ReplacementMethod replacementMethod;
     private double nextGenerationPercentage;
@@ -91,7 +89,7 @@ public class Configuration {
         return selectionMethodB;
     }
 
-    public crossOver getCrossOverMethod() {
+    public CrossOver getCrossOverMethod() {
         return crossOverMethod;
     }
 
@@ -182,9 +180,9 @@ public class Configuration {
         }
     }
 
-    private crossOver getCrossOverMethod(String selection){
+    private CrossOver getCrossOverMethod(String selection){
         switch (selection.toLowerCase()){
-            case "onepointcross": return new onePointCross();
+            case "onepointcross": return new OnePointCross();
 //            case "twopointcross": return new GenNonUniform();
 //            case "uniformcross": return new MultiGenUniform();
 //            case "annularcross": return new MultiGenNonUniform();

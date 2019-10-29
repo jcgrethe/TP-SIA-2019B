@@ -1,4 +1,4 @@
-package ar.edu.itba.sia.gae.crossOverMethods;
+package ar.edu.itba.sia.gae.methods.crossover;
 
 import ar.edu.itba.sia.gae.models.GameCharacter;
 import ar.edu.itba.sia.gae.models.Item;
@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class crossOver {
+public abstract class CrossOver {
 
     public abstract List<GameCharacter> crossOver(GameCharacter c1, GameCharacter c2);
 

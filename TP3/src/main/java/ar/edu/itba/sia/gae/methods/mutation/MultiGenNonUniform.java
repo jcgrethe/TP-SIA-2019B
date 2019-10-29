@@ -1,4 +1,4 @@
-package ar.edu.itba.sia.gae.mutationMethods;
+package ar.edu.itba.sia.gae.methods.mutation;
 
 import ar.edu.itba.sia.gae.models.GameCharacter;
 

@@ -1,8 +1,8 @@
-package ar.edu.itba.sia.gae.replacementMethods;
+package ar.edu.itba.sia.gae.methods.replacement;
 
 import ar.edu.itba.sia.gae.helpers.Configuration;
 import ar.edu.itba.sia.gae.models.GameCharacter;
-import ar.edu.itba.sia.gae.selectionMethods.SelectionHelper;
+import ar.edu.itba.sia.gae.methods.selection.SelectionHelper;
 import java.util.ArrayList;
 import java.util.List;
 

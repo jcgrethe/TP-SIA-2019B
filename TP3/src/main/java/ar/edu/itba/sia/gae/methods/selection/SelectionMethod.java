@@ -1,4 +1,4 @@
-package ar.edu.itba.sia.gae.selectionMethods;
+package ar.edu.itba.sia.gae.methods.selection;
 
 
 import ar.edu.itba.sia.gae.models.GameCharacter;

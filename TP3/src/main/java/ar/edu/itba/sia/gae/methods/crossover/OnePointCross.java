@@ -1,14 +1,13 @@
-package ar.edu.itba.sia.gae.crossOverMethods;
+package ar.edu.itba.sia.gae.methods.crossover;
 
 import ar.edu.itba.sia.gae.models.GameCharacter;
-import ar.edu.itba.sia.gae.models.Item;
 import ar.edu.itba.sia.gae.models.ItemType;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class onePointCross extends crossOver {
+public class OnePointCross extends CrossOver {
 
     @Override
     public List<GameCharacter> crossOver(GameCharacter c1, GameCharacter c2) {
