@@ -35,6 +35,8 @@ public class Configuration {
     private final double maxHeight;
     private final Boolean isBolztmann;
     private final int tournamentsM;
+    private final Double optimalFitness;
+    private final Double fitnessEpsilon;
 
     // Data
     Map items;
@@ -88,6 +90,10 @@ public class Configuration {
                 .orElseThrow(() -> new IllegalArgumentException("isBolztmann")).toString());
         this.tournamentsM = Integer.valueOf(Optional.ofNullable(properties.get("tournamentsM"))
                 .orElseThrow(() -> new IllegalArgumentException("tournamentsM")).toString());
+        this.optimalFitness = Double.valueOf(Optional.ofNullable(properties.get("optimalFitness"))
+                .orElseThrow(() -> new IllegalArgumentException("optimalFitness")).toString());
+        this.fitnessEpsilon = Double.valueOf(Optional.ofNullable(properties.get("fitnessEpsilon"))
+                .orElseThrow(() -> new IllegalArgumentException("fitnessEpsilon")).toString());
         initItems(properties);
 
     }
@@ -166,6 +172,14 @@ public class Configuration {
 
     public int getTournamentsM() {
         return tournamentsM;
+    }
+
+    public Double getOptimalFitness() {
+        return optimalFitness;
+    }
+
+    public Double getFitnessEpsilon() {
+        return fitnessEpsilon;
     }
 
     private SelectionMethod getSelectionMethod(String selection){

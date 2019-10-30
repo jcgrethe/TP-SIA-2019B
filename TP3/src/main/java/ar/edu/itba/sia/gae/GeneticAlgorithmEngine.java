@@ -24,7 +24,7 @@ class GeneticAlgorithmEngine {
         List<GameCharacter> population = initPopulation();
         System.out.println("Running " + config.getMaxGenerations() + " generations, " +
                 "starting with fitness " + Collections.max(population).getFitness());
-        while(generation < config.getMaxGenerations()){   // TODO Add Conditions
+        while(!isFinished(generation, population)){   // TODO Add Conditions
             population = config.getReplacementMethod().replace(config, population, generation);
             generation++;
             System.out.println("Generation " + generation + " | Max Fitness: " + Collections.max(population).getFitness()+
@@ -32,6 +32,23 @@ class GeneticAlgorithmEngine {
 
         }
         return Collections.max(population);
+    }
+
+    private Boolean isFinished(long generation, List<GameCharacter> population){
+        // TODO: Population unchanged and Fitness Max reached
+
+        // By Optimal Fitness
+        double currentBestFitness = Collections.max(population).getFitness();
+        double optFitness = config.getOptimalFitness();
+        if (Math.abs(currentBestFitness - optFitness) <= config.getFitnessEpsilon()){
+            return true;
+        }
+
+        // By Generation
+        if (generation >= config.getMaxGenerations()){
+            return true;
+        }
+        return false;
     }
 
     private List<GameCharacter> initPopulation() {
