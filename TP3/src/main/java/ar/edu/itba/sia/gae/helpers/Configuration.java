@@ -174,9 +174,9 @@ public class Configuration {
             case "elite": return new Elite();
             case "roulette": return new Roulette();
             case "universal": return new Universal();
-            case "tournamentsDeterministic": return new TournamentsDeterministic();
-            case "tournamentsProbabilistic": return new TournamentsProbabilistic();
-//            case "ranking": return new Ranking();
+            case "tournamentsdeterministic": return new TournamentsDeterministic();
+            case "tournamentsprobabilistic": return new TournamentsProbabilistic();
+            case "ranking": return new Ranking();
             default: throw new IllegalArgumentException("Invalid selection method.");
         }
     }
