@@ -8,8 +8,8 @@ import java.util.stream.IntStream;
 
 public class Universal extends SelectionMethod {
     @Override
-    public List<GameCharacter> select(List<GameCharacter> population, int k, long generations) {
-        List<Double> cumulative = SelectionHelper.getCumulativeFitnesses(population);
+    public List<GameCharacter> select(List<GameCharacter> population, int k, long generations, Boolean isBoltzmann) {
+        List<Double> cumulative = SelectionHelper.getCumulativeFitnesses(population, isBoltzmann, generations);
         List<Double> randoms = getUniversalRandom(k);
         return SelectionHelper.getByRouletteMetodology(randoms, cumulative, population);
     }

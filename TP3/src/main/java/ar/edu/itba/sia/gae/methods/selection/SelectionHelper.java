@@ -2,11 +2,14 @@ package ar.edu.itba.sia.gae.methods.selection;
 
 import ar.edu.itba.sia.gae.helpers.Configuration;
 import ar.edu.itba.sia.gae.models.GameCharacter;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 public class SelectionHelper {
 
@@ -34,12 +37,19 @@ public class SelectionHelper {
         return finalSelection;
     }
 
-    public static List<Double> getCumulativeFitnesses(List<GameCharacter> population){
+    public static List<Double> getCumulativeFitnesses(List<GameCharacter> population, Boolean isBolztmann, long generation){
         final List<Double> cummulatives = new LinkedList<>();
         IntStream.range(0, population.size()).forEach(i -> {
-            cummulatives.add(
-              population.get(i).getFitness() + (i != 0?cummulatives.get(i-1):0)
-            );
+            if (isBolztmann){
+                List<Double> bolztmannValues = boltzmannValues(population, generation);
+                cummulatives.add(
+                        bolztmannValues.get(i) + (i != 0?cummulatives.get(i-1):0)
+                );
+            } else {
+                cummulatives.add(
+                        population.get(i).getFitness() + (i != 0?cummulatives.get(i-1):0)
+                );
+            }
         });
         final Double cummulative = cummulatives.get(cummulatives.size() - 1);
         cummulatives.forEach(c -> c /= cummulative);
@@ -67,5 +77,20 @@ public class SelectionHelper {
             }
         });
         return new LinkedList<>(selection);
+    }
+
+    public static List<Double> boltzmannValues(List<GameCharacter> population, long generations){
+        Double temperature = calculateTemperature(generations);
+        List<Double> boltzmannValues = population.stream().
+                map(GameCharacter::getFitness).
+                map(f -> Math.exp(f / temperature)).
+                collect(Collectors.toList());
+        final Double average = boltzmannValues.stream().mapToDouble(Double::doubleValue).average().orElse(Double.NaN);
+        boltzmannValues = boltzmannValues.stream().parallel().map(expF -> expF / average).collect(Collectors.toList());
+        return boltzmannValues;
+    }
+
+    private static double calculateTemperature(long generations){
+        return 100d / (generations + 1);
     }
 }

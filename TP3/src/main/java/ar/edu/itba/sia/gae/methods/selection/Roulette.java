@@ -9,9 +9,9 @@ import java.util.Set;
 
 public class Roulette extends SelectionMethod {
     @Override
-    public List<GameCharacter> select(List<GameCharacter> population, int size, long generations) {
+    public List<GameCharacter> select(List<GameCharacter> population, int size, long generations, Boolean isBolztmann) {
         List<Double> randoms = SelectionHelper.generateNRandomNumbers(size);
-        List<Double> cumulatives = SelectionHelper.getCumulativeFitnesses(population);
+        List<Double> cumulatives = SelectionHelper.getCumulativeFitnesses(population, isBolztmann, generations);
         return SelectionHelper.getByRouletteMetodology(randoms, cumulatives, population);
     }
 }
