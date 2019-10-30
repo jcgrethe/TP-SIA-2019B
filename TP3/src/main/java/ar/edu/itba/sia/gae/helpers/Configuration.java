@@ -1,7 +1,6 @@
 package ar.edu.itba.sia.gae.helpers;
 
-import ar.edu.itba.sia.gae.methods.crossover.CrossOver;
-import ar.edu.itba.sia.gae.methods.crossover.OnePointCross;
+import ar.edu.itba.sia.gae.methods.crossover.*;
 import ar.edu.itba.sia.gae.methods.selection.Roulette;
 import ar.edu.itba.sia.gae.methods.selection.Universal;
 import ar.edu.itba.sia.gae.models.CharacterType;
@@ -190,9 +189,9 @@ public class Configuration {
     private CrossOver getCrossOverMethod(String selection){
         switch (selection.toLowerCase()){
             case "onepointcross": return new OnePointCross();
-//            case "twopointcross": return new GenNonUniform();
-//            case "uniformcross": return new MultiGenUniform();
-//            case "annularcross": return new MultiGenNonUniform();
+            case "twopointcross": return new TwoPointCross();
+            case "uniformcross": return new UniformCross();
+            case "annularcross": return new AnularCross();
             default: throw new IllegalArgumentException("Invalid cross over method.");
         }
     }

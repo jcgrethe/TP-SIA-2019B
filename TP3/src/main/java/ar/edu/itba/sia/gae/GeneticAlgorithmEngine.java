@@ -27,7 +27,9 @@ class GeneticAlgorithmEngine {
         while(generation < config.getMaxGenerations()){   // TODO Add Conditions
             population = config.getReplacementMethod().replace(config, population, generation);
             generation++;
-            System.out.println("Generation " + generation + " | Max Fitness: " + Collections.max(population).getFitness());
+            System.out.println("Generation " + generation + " | Max Fitness: " + Collections.max(population).getFitness()+
+                    " | PromFitness: " + (population.stream().map(GameCharacter::getFitness).reduce(Double::sum).get()/population.size()));
+
         }
         return Collections.max(population);
     }
