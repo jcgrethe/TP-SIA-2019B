@@ -16,7 +16,7 @@ public abstract class ReplacementMethod {
         List<GameCharacter> selection = SelectionHelper.selectionWrapperWithTwoMethodsA(population, config, generation, size);
 
         // CrossOver
-        List<GameCharacter> children = config.getCrossOverMethod().crossSelection(selection,config);
+        List<GameCharacter> children = config.getCrossOverMethod().crossSelection(selection, config);
 
         // Mutation
         final long currentGeneration = generation;

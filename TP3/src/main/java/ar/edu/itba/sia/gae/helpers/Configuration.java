@@ -3,6 +3,7 @@ package ar.edu.itba.sia.gae.helpers;
 import ar.edu.itba.sia.gae.methods.crossover.*;
 import ar.edu.itba.sia.gae.methods.selection.Roulette;
 import ar.edu.itba.sia.gae.methods.selection.Universal;
+import ar.edu.itba.sia.gae.methods.selection.*;
 import ar.edu.itba.sia.gae.models.CharacterType;
 import ar.edu.itba.sia.gae.models.Item;
 import ar.edu.itba.sia.gae.models.ItemType;
@@ -10,8 +11,6 @@ import ar.edu.itba.sia.gae.methods.mutation.*;
 import ar.edu.itba.sia.gae.methods.replacement.ReplacementMethod;
 import ar.edu.itba.sia.gae.methods.replacement.ReplacementMethod1;
 import ar.edu.itba.sia.gae.methods.replacement.ReplacementMethod2;
-import ar.edu.itba.sia.gae.methods.selection.Elite;
-import ar.edu.itba.sia.gae.methods.selection.SelectionMethod;
 
 import java.io.IOException;
 import java.util.*;
@@ -34,6 +33,8 @@ public class Configuration {
     private final CharacterType type;
     private final double minHeight;
     private final double maxHeight;
+    private final Boolean isBolztmann;
+    private final int tournamentsM;
 
     // Data
     Map items;
@@ -83,6 +84,10 @@ public class Configuration {
         initItems(properties);
         this.crossOverProbability = Double.valueOf(Optional.ofNullable(properties.get("crossOverProbability"))
                 .orElseThrow(() -> new IllegalArgumentException("crossOverProbability")).toString());
+        this.isBolztmann = Boolean.valueOf(Optional.ofNullable(properties.get("isBolztmann"))
+                .orElseThrow(() -> new IllegalArgumentException("isBolztmann")).toString());
+        this.tournamentsM = Integer.valueOf(Optional.ofNullable(properties.get("tournamentsM"))
+                .orElseThrow(() -> new IllegalArgumentException("tournamentsM")).toString());
         initItems(properties);
 
     }
@@ -155,13 +160,21 @@ public class Configuration {
         return replacementMethod;
     }
 
+    public Boolean getBolztmann() {
+        return isBolztmann;
+    }
+
+    public int getTournamentsM() {
+        return tournamentsM;
+    }
+
     private SelectionMethod getSelectionMethod(String selection){
         switch (selection.toLowerCase()){
             case "elite": return new Elite();
             case "roulette": return new Roulette();
             case "universal": return new Universal();
-//            case "boltzmann": return new Boltzmann();
-//            case "tournaments": return new Tournaments();
+            case "tournamentsDeterministic": return new TournamentsDeterministic();
+            case "tournamentsProbabilistic": return new TournamentsProbabilistic();
 //            case "ranking": return new Ranking();
             default: throw new IllegalArgumentException("Invalid selection method.");
         }

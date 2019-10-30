@@ -2,11 +2,14 @@ package ar.edu.itba.sia.gae.methods.selection;
 
 import ar.edu.itba.sia.gae.helpers.Configuration;
 import ar.edu.itba.sia.gae.models.GameCharacter;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 public class SelectionHelper {
 
@@ -16,10 +19,7 @@ public class SelectionHelper {
         SelectionMethod methodB = configuration.getReplacementMethodB();
         Integer sizeA = (int) (configuration.getReplacementMethodAPercentage() * populationSize);
         Integer sizeB = (int) ((1 - configuration.getReplacementMethodAPercentage()) * populationSize);
-        List<GameCharacter> finalSelection = new LinkedList<>();
-        finalSelection.addAll(methodA.select(population,sizeA,generation));
-        finalSelection.addAll(methodB.select(population,sizeB,generation));
-        return finalSelection;
+        return selectionWrapperAux(methodA, methodB, population, sizeA, sizeB, configuration, generation);
     }
 
     public static List<GameCharacter> selectionWrapperWithTwoMethodsA(List<GameCharacter> population,
@@ -28,18 +28,31 @@ public class SelectionHelper {
         SelectionMethod methodB = configuration.getSelectionMethodB();
         Integer sizeA = (int) (configuration.getSelectionMethodAPercentage() * populationSize);
         Integer sizeB = (int) ((1 - configuration.getSelectionMethodAPercentage()) * populationSize);
-        List<GameCharacter> finalSelection = new LinkedList<>();
-        finalSelection.addAll(methodA.select(population,sizeA,generation));
-        finalSelection.addAll(methodB.select(population,sizeB,generation));
-        return finalSelection;
+        return selectionWrapperAux(methodA, methodB, population, sizeA, sizeB, configuration, generation);
     }
 
-    public static List<Double> getCumulativeFitnesses(List<GameCharacter> population){
+    private static List<GameCharacter> selectionWrapperAux(SelectionMethod methodA, SelectionMethod methodB, List<GameCharacter> population,
+                                                           Integer sizeA, Integer sizeB, Configuration configuration, long generation){
+        List<GameCharacter> finalSelection = new LinkedList<>();
+        finalSelection.addAll(methodA.select(population,sizeA,generation, configuration.getBolztmann(), configuration.getTournamentsM()));
+        finalSelection.addAll(methodB.select(population,sizeB,generation, configuration.getBolztmann(), configuration.getTournamentsM()));
+        return finalSelection;
+
+    }
+
+    public static List<Double> getCumulativeFitnesses(List<GameCharacter> population, Boolean isBolztmann, long generation){
         final List<Double> cummulatives = new LinkedList<>();
         IntStream.range(0, population.size()).forEach(i -> {
-            cummulatives.add(
-              population.get(i).getFitness() + (i != 0?cummulatives.get(i-1):0)
-            );
+            if (isBolztmann){
+                List<Double> bolztmannValues = boltzmannValues(population, generation);
+                cummulatives.add(
+                        bolztmannValues.get(i) + (i != 0?cummulatives.get(i-1):0)
+                );
+            } else {
+                cummulatives.add(
+                        population.get(i).getFitness() + (i != 0?cummulatives.get(i-1):0)
+                );
+            }
         });
         final Double cummulative = cummulatives.get(cummulatives.size() - 1);
         cummulatives.forEach(c -> c /= cummulative);
@@ -54,7 +67,7 @@ public class SelectionHelper {
     }
 
     public static List<GameCharacter> getByRouletteMetodology(List<Double> randoms, List<Double> cumulatives, List<GameCharacter> population){
-        final Set<GameCharacter> selection = new HashSet<>();
+        final List<GameCharacter> selection = new LinkedList<>();
         randoms.parallelStream().forEach(random -> {
             Double lastCumulative = cumulatives.get(0), currentCumulative;
             for(int i = 1 ; i < cumulatives.size() ; i++){
@@ -66,6 +79,21 @@ public class SelectionHelper {
                 lastCumulative = currentCumulative;
             }
         });
-        return new LinkedList<>(selection);
+        return selection;
+    }
+
+    public static List<Double> boltzmannValues(List<GameCharacter> population, long generations){
+        Double temperature = calculateTemperature(generations);
+        List<Double> boltzmannValues = population.stream().
+                map(GameCharacter::getFitness).
+                map(f -> Math.exp(f / temperature)).
+                collect(Collectors.toList());
+        final Double average = boltzmannValues.stream().mapToDouble(Double::doubleValue).average().orElse(Double.NaN);
+        boltzmannValues = boltzmannValues.stream().parallel().map(expF -> expF / average).collect(Collectors.toList());
+        return boltzmannValues;
+    }
+
+    private static double calculateTemperature(long generations){
+        return 100d / (generations + 1);
     }
 }
