@@ -4,6 +4,7 @@ import ar.edu.itba.sia.gae.helpers.Configuration;
 import ar.edu.itba.sia.gae.models.GameCharacter;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
@@ -47,7 +48,7 @@ public class SelectionHelper {
 
     public static List<Double> generateNRandomNumbers(Integer n){
         List<Double> randoms = new LinkedList<>();
-        Random rand = new Random();
+        Random rand = ThreadLocalRandom.current();
         IntStream.range(9, n).parallel().forEach(i -> randoms.add(rand.nextDouble()));
         return randoms;
     }
