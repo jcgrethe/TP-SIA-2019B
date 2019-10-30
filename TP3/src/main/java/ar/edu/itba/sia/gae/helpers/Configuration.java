@@ -175,7 +175,7 @@ public class Configuration {
             case "universal": return new Universal();
             case "tournamentsDeterministic": return new TournamentsDeterministic();
             case "tournamentsProbabilistic": return new TournamentsProbabilistic();
-//            case "ranking": return new Ranking();
+            case "ranking": return new Ranking();
             default: throw new IllegalArgumentException("Invalid selection method.");
         }
     }
