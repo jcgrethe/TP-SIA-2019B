@@ -13,9 +13,10 @@ public class Elite extends SelectionMethod {
         Selects the firsts with better fitness.
      */
     @Override
-    public List<GameCharacter> select(List<GameCharacter> population, int size, long generations) {
+    public List<GameCharacter> select(List<GameCharacter> population, int k,
+                                      long generations, Boolean isBolztmann, int tournamentsM) {
         List<GameCharacter> copy = new LinkedList<>(population);
         Collections.sort(copy, Collections.reverseOrder());
-        return copy.subList(0, size);
+        return copy.subList(0, k);
     }
 }
