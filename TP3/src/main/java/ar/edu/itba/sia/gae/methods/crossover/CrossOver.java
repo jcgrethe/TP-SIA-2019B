@@ -36,4 +36,9 @@ public abstract class CrossOver {
         c1.setItem(c2.getItem(type));
         c2.setItem(aux);
     }
+    void swapHeight(GameCharacter c1, GameCharacter c2){
+        double aux = c1.getHeight();
+        c1.setHeight(c2.getHeight());
+        c2.setHeight(aux);
+    }
 }

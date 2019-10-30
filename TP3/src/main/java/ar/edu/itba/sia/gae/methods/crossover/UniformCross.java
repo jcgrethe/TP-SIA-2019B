@@ -1,25 +1,27 @@
 package ar.edu.itba.sia.gae.methods.crossover;
 
-import ar.edu.itba.sia.gae.models.CharacterType;
 import ar.edu.itba.sia.gae.models.GameCharacter;
 import ar.edu.itba.sia.gae.models.ItemType;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.IntStream;
 
-public class OnePointCross extends CrossOver {
-    private final static int QUANTITY_OF_LOCUS = 4;
+public class UniformCross extends CrossOver {
+
 
     @Override
     public List<GameCharacter> crossOver(GameCharacter c1, GameCharacter c2) {
-        // dont swap height because we get the same
-        int pointCross = ThreadLocalRandom.current().nextInt(0, QUANTITY_OF_LOCUS);
+        ThreadLocalRandom random = ThreadLocalRandom.current();
         ItemType[] itemTypes = ItemType.values();
         final GameCharacter c1child = c1.clone();
         final GameCharacter c2child = c2.clone();
-        IntStream.range(0, pointCross+1).parallel().forEach(locus -> swapItem(c1child, c2child, itemTypes[locus]));
+        for (int i = 0; i<= 4; i++){
+            if(random.nextDouble(0,1) >= 0.5)
+                swapItem(c1child, c2child, itemTypes[i]);
+        }
+        if(random.nextDouble(0,1) >= 0.5)
+            swapHeight(c1child,c2child);
         return Arrays.asList(c1child,c2child);
     }
 }

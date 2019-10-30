@@ -12,7 +12,6 @@ public abstract class ReplacementMethod {
 
     protected List<GameCharacter> getChildren(Configuration config, List<GameCharacter> population, long generation, double size){
 
-
         // Selection
         List<GameCharacter> selection = SelectionHelper.selectionWrapperWithTwoMethodsA(population, config, generation, size);
 
