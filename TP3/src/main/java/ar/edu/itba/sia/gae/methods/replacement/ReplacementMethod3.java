@@ -13,7 +13,7 @@ public class ReplacementMethod3 extends ReplacementMethod {
 
         List<GameCharacter> nextGeneration = new ArrayList<>();
 
-        int childrenNextGenerationSize = (int) configuration.getNextGenerationPercentage() * population.size();
+        int childrenNextGenerationSize = (int) (configuration.getNextGenerationPercentage() * population.size());
         List<GameCharacter> children = getChildren(configuration, population, generation, childrenNextGenerationSize);
 
         //Selection A

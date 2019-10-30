@@ -55,25 +55,24 @@ public class SelectionHelper {
             }
         });
         final Double cummulative = cummulatives.get(cummulatives.size() - 1);
-        cummulatives.forEach(c -> c /= cummulative);
-        return cummulatives;
+        return cummulatives.stream().map(c -> c /= cummulative).collect(Collectors.toList());
     }
 
     public static List<Double> generateNRandomNumbers(Integer n){
         List<Double> randoms = new LinkedList<>();
         Random rand = ThreadLocalRandom.current();
-        IntStream.range(9, n).parallel().forEach(i -> randoms.add(rand.nextDouble()));
+        IntStream.range(0, n).forEach(i -> randoms.add(rand.nextDouble()));
         return randoms;
     }
 
     public static List<GameCharacter> getByRouletteMetodology(List<Double> randoms, List<Double> cumulatives, List<GameCharacter> population){
         final List<GameCharacter> selection = new LinkedList<>();
-        randoms.parallelStream().forEach(random -> {
-            Double lastCumulative = cumulatives.get(0), currentCumulative;
-            for(int i = 1 ; i < cumulatives.size() ; i++){
+        randoms.stream().forEach(random -> {
+            Double lastCumulative = 0d, currentCumulative;
+            for(int i = 0 ; i < cumulatives.size() ; i++){
                 currentCumulative = cumulatives.get(i);
                 if (random > lastCumulative && random < currentCumulative){
-                    selection.add(population.get(i - 1));
+                    selection.add(population.get(i));
                     break;
                 }
                 lastCumulative = currentCumulative;
