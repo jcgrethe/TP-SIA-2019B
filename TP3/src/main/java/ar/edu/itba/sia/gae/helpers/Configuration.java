@@ -2,6 +2,8 @@ package ar.edu.itba.sia.gae.helpers;
 
 import ar.edu.itba.sia.gae.methods.crossover.CrossOver;
 import ar.edu.itba.sia.gae.methods.crossover.OnePointCross;
+import ar.edu.itba.sia.gae.methods.selection.Roulette;
+import ar.edu.itba.sia.gae.methods.selection.Universal;
 import ar.edu.itba.sia.gae.models.CharacterType;
 import ar.edu.itba.sia.gae.models.Item;
 import ar.edu.itba.sia.gae.models.ItemType;
@@ -152,8 +154,8 @@ public class Configuration {
     private SelectionMethod getSelectionMethod(String selection){
         switch (selection.toLowerCase()){
             case "elite": return new Elite();
-//            case "roulette": return new Roulette();
-//            case "universal": return new Universal();
+            case "roulette": return new Roulette();
+            case "universal": return new Universal();
 //            case "boltzmann": return new Boltzmann();
 //            case "tournaments": return new Tournaments();
 //            case "ranking": return new Ranking();

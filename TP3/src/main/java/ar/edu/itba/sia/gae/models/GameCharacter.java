@@ -60,7 +60,8 @@ public class GameCharacter implements Comparable{
 
     @Override
     public int hashCode() {
-        return Objects.hash(height, VEST, GLOVES, HELMET, BOOTS, WEAPON, forceMultiplier, agilityMultiplier, expertiseMultiplier, resistanceMultiplier, vitalityMultiplier, attackMultiplier, defenseMultiplier);
+        return Objects.hash(type, height, VEST, GLOVES, HELMET, BOOTS, WEAPON, forceMultiplier, agilityMultiplier,
+                expertiseMultiplier, resistanceMultiplier, vitalityMultiplier, attackMultiplier, defenseMultiplier);
     }
 
     public double getFitness(){
