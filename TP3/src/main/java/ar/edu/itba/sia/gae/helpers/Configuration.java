@@ -25,6 +25,7 @@ public class Configuration {
     private double selectionMethodAPercentage;
     private double replacementMethodAPercentage;
     private final CrossOver crossOverMethod;
+    private final double crossOverProbability;
     private final MutationMethod mutationMethod;
     private final ReplacementMethod replacementMethod;
     private double nextGenerationPercentage;
@@ -79,6 +80,10 @@ public class Configuration {
         this.nextGenerationPercentage = Double.valueOf(Optional.ofNullable(properties.get("nextGenerationPercentage"))
                 .orElseThrow(() -> new IllegalArgumentException("nextGenerationPercentage")).toString());
         initItems(properties);
+        this.crossOverProbability = Double.valueOf(Optional.ofNullable(properties.get("crossOverProbability"))
+                .orElseThrow(() -> new IllegalArgumentException("crossOverProbability")).toString());
+        initItems(properties);
+
     }
 
     public SelectionMethod getSelectionMethodA() {
@@ -206,5 +211,9 @@ public class Configuration {
         } catch (IOException e) {
             throw new IllegalStateException("There was an error initializing the data.");
         }
+    }
+
+    public double getCrossOverProbability() {
+        return crossOverProbability;
     }
 }
