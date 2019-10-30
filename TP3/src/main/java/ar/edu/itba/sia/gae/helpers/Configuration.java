@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.gae.helpers;
 
 import ar.edu.itba.sia.gae.methods.crossover.*;
+import ar.edu.itba.sia.gae.methods.replacement.ReplacementMethod3;
 import ar.edu.itba.sia.gae.methods.selection.Roulette;
 import ar.edu.itba.sia.gae.methods.selection.Universal;
 import ar.edu.itba.sia.gae.methods.selection.*;
@@ -198,7 +199,7 @@ public class Configuration {
         switch (selection.toLowerCase()){
             case "1": return new ReplacementMethod1();
             case "2": return new ReplacementMethod2();
-//            case "3": return new ReplacementMethod3();
+            case "3": return new ReplacementMethod3();
             default: throw new IllegalArgumentException("Invalid replacement method.");
         }
     }
