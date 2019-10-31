@@ -23,6 +23,7 @@ public class PopulationUnchanged implements Finished {
         }else {
             unchangedGenerationCount = 0;
         }
+        lastPopulation = population;
         return false;
     }
 
