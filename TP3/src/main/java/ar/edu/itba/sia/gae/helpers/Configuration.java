@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.gae.helpers;
 
 import ar.edu.itba.sia.gae.methods.crossover.*;
+import ar.edu.itba.sia.gae.methods.finish.*;
 import ar.edu.itba.sia.gae.methods.replacement.ReplacementMethod3;
 import ar.edu.itba.sia.gae.methods.selection.Roulette;
 import ar.edu.itba.sia.gae.methods.selection.Universal;
@@ -38,6 +39,7 @@ public class Configuration {
     private final int tournamentsM;
     private final Double optimalFitness;
     private final Double fitnessEpsilon;
+    private final Finished finishingMethod;
 
     // Data
     Map items;
@@ -96,7 +98,8 @@ public class Configuration {
         this.fitnessEpsilon = Double.valueOf(Optional.ofNullable(properties.get("fitnessEpsilon"))
                 .orElseThrow(() -> new IllegalArgumentException("fitnessEpsilon")).toString());
         initItems(properties);
-
+        this.finishingMethod = getFinishingMethod(Optional.ofNullable(properties.get("finishingMethod"))
+                .orElseThrow(() -> new IllegalArgumentException("finishingMethod")).toString());
     }
 
     public SelectionMethod getSelectionMethodA() {
@@ -195,6 +198,16 @@ public class Configuration {
         }
     }
 
+    private Finished getFinishingMethod(String selection){
+        switch (selection.toLowerCase()){
+            case "bygenerations": return new ByGenerations();
+            case "byfitness": return new ByOptimalFitness();
+            case "fitnessunchanged": return new FitnessUnchanged();
+            case "populationunchanged": return new PopulationUnchanged();
+            default: throw new IllegalArgumentException("Invalid finishing method.");
+        }
+    }
+
     private ReplacementMethod getReplacementMethod(String selection){
         switch (selection.toLowerCase()){
             case "1": return new ReplacementMethod1();
@@ -244,5 +257,9 @@ public class Configuration {
 
     public double getCrossOverProbability() {
         return crossOverProbability;
+    }
+
+    public Finished getFinishingMethod() {
+        return finishingMethod;
     }
 }
