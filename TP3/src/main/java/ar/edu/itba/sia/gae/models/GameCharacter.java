@@ -44,13 +44,6 @@ public class GameCharacter implements Comparable{
         if (o == null || getClass() != o.getClass()) return false;
         GameCharacter gameCharacter = (GameCharacter) o;
         return Double.compare(gameCharacter.height, height) == 0 &&
-                Double.compare(gameCharacter.forceMultiplier, forceMultiplier) == 0 &&
-                Double.compare(gameCharacter.agilityMultiplier, agilityMultiplier) == 0 &&
-                Double.compare(gameCharacter.expertiseMultiplier, expertiseMultiplier) == 0 &&
-                Double.compare(gameCharacter.resistanceMultiplier, resistanceMultiplier) == 0 &&
-                Double.compare(gameCharacter.vitalityMultiplier, vitalityMultiplier) == 0 &&
-                Double.compare(gameCharacter.attackMultiplier, attackMultiplier) == 0 &&
-                Double.compare(gameCharacter.defenseMultiplier, defenseMultiplier) == 0 &&
                 Objects.equals(VEST, gameCharacter.VEST) &&
                 Objects.equals(GLOVES, gameCharacter.GLOVES) &&
                 Objects.equals(HELMET, gameCharacter.HELMET) &&

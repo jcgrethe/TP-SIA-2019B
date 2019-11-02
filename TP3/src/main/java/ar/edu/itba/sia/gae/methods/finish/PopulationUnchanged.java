@@ -11,11 +11,10 @@ public class PopulationUnchanged implements Finished {
     private long unchangedGenerationCount = 0;
     @Override
     public boolean isFinished(long generation, List<GameCharacter> population, Configuration configuration) {
-        Set<GameCharacter> aux = new HashSet<>();
-        aux.addAll(lastPopulation);
-        aux.addAll(population);
-        double totalSize = lastPopulation.size() + population.size();
-        double populationUnchangedPercentage = aux.size()/totalSize;
+        List<GameCharacter> common = new ArrayList<>(lastPopulation);
+        common.retainAll(population);
+        double populationUnchangedPercentage = 1 - ((double)common.size())/population.size();
+        System.out.println(populationUnchangedPercentage);
         if(configuration.getFitnessEpsilon() > populationUnchangedPercentage){
             unchangedGenerationCount++;
             if(unchangedGenerationCount>configuration.getMaxGenerations())
@@ -23,7 +22,7 @@ public class PopulationUnchanged implements Finished {
         }else {
             unchangedGenerationCount = 0;
         }
-        lastPopulation = population;
+        lastPopulation = new LinkedList<>(population);
         return false;
     }
 
