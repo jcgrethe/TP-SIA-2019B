@@ -14,7 +14,6 @@ public class PopulationUnchanged {
         List<GameCharacter> common = new ArrayList<>(lastPopulation);
         common.retainAll(population);
         double populationUnchangedPercentage = 1 - ((double)common.size())/population.size();
-        System.out.println(populationUnchangedPercentage);
         if(configuration.getPopulationEpsilon() > populationUnchangedPercentage){
             unchangedGenerationCount++;
             if(unchangedGenerationCount>configuration.getMaxGenerationPopulation()) {
