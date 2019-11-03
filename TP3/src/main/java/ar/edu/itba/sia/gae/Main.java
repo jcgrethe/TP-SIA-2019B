@@ -1,8 +1,11 @@
 package ar.edu.itba.sia.gae;
 
 import ar.edu.itba.sia.gae.helpers.PropertiesHelper;
+import ar.edu.itba.sia.gae.helpers.Window;
+import ar.edu.itba.sia.gae.models.CharacterType;
 import ar.edu.itba.sia.gae.models.GameCharacter;
 
+import java.awt.*;
 import java.util.*;
 
 public class Main {

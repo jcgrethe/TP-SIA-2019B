@@ -1,5 +1,8 @@
 package ar.edu.itba.sia.gae.models;
 
+import sun.awt.image.PixelConverter;
+
+import java.awt.*;
 import java.util.Objects;
 
 public class Item implements Cloneable{
@@ -57,6 +60,27 @@ public class Item implements Cloneable{
 
     public ItemType getType() {
         return type;
+    }
+
+    public Color getComponentColor() {
+
+        Integer i = (int) (long) id;
+
+        switch (type){
+
+            case VEST:
+                return new Color(i%255, 0, 0);
+            case HELMET:
+                return new Color(0, i%255, 0);
+            case WEAPON:
+                return new Color(0, 0, i%255);
+            case GLOVES:
+                return new Color(150, i%255, 0);
+            case BOOTS:
+                return new Color(0, 100, i%255);
+            default:
+                return Color.WHITE;
+        }
     }
 
     @Override

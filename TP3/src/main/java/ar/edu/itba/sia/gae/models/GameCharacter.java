@@ -1,5 +1,9 @@
 package ar.edu.itba.sia.gae.models;
 
+import apple.laf.JRSUIUtils;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -23,6 +27,10 @@ public class GameCharacter implements Comparable{
     private final double attackMultiplier;
     private final double defenseMultiplier;
 
+    private Image image;
+    private int bWidth;
+    private int bHeight;
+
     public GameCharacter(CharacterType type, double height, Item VEST, Item GLOVES, Item HELMET, Item BOOTS, Item WEAPON) {
 
         if (height < 1.3 || height > 2) throw new IllegalArgumentException("Invalid Height");
@@ -36,6 +44,23 @@ public class GameCharacter implements Comparable{
         setMultipliers(type);
         this.attackMultiplier = calculateATM();
         this.defenseMultiplier = calculateDEM();
+
+        ImageIcon ii = new ImageIcon(JRSUIUtils.Images.class.getResource("/body1.png"));
+        image = ii.getImage();
+        bWidth = image.getWidth(null);
+        bHeight = image.getHeight(null);
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public int getImageWidth() {
+        return bWidth;
+    }
+
+    public int getImageHeight() {
+        return bHeight;
     }
 
     @Override
