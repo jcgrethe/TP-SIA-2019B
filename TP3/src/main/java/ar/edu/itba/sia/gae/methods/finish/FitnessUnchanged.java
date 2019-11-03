@@ -20,7 +20,7 @@ public class FitnessUnchanged {
             unchangedGenerationCount++;
         }
         if (unchangedGenerationCount > configuration.getMaxGenerationFitness()) {
-            System.out.println("Finished by fitness unchanged");
+            System.out.println("Finished by max fitness unchanged");
             return true;
         }
         return false;
