@@ -5,17 +5,13 @@ import ar.edu.itba.sia.gae.models.GameCharacter;
 
 import java.util.List;
 
-public class ByGenerations implements Finished {
+public class ByGenerations {
 
-    @Override
     public boolean isFinished(long generation, List<GameCharacter> population, Configuration config) {
         if (generation >= config.getMaxGenerations()){
+            System.out.println("Finished by generations");
             return true;
         }
         return false;
-    }
-
-    public String toString(Configuration configuration){
-        return "until " + configuration.getMaxGenerations() + " generations. ";
     }
 }

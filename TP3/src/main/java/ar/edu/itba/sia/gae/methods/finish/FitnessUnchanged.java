@@ -6,12 +6,11 @@ import ar.edu.itba.sia.gae.models.GameCharacter;
 import java.util.Collections;
 import java.util.List;
 
-public class FitnessUnchanged implements Finished {
+public class FitnessUnchanged {
 
     private long unchangedGenerationCount = 0;
     private double lastFitness = 0;
 
-    @Override
     public boolean isFinished(long generation, List<GameCharacter> population, Configuration configuration) {
         double currentFitness = Collections.max(population).getFitness();
         if(currentFitness > lastFitness){
@@ -20,13 +19,10 @@ public class FitnessUnchanged implements Finished {
         }else {
             unchangedGenerationCount++;
         }
-        if (unchangedGenerationCount > configuration.getMaxGenerations())
+        if (unchangedGenerationCount > configuration.getMaxGenerationFitness()) {
+            System.out.println("Finished by fitness unchanged");
             return true;
+        }
         return false;
-    }
-
-    @Override
-    public String toString(Configuration configuration) {
-        return " until " + configuration.getMaxGenerations() + " generations with max fitness unchanged";
     }
 }

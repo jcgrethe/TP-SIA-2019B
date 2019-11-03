@@ -6,8 +6,7 @@ import java.util.Properties;
 public class PropertiesHelper {
 
     public static Configuration initConfiguration(String propFileName){
-        String basePath = "src/main/resources/";
-        try (InputStream input = PropertiesHelper.class.getClassLoader().getResourceAsStream(propFileName)) {
+        try ( InputStream input = new FileInputStream(propFileName);) {
             Properties properties = new Properties();
             properties.load(input);
             return new Configuration(properties);
