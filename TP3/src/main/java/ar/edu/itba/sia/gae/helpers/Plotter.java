@@ -17,7 +17,7 @@ public class Plotter extends ApplicationFrame {
     }
 
     public void plotFitness(List<Double> fitnesses, String title){
-        final XYSeries series = new XYSeries("Random Data");
+        final XYSeries series = new XYSeries("Data");
         final AtomicInteger count = new AtomicInteger(1);
         fitnesses.forEach(fitness -> series.add(count.getAndIncrement(), fitness));
         final XYSeriesCollection data = new XYSeriesCollection(series);
