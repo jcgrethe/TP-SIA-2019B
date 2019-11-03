@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.gae;
 
 import ar.edu.itba.sia.gae.helpers.Configuration;
+import ar.edu.itba.sia.gae.helpers.Plotter;
 import ar.edu.itba.sia.gae.models.GameCharacter;
 import ar.edu.itba.sia.gae.models.ItemType;
 import ar.edu.itba.sia.gae.methods.mutation.MutationHelper;
@@ -20,17 +21,24 @@ class GeneticAlgorithmEngine {
     }
 
     GameCharacter calculate(){
+        List<Double> maxFitnesses = new LinkedList<>();
+        List<Double> avgFitnesses = new LinkedList<>();
         Long generation = 0L;
         List<GameCharacter> population = initPopulation();
         System.out.println("Running " + config.getFinishingMethod().toString(config) +
                 "Starting with fitness " + Collections.max(population).getFitness());
+
         while(!config.getFinishingMethod().isFinished(generation, population,config)){   // TODO Add Conditions
             population = config.getReplacementMethod().replace(config, population, generation);
             generation++;
+            maxFitnesses.add(Collections.max(population).getFitness());
+            avgFitnesses.add((population.stream().map(GameCharacter::getFitness).reduce(Double::sum).get()/population.size()));
             System.out.println("Generation " + generation + " | Max Fitness: " + Collections.max(population).getFitness()+
                     " | PromFitness: " + (population.stream().map(GameCharacter::getFitness).reduce(Double::sum).get()/population.size()));
 
         }
+        plotFitness(maxFitnesses, "Max Fitness Evolution");
+        plotFitness(avgFitnesses, "Avg Fitness Evolution");
         return Collections.max(population);
     }
 
@@ -56,5 +64,12 @@ class GeneticAlgorithmEngine {
                 )
         ));
         return population;
+    }
+
+    private void plotFitness(List<Double> fitnesses, String title){
+        Plotter plotter = new Plotter(title);
+        plotter.plotFitness(fitnesses, title);
+        plotter.pack();
+        plotter.setVisible(true);
     }
 }
