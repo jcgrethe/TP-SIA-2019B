@@ -6,23 +6,15 @@ import ar.edu.itba.sia.gae.models.GameCharacter;
 import java.util.Collections;
 import java.util.List;
 
-public class ByOptimalFitness implements Finished {
+public class ByOptimalFitness {
 
-
-
-    @Override
     public boolean isFinished(long generation, List<GameCharacter> population, Configuration configuration) {
         double currentBestFitness = Collections.max(population).getFitness();
         double optFitness = configuration.getOptimalFitness();
         if ((optFitness - currentBestFitness ) <= configuration.getFitnessEpsilon()){
+            System.out.println("Finished by optimal fitness");
             return true;
         }
         return false;
     }
-
-    @Override
-    public String toString(Configuration configuration) {
-        return " until " + configuration.getOptimalFitness()+  " generations. ";
-    }
-
 }

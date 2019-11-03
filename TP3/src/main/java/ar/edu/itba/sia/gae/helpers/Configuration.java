@@ -39,7 +39,10 @@ public class Configuration {
     private final int tournamentsM;
     private final Double optimalFitness;
     private final Double fitnessEpsilon;
-    private final Finished finishingMethod;
+    private final long maxGenerationFitness;
+    private final long maxGenerationPopulation;
+    private final Double populationEpsilon;
+
 
     // Data
     Map items;
@@ -97,9 +100,13 @@ public class Configuration {
                 .orElseThrow(() -> new IllegalArgumentException("optimalFitness")).toString());
         this.fitnessEpsilon = Double.valueOf(Optional.ofNullable(properties.get("fitnessEpsilon"))
                 .orElseThrow(() -> new IllegalArgumentException("fitnessEpsilon")).toString());
+        this.maxGenerationFitness = Long.valueOf(Optional.ofNullable(properties.get("maxGenerationFitnessUnchanged"))
+                .orElseThrow(() -> new IllegalArgumentException("maxGenerationFitnessUnchanged")).toString());
+        this.maxGenerationPopulation = Long.valueOf(Optional.ofNullable(properties.get("maxGenerationPopulationUnchanged"))
+                .orElseThrow(() -> new IllegalArgumentException("maxGenerationPopulationUnchanged")).toString());
+        this.populationEpsilon = Double.valueOf(Optional.ofNullable(properties.get("populationEpsilon"))
+                .orElseThrow(() -> new IllegalArgumentException("populationEpsilon")).toString());
         initItems(properties);
-        this.finishingMethod = getFinishingMethod(Optional.ofNullable(properties.get("finishingMethod"))
-                .orElseThrow(() -> new IllegalArgumentException("finishingMethod")).toString());
     }
 
     public SelectionMethod getSelectionMethodA() {
@@ -198,16 +205,6 @@ public class Configuration {
         }
     }
 
-    private Finished getFinishingMethod(String selection){
-        switch (selection.toLowerCase()){
-            case "bygenerations": return new ByGenerations();
-            case "byfitness": return new ByOptimalFitness();
-            case "fitnessunchanged": return new FitnessUnchanged();
-            case "populationunchanged": return new PopulationUnchanged();
-            default: throw new IllegalArgumentException("Invalid finishing method.");
-        }
-    }
-
     private ReplacementMethod getReplacementMethod(String selection){
         switch (selection.toLowerCase()){
             case "1": return new ReplacementMethod1();
@@ -259,7 +256,15 @@ public class Configuration {
         return crossOverProbability;
     }
 
-    public Finished getFinishingMethod() {
-        return finishingMethod;
+    public long getMaxGenerationFitness() {
+        return maxGenerationFitness;
+    }
+
+    public long getMaxGenerationPopulation() {
+        return maxGenerationPopulation;
+    }
+
+    public Double getPopulationEpsilon() {
+        return populationEpsilon;
     }
 }

@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.gae;
 
 import ar.edu.itba.sia.gae.helpers.Configuration;
+import ar.edu.itba.sia.gae.methods.finish.Finished;
 import ar.edu.itba.sia.gae.models.GameCharacter;
 import ar.edu.itba.sia.gae.models.ItemType;
 import ar.edu.itba.sia.gae.methods.mutation.MutationHelper;
@@ -13,18 +14,18 @@ import java.util.stream.LongStream;
 class GeneticAlgorithmEngine {
 
     private final Configuration config;
-
+    private final Finished finished = new Finished();
     GeneticAlgorithmEngine(Configuration configuration) {
         this.config = configuration;
+
         MutationHelper.init(configuration.getItems(), configuration.getMutationUniformProbability(), configuration.getMaxGenerations());
     }
 
     GameCharacter calculate(){
         Long generation = 0L;
         List<GameCharacter> population = initPopulation();
-        System.out.println("Running " + config.getFinishingMethod().toString(config) +
-                "Starting with fitness " + Collections.max(population).getFitness());
-        while(!config.getFinishingMethod().isFinished(generation, population,config)){   // TODO Add Conditions
+        System.out.println("Running. \nStarting with fitness " + Collections.max(population).getFitness());
+        while(!finished.isFinished(generation, population,config)){   // TODO Add Conditions
             population = config.getReplacementMethod().replace(config, population, generation);
             generation++;
             System.out.println("Generation " + generation + " | Max Fitness: " + Collections.max(population).getFitness()+
