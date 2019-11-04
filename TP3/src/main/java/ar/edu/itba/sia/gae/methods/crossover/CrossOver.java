@@ -25,7 +25,7 @@ public abstract class CrossOver {
                 children.addAll(cross);
             } else {
                 children.add(selection.get(i).clone());
-                children.add(selection.get(size - i - 1));
+                children.add(selection.get(size - i - 1).clone());
             }
         }
         return children;
