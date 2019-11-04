@@ -42,9 +42,14 @@ public class SelectionHelper {
 
     public static List<Double> getCumulativeFitnesses(List<GameCharacter> population, Boolean isBolztmann, long generation){
         final List<Double> cummulatives = new LinkedList<>();
+        final List<Double> bolztmannValues;
+        if (isBolztmann){
+            bolztmannValues = boltzmannValues(population, generation);
+        } else {
+            bolztmannValues = null;
+        }
         IntStream.range(0, population.size()).forEach(i -> {
             if (isBolztmann){
-                List<Double> bolztmannValues = boltzmannValues(population, generation);
                 cummulatives.add(
                         bolztmannValues.get(i) + (i != 0?cummulatives.get(i-1):0)
                 );
